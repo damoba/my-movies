@@ -10,7 +10,7 @@ const IndexPage: NextPage = () => {
   const user = null;
 
   useEffect(() => {
-    if(!user) router.push('/login')
+    if(!user) router.push('/auth')
   }, [])
   
   return (

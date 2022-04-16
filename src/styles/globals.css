@@ -4,10 +4,7 @@
   --logo-font: 'Updock', cursive;
   --title-font: 'Mulish', sans-serif;
   --text-font: 'Work Sans', sans-serif;
-}
-
-html, body {
-  padding: 0;
-  margin: 0;
   font-family: var(--title-font);
+  margin: 0;
+  padding: 0;
 }
