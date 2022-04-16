@@ -10,27 +10,26 @@ const AuthPage: NextPage = () => {
   const [isSignUp, setIsSignUp] = useState(false);
 
   return (
-    <>
+    <div className={styles.container}>
       <Head>
         <title>My Movies - log in or sign up</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className={styles.page}>
-        <div className={styles.gradient}></div>
+
+      <div className={styles.gradient}></div>
+      <header>
         <span className={styles.logo}>My Movies</span>
-        <div className={styles.mainBody}>
-          <form className={styles.form}>
-            <h1>{isSignUp ? "Sign Up" : "Log In"}</h1>
-            <input placeholder="Email" type="email" />
-            <input placeholder="Password" type="password" />
-            {isSignUp && (
-              <input placeholder="Repeat Password" type="password" />
-            )}
-            <button type="submit">{isSignUp ? "Sign Up" : "Log In"}</button>
-          </form>
-        </div>
-      </div>
-    </>
+      </header>
+      <main className={styles.main}>
+        <form className={styles.form}>
+          <h1>{isSignUp ? "Sign Up" : "Log In"}</h1>
+          <input placeholder="Email" type="email" />
+          <input placeholder="Password" type="password" />
+          {isSignUp && <input placeholder="Repeat Password" type="password" />}
+          <button type="submit">{isSignUp ? "Sign Up" : "Log In"}</button>
+        </form>
+      </main>
+    </div>
   );
 };
 
