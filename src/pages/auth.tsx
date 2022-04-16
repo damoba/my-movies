@@ -7,7 +7,7 @@ import { useState } from "react";
 import styles from "../styles/Login.module.css";
 
 const AuthPage: NextPage = () => {
-  const [isSignUp, setIsSignUp] = useState(false);
+  const [isSignUp, setIsSignUp] = useState<boolean>(false);
 
   return (
     <div className={styles.container}>
