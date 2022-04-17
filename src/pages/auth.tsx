@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 
-import styles from "../styles/Login.module.css";
+import styles from "../styles/Auth.module.css";
 
 const AuthPage: NextPage = () => {
   const [isSignUp, setIsSignUp] = useState<boolean>(false);
