@@ -28,76 +28,70 @@ const AuthPage: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className={styles.gradient}></div>
+      <header className={styles.logo}>My Movies</header>
 
-      <header>
-        <span className={styles.logo}>My Movies</span>
-      </header>
-
-      <main className={styles.main}>
-        <form className={styles.form}>
-          <h1>{isSignUp ? "Sign Up" : "Log In"}</h1>
-          <input placeholder="Email" type="email" />
-          <span
-            className={styles.showPasswordToggler}
-            onClick={handleShowPassword}
-          >
-            {!showPassword ? (
-              <>
-                <Visibility />{" "}
-                <span className={styles.showPasswordText}>Show</span>
-              </>
-            ) : (
-              <>
-                <VisibilityOff />{" "}
-                <span className={styles.showPasswordText}>Hide</span>
-              </>
-            )}
-          </span>
-          <input
-            placeholder="Password"
-            type={!showPassword ? "password" : "text"}
-          />
-          <button
-            type="submit"
-            style={
-              !isSignUp
-                ? { backgroundColor: "#3cb19f" }
-                : { backgroundColor: "#ec215f" }
-            }
-            disabled={isLoadingMain}
-          >
-            {!isLoadingMain
-              ? isSignUp
-                ? "Sign Up"
-                : "Log In"
-              : isSignUp
-              ? "Signing up..."
-              : "Logging in..."}
-          </button>
-          {!isSignUp && (
-            <button className={styles.guest} disabled={isLoadingGuest}>
-              {!isLoadingGuest ? "Use a Guest Account" : "Logging in..."}
-            </button>
-          )}
-          {!isSignUp ? (
-            <h4>
-              Try the app without creating an account by using a guest account.
-              Want your own account?{" "}
-              <span className={styles.forSignUp} onClick={handleAuthType}>
-                Sign up now.
-              </span>
-            </h4>
+      <form className={styles.form}>
+        <h1>{isSignUp ? "Sign Up" : "Log In"}</h1>
+        <input placeholder="Email" type="email" />
+        <span
+          className={styles.showPasswordToggler}
+          onClick={handleShowPassword}
+        >
+          {!showPassword ? (
+            <>
+              <Visibility />{" "}
+              <span className={styles.showPasswordText}>Show</span>
+            </>
           ) : (
-            <h4>
-              Already have an account or want to use a guest account?{" "}
-              <span className={styles.forLogIn} onClick={handleAuthType}>
-                Log in.
-              </span>
-            </h4>
+            <>
+              <VisibilityOff />{" "}
+              <span className={styles.showPasswordText}>Hide</span>
+            </>
           )}
-        </form>
-      </main>
+        </span>
+        <input
+          placeholder="Password"
+          type={!showPassword ? "password" : "text"}
+        />
+        <button
+          type="submit"
+          style={
+            !isSignUp
+              ? { backgroundColor: "#3cb19f" }
+              : { backgroundColor: "#ec215f" }
+          }
+          disabled={isLoadingMain}
+        >
+          {!isLoadingMain
+            ? isSignUp
+              ? "Sign Up"
+              : "Log In"
+            : isSignUp
+            ? "Signing up..."
+            : "Logging in..."}
+        </button>
+        {!isSignUp && (
+          <button className={styles.guest} disabled={isLoadingGuest}>
+            {!isLoadingGuest ? "Use a Guest Account" : "Logging in..."}
+          </button>
+        )}
+        {!isSignUp ? (
+          <h4>
+            Try the app without creating an account by using a guest account.
+            Want your own account?{" "}
+            <span className={styles.forSignUp} onClick={handleAuthType}>
+              Sign up now.
+            </span>
+          </h4>
+        ) : (
+          <h4>
+            Already have an account or want to use a guest account?{" "}
+            <span className={styles.forLogIn} onClick={handleAuthType}>
+              Log in.
+            </span>
+          </h4>
+        )}
+      </form>
     </div>
   );
 };
