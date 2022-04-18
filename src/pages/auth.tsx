@@ -64,10 +64,10 @@ const AuthPage: NextPage = () => {
         >
           {!isLoadingMain
             ? isSignUp
-              ? "Sign Up"
+              ? "Create Account"
               : "Log In"
             : isSignUp
-            ? "Signing up..."
+            ? "Creating account..."
             : "Logging in..."}
         </button>
         {!isSignUp && (
