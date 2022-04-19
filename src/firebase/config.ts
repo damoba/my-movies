@@ -1,6 +1,6 @@
-import firebase from "firebase/compat/app";
-import "firebase/compat/auth";
-import "firebase/compat/database";
+import { initializeApp, getApps, getApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
+import { getDatabase } from "firebase/database";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -12,8 +12,9 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
-const firebaseApp = firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-const db = firebaseApp.database();
+const firebaseApp =
+  getApps().length == 0 ? initializeApp(firebaseConfig) : getApp();
+const auth = getAuth(firebaseApp);
+const db = getDatabase(firebaseApp);
 
-export { auth, db};
+export { auth, db };

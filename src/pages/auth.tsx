@@ -1,10 +1,12 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import Image from "next/image";
-import { useRouter } from "next/router";
 import React, { useRef, useState } from "react";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 import { auth } from "../firebase/config";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import {
   uniqueNamesGenerator,
   adjectives,
@@ -40,11 +42,11 @@ const AuthPage: NextPage = () => {
    * @param {string} buttonType Type of button (e.g. "main")
    */
   const signUp = (buttonType: string) => {
-    auth
-      .createUserWithEmailAndPassword(
-        emailRef.current.value,
-        passwordRef.current.value
-      )
+    createUserWithEmailAndPassword(
+      auth,
+      emailRef.current.value,
+      passwordRef.current.value
+    )
       .then((authUser) => {
         console.log("sign up");
         console.log(authUser);
@@ -68,11 +70,11 @@ const AuthPage: NextPage = () => {
    * Logs in the user.
    */
   const logIn = () => {
-    auth
-      .signInWithEmailAndPassword(
-        emailRef.current.value,
-        passwordRef.current.value
-      )
+    signInWithEmailAndPassword(
+      auth,
+      emailRef.current.value,
+      passwordRef.current.value
+    )
       .then((authUser) => {
         console.log("log in");
         console.log(authUser);
