@@ -2,16 +2,29 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
+import { auth } from "../firebase/config";
+import {
+  uniqueNamesGenerator,
+  adjectives,
+  animals,
+  names,
+} from "unique-names-generator";
 
 import styles from "../styles/Auth.module.css";
+
+const GUEST_INNER_HTML = "Use a Guest Account";
+const MAIN_BUTTON_TYPE = "main";
+const GUEST_BUTTON_TYPE = "guest";
 
 const AuthPage: NextPage = () => {
   const [isSignUp, setIsSignUp] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [isLoadingMain, setIsLoadingMain] = useState<boolean>(false);
   const [isLoadingGuest, setIsLoadingGuest] = useState<boolean>(false);
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
 
   const handleShowPassword = (e: React.MouseEvent<HTMLElement>) => {
     setShowPassword(!showPassword);
@@ -19,6 +32,113 @@ const AuthPage: NextPage = () => {
 
   const handleAuthType = () => {
     setIsSignUp(!isSignUp);
+  };
+
+  /**
+   * Registers the user. It uses the button type to know whether a main
+   * button or the guest button was used.
+   * @param {string} buttonType Type of button (e.g. "main")
+   */
+  const signUp = (buttonType: string) => {
+    auth
+      .createUserWithEmailAndPassword(
+        emailRef.current.value,
+        passwordRef.current.value
+      )
+      .then((authUser) => {
+        console.log("sign up");
+        console.log(authUser);
+        if (buttonType === MAIN_BUTTON_TYPE) {
+          setIsLoadingMain(false);
+        } else {
+          setIsLoadingGuest(false);
+        }
+      })
+      .catch((error) => {
+        alert(error.message);
+        if (buttonType === MAIN_BUTTON_TYPE) {
+          setIsLoadingMain(false);
+        } else {
+          setIsLoadingGuest(false);
+        }
+      });
+  };
+
+  /**
+   * Logs in the user.
+   */
+  const logIn = () => {
+    auth
+      .signInWithEmailAndPassword(
+        emailRef.current.value,
+        passwordRef.current.value
+      )
+      .then((authUser) => {
+        console.log("log in");
+        console.log(authUser);
+        setIsLoadingMain(false);
+      })
+      .catch((error) => {
+        alert(error.message);
+        setIsLoadingMain(false);
+      });
+  };
+
+  /**
+   * Generates a fake email for the guest.
+   * @returns {string} Fake email (e.g. "TypicalPandaNell@guest.guest")
+   */
+  const generateGuestEmail = () => {
+    const localPart = uniqueNamesGenerator({
+      dictionaries: [adjectives, animals, names],
+      separator: "",
+      style: "capital",
+    });
+    const domainPart = "@guest.guest";
+    return localPart + domainPart;
+  };
+
+  /**
+   * Generates a password for the guest.
+   * @param {number} length Password length (e.g. 12)
+   * @returns {string} Password
+   */
+  const generateGuestPassword = (length) => {
+    const CHARACTERS =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%";
+    var password = "";
+    for (var i = 0; i < length; i++) {
+      password += CHARACTERS.charAt(
+        Math.floor(Math.random() * CHARACTERS.length)
+      );
+    }
+    return password;
+  };
+
+  /**
+   * Handles the click of an auth button. If it's the guest button, the
+   * guest credentials are generated and then the signup continues. If
+   * it's a regular signup or login, the respective functions are called.
+   * @param {React.FormEvent<HTMLFormElement>} e Event
+   * @returns {void}
+   */
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (document.activeElement.innerHTML === GUEST_INNER_HTML) {
+      setIsLoadingGuest(true);
+      emailRef.current.value = generateGuestEmail();
+      passwordRef.current.value = generateGuestPassword(12);
+      signUp(GUEST_BUTTON_TYPE);
+      return;
+    }
+
+    setIsLoadingMain(true);
+
+    if (isSignUp) {
+      signUp(MAIN_BUTTON_TYPE);
+    } else {
+      logIn();
+    }
   };
 
   return (
@@ -30,9 +150,9 @@ const AuthPage: NextPage = () => {
 
       <header className={styles.logo}>My Movies</header>
 
-      <form className={styles.form}>
+      <form className={styles.form} onSubmit={handleSubmit}>
         <h1>{isSignUp ? "Sign Up" : "Log In"}</h1>
-        <input placeholder="Email" type="email" />
+        <input ref={emailRef} placeholder="Email" type="email" />
         <span
           className={styles.showPasswordToggler}
           onClick={handleShowPassword}
@@ -50,6 +170,7 @@ const AuthPage: NextPage = () => {
           )}
         </span>
         <input
+          ref={passwordRef}
           placeholder="Password"
           type={!showPassword ? "password" : "text"}
         />
@@ -72,7 +193,7 @@ const AuthPage: NextPage = () => {
         </button>
         {!isSignUp && (
           <button className={styles.guest} disabled={isLoadingGuest}>
-            {!isLoadingGuest ? "Use a Guest Account" : "Logging in..."}
+            {!isLoadingGuest ? GUEST_INNER_HTML : "Logging in..."}
           </button>
         )}
         {!isSignUp ? (
