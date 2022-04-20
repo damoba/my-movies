@@ -21,19 +21,26 @@ const MAIN_BUTTON_TYPE = "main";
 const GUEST_BUTTON_TYPE = "guest";
 
 const AuthPage: NextPage = () => {
-  const [isSignUp, setIsSignUp] = useState<boolean>(false);
+  const [isSignup, setIsSignup] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [isLoadingMain, setIsLoadingMain] = useState<boolean>(false);
   const [isLoadingGuest, setIsLoadingGuest] = useState<boolean>(false);
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
+  /**
+   * Toggles the show and hide password feature
+   * @param {React.MouseEvent<HTMLElement>} e Event
+   */
   const handleShowPassword = (e: React.MouseEvent<HTMLElement>) => {
     setShowPassword(!showPassword);
   };
 
+  /**
+   * Toggles the authentication type between login and signup
+   */
   const handleAuthType = () => {
-    setIsSignUp(!isSignUp);
+    setIsSignup(!isSignup);
   };
 
   /**
@@ -136,7 +143,7 @@ const AuthPage: NextPage = () => {
 
     setIsLoadingMain(true);
 
-    if (isSignUp) {
+    if (isSignup) {
       signUp(MAIN_BUTTON_TYPE);
     } else {
       logIn();
@@ -153,7 +160,7 @@ const AuthPage: NextPage = () => {
       <header className={styles.logo}>My Movies</header>
 
       <form className={styles.form} onSubmit={handleSubmit}>
-        <h1>{isSignUp ? "Sign Up" : "Log In"}</h1>
+        <h1>{isSignup ? "Sign Up" : "Log In"}</h1>
         <input ref={emailRef} placeholder="Email" type="email" />
         <span
           className={styles.showPasswordToggler}
@@ -179,26 +186,26 @@ const AuthPage: NextPage = () => {
         <button
           type="submit"
           style={
-            !isSignUp
+            !isSignup
               ? { backgroundColor: "#3cb19f" }
               : { backgroundColor: "#ec215f" }
           }
           disabled={isLoadingMain}
         >
           {!isLoadingMain
-            ? isSignUp
+            ? isSignup
               ? "Create Account"
               : "Log In"
-            : isSignUp
+            : isSignup
             ? "Creating account..."
             : "Logging in..."}
         </button>
-        {!isSignUp && (
+        {!isSignup && (
           <button className={styles.guest} disabled={isLoadingGuest}>
             {!isLoadingGuest ? GUEST_INNER_HTML : "Logging in..."}
           </button>
         )}
-        {!isSignUp ? (
+        {!isSignup ? (
           <h4>
             Try the app without creating an account by using a guest account.
             Want your own account?{" "}
