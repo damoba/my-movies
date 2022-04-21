@@ -60,7 +60,6 @@ const AuthPage: NextPage = () => {
       passwordRef.current.value
     )
       .then(() => {
-        router.push("/");
         if (buttonType === MAIN_BUTTON_TYPE) {
           setIsLoadingMain(false);
         } else {
@@ -87,7 +86,6 @@ const AuthPage: NextPage = () => {
       passwordRef.current.value
     )
       .then(() => {
-        router.push("/");
         setIsLoadingMain(false);
       })
       .catch((error) => {
