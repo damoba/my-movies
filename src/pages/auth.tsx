@@ -1,6 +1,8 @@
+import styles from "../styles/Auth.module.css";
+
 import type { NextPage } from "next";
 import Head from "next/head";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 import { auth } from "../firebase/config";
 import {
@@ -13,14 +15,17 @@ import {
   animals,
   names,
 } from "unique-names-generator";
-
-import styles from "../styles/Auth.module.css";
+import { useRouter } from "next/router";
+import { useAuth } from "../context/authProvider";
 
 const GUEST_INNER_HTML = "Use a Guest Account";
 const MAIN_BUTTON_TYPE = "main";
 const GUEST_BUTTON_TYPE = "guest";
 
 const AuthPage: NextPage = () => {
+  const router = useRouter();
+  const { user } = useAuth();
+
   const [isSignup, setIsSignup] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [isLoadingMain, setIsLoadingMain] = useState<boolean>(false);
@@ -54,9 +59,8 @@ const AuthPage: NextPage = () => {
       emailRef.current.value,
       passwordRef.current.value
     )
-      .then((authUser) => {
-        console.log("sign up");
-        console.log(authUser);
+      .then(() => {
+        router.push("/");
         if (buttonType === MAIN_BUTTON_TYPE) {
           setIsLoadingMain(false);
         } else {
@@ -82,9 +86,8 @@ const AuthPage: NextPage = () => {
       emailRef.current.value,
       passwordRef.current.value
     )
-      .then((authUser) => {
-        console.log("log in");
-        console.log(authUser);
+      .then(() => {
+        router.push("/");
         setIsLoadingMain(false);
       })
       .catch((error) => {
@@ -150,15 +153,20 @@ const AuthPage: NextPage = () => {
     }
   };
 
+  /**
+   * If a user is logged in, they are sent to home page.
+   */
+  useEffect(() => {
+    if (user) router.push("/");
+  }, [user]);
+
   return (
     <div className={styles.container}>
       <Head>
         <title>My Movies - log in or sign up</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
       <header className={styles.logo}>My Movies</header>
-
       <form className={styles.form} onSubmit={handleSubmit}>
         <h1>{isSignup ? "Sign Up" : "Log In"}</h1>
         <input ref={emailRef} placeholder="Email" type="email" />
