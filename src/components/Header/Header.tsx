@@ -1,14 +1,8 @@
-import styles from "./Header.module.css"
+import styles from "./Header.module.css";
 
-import React, { Dispatch, FunctionComponent, SetStateAction } from "react";
-import { Movie } from "../../../typings";
+import React, { FunctionComponent } from "react";
 
-interface Props {
-  setLoading: Dispatch<SetStateAction<boolean>>;
-  setSearchResults: Dispatch<SetStateAction<Movie[]>>;
-}
-
-const Header: FunctionComponent<Props> = ({ setLoading, setSearchResults }) => {
+const Header: FunctionComponent = () => {
   return <header className={styles.header}>Header</header>;
 };
 
