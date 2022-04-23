@@ -26,6 +26,39 @@ const IndexPage: NextPage = () => {
           </Head>
           {/* <button onClick={logout}>Sign out</button> */}
           <Header />
+          <div style={{ backgroundColor: "#4ca1af", color:"yellow"}}>
+            <div>Test</div>
+            <div>Test</div>
+            <div>Test</div>
+            <div>Test</div>
+            <div>Test</div>
+            <div>Test</div>
+            <div>Test</div>
+            <div>Test</div>
+            <div>Test</div>
+            <div>Test</div>
+            <div>Test</div>
+            <div>Test</div>
+            <div>Test</div>
+            <div>Test</div>
+            <div>Test</div>
+            <div>Test</div>
+            <div>Test</div>
+            <div>Test</div>
+            <div>Test</div>
+            <div>Test</div>
+            <div>Test</div>
+            <div>Test</div>
+            <div>Test</div>
+            <div>Test</div>
+            <div>Test</div>
+            <div>Test</div>
+            <div>Test</div>
+            <div>Test</div>
+            <div>Test</div>
+            <div>Test</div>
+            <div>Test</div>
+          </div>
         </>
       )}
     </div>

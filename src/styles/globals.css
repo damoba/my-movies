@@ -1,9 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Mulish:wght@500&family=Updock&family=Work+Sans:wght@300&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Mulish:wght@500&family=Updock&family=Work+Sans:wght@300&display=swap");
 
-*{
-  --logo-font: 'Updock', cursive;
-  --title-font: 'Mulish', sans-serif;
-  --text-font: 'Work Sans', sans-serif;
+* {
+  --logo-font: "Updock", cursive;
+  --title-font: "Mulish", sans-serif;
+  --text-font: "Work Sans", sans-serif;
+  --main-color-dark: #2c3e50;
+  --main-color-light: #4ca1af;
   font-family: var(--title-font);
   margin: 0;
   padding: 0;
