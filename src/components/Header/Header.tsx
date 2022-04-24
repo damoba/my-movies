@@ -1,13 +1,33 @@
 import styles from "./Header.module.css";
 
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent, useRef, useState } from "react";
+import { Search } from "@material-ui/icons";
+import { useRouter } from "next/router";
 
 const Header: FunctionComponent = () => {
-  const [isScrolled, setIsScrolled] = useState<boolean>(false);
+  const router = useRouter();
 
+  const [isScrolled, setIsScrolled] = useState<boolean>(false);
+  const [searchIsOpen, setSearchIsOpen] = useState<boolean>(false);
+  const searchRef = useRef<HTMLInputElement>(null);
+
+  /**
+   * When scrolled more than 100 pageYOffset, isScrolled state turns true.
+   * @returns unsubscribe function
+   */
   window.onscroll = () => {
     setIsScrolled(window.pageYOffset <= 100 ? false : true);
     return () => (window.onscroll = null);
+  };
+
+  /**
+   * When the search icon is clicked, searchIsOpen state turns true.
+   */
+  const handleSearchClick = () => {
+    setSearchIsOpen(true);
+    setTimeout(() => {
+      searchRef.current.focus();
+    }, 300);
   };
 
   return (
@@ -18,7 +38,23 @@ const Header: FunctionComponent = () => {
     >
       <div className={styles.container}>
         <span className={styles.logo}>My Movies</span>
-        <span style={{ color: "white" }}>Test</span>
+        <div
+          className={
+            searchIsOpen ? `${styles.search} ${styles.open}` : styles.search
+          }
+          onClick={handleSearchClick}
+        >
+          <Search className={styles.searchIcon} style={{ fontSize: 20 }} />
+          <form onSubmit={() => router.push(`/search?query=${encodeURIComponent(searchRef.current.value)}`)}>
+            <input
+              ref={searchRef}
+              type="search"
+              onBlur={() => setSearchIsOpen(false)}
+              placeholder="Search..."
+            />
+            <button type="submit" style={{display: "none"}}/>
+          </form>
+        </div>
       </div>
     </header>
   );
