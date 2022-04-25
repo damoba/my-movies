@@ -56,7 +56,9 @@ const Header: FunctionComponent = () => {
       }
     >
       <div className={styles.navMainContainer}>
-        <span className={styles.logo}>My Movies</span>
+        <span className={styles.logo} onClick={() => router.push("/")}>
+          My Movies
+        </span>
 
         <div className={styles.navRightContainer}>
           <div
