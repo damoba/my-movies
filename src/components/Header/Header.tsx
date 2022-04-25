@@ -74,7 +74,7 @@ const Header: FunctionComponent = () => {
               />
             </div>
             <ArrowDropDown/>
-            <div className={styles.options}>
+            <div className={styles.profileOptions}>
               <span>Settings</span>
               <span>Logout</span>
             </div>
