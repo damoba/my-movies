@@ -63,6 +63,8 @@
 
 .profile{
   display: flex;
+  align-items: center;
+  cursor: pointer;
 }
 .profilePicContainer{
   width: 25px;
@@ -72,4 +74,28 @@
 }
 .profileOptions{
   display: none;
+}
+.profileOptions.open{
+  position: absolute;
+  top: 55px;
+  right: 10px;
+  display: flex;
+  flex-direction: column;
+}
+.profileEmail{
+  padding:10px 10px 30px 10px;
+  background: linear-gradient(to top, transparent 0%, rgb(0, 0, 0, 0.1) 50%);
+  font-family: var(--text-font);
+  cursor: text;
+  transition: background-color 1s;
+}
+.profileOption{
+  padding: 10px;
+  border-top: 1px solid gray;
+  background: linear-gradient(to top, transparent 0%, rgb(0, 0, 0, 0.1) 50%);
+  cursor: pointer;
+  transition: background-color 1s;
+}
+.profileEmail.scrolled, .profileOption.scrolled{
+  background: black;
 }

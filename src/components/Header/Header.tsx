@@ -4,21 +4,39 @@ import React, { FunctionComponent, useRef, useState } from "react";
 import { ArrowDropDown, Search } from "@material-ui/icons";
 import { useRouter } from "next/router";
 import Image from "next/image";
+import { useAuth } from "../../context/authProvider";
 
 const Header: FunctionComponent = () => {
   const router = useRouter();
+  const { user, logout } = useAuth();
 
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
   const [searchIsOpen, setSearchIsOpen] = useState<boolean>(false);
   const searchRef = useRef<HTMLInputElement>(null);
+  const [profileIsOpen, setProfileIsOpen] = useState<boolean>(false);
 
   /**
    * When scrolled more than 100 pageYOffset, isScrolled state turns true.
-   * @returns unsubscribe function
+   * @returns Cleanup function
    */
   window.onscroll = () => {
     setIsScrolled(window.pageYOffset <= 100 ? false : true);
     return () => (window.onscroll = null);
+  };
+
+  /**
+   * When the window is clicked and the clicked element is not part
+   * of the profile element and the profile menu is open, the profile
+   * menu is closed.
+   * @param {MouseEvent} e Event
+   * @returns Cleanup function
+   */
+  window.onclick = (e: MouseEvent) => {
+    var profile = document.getElementById("profile");
+    if (profile && !profile.contains(e.target as Node) && profileIsOpen) {
+      setProfileIsOpen(false);
+    }
+    return () => (window.onclick = null);
   };
 
   /**
@@ -39,6 +57,7 @@ const Header: FunctionComponent = () => {
     >
       <div className={styles.navMainContainer}>
         <span className={styles.logo}>My Movies</span>
+
         <div className={styles.navRightContainer}>
           <div
             className={
@@ -63,7 +82,12 @@ const Header: FunctionComponent = () => {
               <button type="submit" style={{ display: "none" }} />
             </form>
           </div>
-          <div className={styles.profile}>
+
+          <div
+            className={styles.profile}
+            id="profile"
+            onClick={() => setProfileIsOpen(true)}
+          >
             <div className={styles.profilePicContainer}>
               <Image
                 src="/images/profile_picture.png"
@@ -73,10 +97,43 @@ const Header: FunctionComponent = () => {
                 objectFit="cover"
               />
             </div>
-            <ArrowDropDown/>
-            <div className={styles.profileOptions}>
-              <span>Settings</span>
-              <span>Logout</span>
+            <ArrowDropDown />
+            <div
+              className={
+                profileIsOpen
+                  ? `${styles.profileOptions} ${styles.open}`
+                  : styles.profileOptions
+              }
+            >
+              <span
+                className={
+                  isScrolled
+                    ? `${styles.profileEmail} ${styles.open} ${styles.scrolled}`
+                    : `${styles.profileEmail} ${styles.open}`
+                }
+              >
+                {user.email}
+              </span>
+              <span
+                className={
+                  isScrolled
+                    ? `${styles.profileOption} ${styles.scrolled}`
+                    : `${styles.profileOption} `
+                }
+                onClick={() => router.push("/collection")}
+              >
+                My Collection
+              </span>
+              <span
+                className={
+                  isScrolled
+                    ? `${styles.profileOption} ${styles.scrolled}`
+                    : `${styles.profileOption}`
+                }
+                onClick={logout}
+              >
+                Log Out
+              </span>
             </div>
           </div>
         </div>
