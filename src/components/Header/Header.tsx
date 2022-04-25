@@ -3,7 +3,6 @@ import styles from "./Header.module.css";
 import React, { FunctionComponent, useRef, useState } from "react";
 import { ArrowDropDown, Search } from "@material-ui/icons";
 import { useRouter } from "next/router";
-import Image from "next/image";
 import { useAuth } from "../../context/authProvider";
 
 const Header: FunctionComponent = () => {
@@ -90,15 +89,11 @@ const Header: FunctionComponent = () => {
             id="profile"
             onClick={() => setProfileIsOpen(true)}
           >
-            <div className={styles.profilePicContainer}>
-              <Image
-                src="/images/profile_picture.png"
-                height="25px"
-                width="25px"
-                alt="Profile Picture"
-                objectFit="cover"
-              />
-            </div>
+            <img
+              className={styles.profilePic}
+              src="/images/profile_picture.png"
+              alt="Profile Picture"
+            />
             <ArrowDropDown />
             <div
               className={
