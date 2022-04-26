@@ -2,7 +2,7 @@ import styles from "../styles/Auth.module.css";
 
 import type { NextPage } from "next";
 import Head from "next/head";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 import { auth } from "../firebase/config";
 import {
