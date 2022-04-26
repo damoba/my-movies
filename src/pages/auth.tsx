@@ -25,6 +25,7 @@ const GUEST_BUTTON_TYPE = "guest";
 const AuthPage: NextPage = () => {
   const router = useRouter();
   const { user } = useAuth();
+  if (user) router.push("/");
 
   const [isSignup, setIsSignup] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -32,14 +33,6 @@ const AuthPage: NextPage = () => {
   const [isLoadingGuest, setIsLoadingGuest] = useState<boolean>(false);
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
-
-  /**
-   * Toggles the show and hide password feature
-   * @param {React.MouseEvent<HTMLElement>} e Event
-   */
-  const handleShowPassword = (e: React.MouseEvent<HTMLElement>) => {
-    setShowPassword(!showPassword);
-  };
 
   /**
    * Toggles the authentication type between login and signup
@@ -151,13 +144,6 @@ const AuthPage: NextPage = () => {
     }
   };
 
-  /**
-   * If a user is logged in, they are sent to home page.
-   */
-  useEffect(() => {
-    if (user) router.push("/");
-  }, [user]);
-
   return (
     <div className={styles.container}>
       <Head>
@@ -170,7 +156,7 @@ const AuthPage: NextPage = () => {
         <input ref={emailRef} placeholder="Email" type="email" />
         <span
           className={styles.showPasswordToggler}
-          onClick={handleShowPassword}
+          onClick={() => setShowPassword(!showPassword)}
         >
           {!showPassword ? (
             <>
