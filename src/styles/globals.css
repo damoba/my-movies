@@ -5,6 +5,7 @@
   --title-font: "Mulish", sans-serif;
   --text-font: "Work Sans", sans-serif;
   --main-color-dark: #2c3e50;
+  --main-color-medium: #3a6979;
   --main-color-light: #4ca1af;
   font-family: var(--title-font);
   margin: 0;

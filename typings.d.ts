@@ -52,6 +52,19 @@ export interface Movie {
       id?: string;
     }[];
   };
+  release_dates?: {
+    id?: number;
+    results?: {
+      iso_3166_1?: string;
+      release_dates?: {
+        certification?: string;
+        iso_639_1?: string;
+        release_date?: string;
+        type?: number;
+        note?: string;
+      }[];
+    }[];
+  };
   title?: string;
   name?: string;
   original_name?: string;

@@ -141,20 +141,12 @@
   }
   .profileEmail {
     padding: 10px 10px 30px 10px;
-    background: linear-gradient(to top, transparent 0%, rgb(0, 0, 0, 0.1) 50%);
+    background: black;
     border: none;
-    transition: background-color 1s;
   }
   .profileOption {
-    background: linear-gradient(to top, transparent 0%, rgb(0, 0, 0, 0.1) 50%);
-    border: none;
-    transition: background-color 1s;
-  }
-  .profileEmail.scrolled,
-  .profileOption.scrolled {
     background: black;
-  }
-  .profileOption.scrolled{
+    border: none;
     border-top: 1px solid gray;
   }
 }

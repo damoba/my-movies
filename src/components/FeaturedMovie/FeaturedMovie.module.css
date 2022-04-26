@@ -1,0 +1,16 @@
+.container{
+  width: 100%;
+  background: linear-gradient(to top, var(--main-color-medium), var(--main-color-light))
+}
+
+.overlay{
+  position: relative;
+  width: 75%;
+  height: 42rem;
+  margin-left: auto;
+  mix-blend-mode: overlay;
+  mask-image: radial-gradient(ellipse farthest-side at 75% 10%, black, transparent);
+  background-size: cover;
+  background-position: right top;
+  pointer-events: none;
+}
