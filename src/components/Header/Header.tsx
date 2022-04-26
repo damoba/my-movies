@@ -102,33 +102,14 @@ const Header: FunctionComponent = () => {
                   : styles.profileOptions
               }
             >
+              <span className={styles.profileEmail}>{user.email}</span>
               <span
-                className={
-                  isScrolled
-                    ? `${styles.profileEmail} ${styles.open} ${styles.scrolled}`
-                    : `${styles.profileEmail} ${styles.open}`
-                }
-              >
-                {user.email}
-              </span>
-              <span
-                className={
-                  isScrolled
-                    ? `${styles.profileOption} ${styles.scrolled}`
-                    : `${styles.profileOption} `
-                }
+                className={styles.profileOption}
                 onClick={() => router.push("/collection")}
               >
                 My Collection
               </span>
-              <span
-                className={
-                  isScrolled
-                    ? `${styles.profileOption} ${styles.scrolled}`
-                    : `${styles.profileOption}`
-                }
-                onClick={logout}
-              >
+              <span className={styles.profileOption} onClick={logout}>
                 Log Out
               </span>
             </div>
