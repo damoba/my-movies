@@ -27,7 +27,7 @@ const IndexPage: NextPage<Props> = ({ featuredMovie }) => {
             <link rel="icon" href="/favicon.ico" />
           </Head>
           <Header />
-          <FeaturedMovie featuredMovie={featuredMovie} />
+          <FeaturedMovie featuredMovie={featuredMovie} intro="Today's Featured Film"/>
         </>
       )}
     </div>
@@ -45,7 +45,6 @@ export const getServerSideProps: GetServerSideProps = async () => {
   const featuredMovieResponse = await axios.get(fetchMovie(featuredMovieId));
   const featuredMovieFull = featuredMovieResponse.data;
 
-  var intro = "Today's Featured Film";
   var releaseDates = featuredMovieFull.release_dates.results;
   var certification = null;
   for (let i = 0; i < releaseDates.length; i++) {
@@ -63,7 +62,6 @@ export const getServerSideProps: GetServerSideProps = async () => {
   var year = date.getFullYear();
 
   const featuredMovie = {
-    intro,
     certification: certification ?? null,
     videoId: videoId ?? null,
     year,

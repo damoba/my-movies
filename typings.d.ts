@@ -1,5 +1,4 @@
 export interface Movie {
-  intro?: string;
   certification?: string;
   videoId?: string;
   year?: number;

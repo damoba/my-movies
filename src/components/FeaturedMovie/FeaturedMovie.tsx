@@ -10,9 +10,10 @@ import { Add, PlayArrowRounded } from "@material-ui/icons";
 
 interface Props {
   featuredMovie: Movie;
+  intro: string | null;
 }
 
-const FeaturedMovie: FunctionComponent<Props> = ({ featuredMovie }) => {
+const FeaturedMovie: FunctionComponent<Props> = ({ featuredMovie, intro }) => {
   useEffect(() => {}, []);
 
   return (
@@ -25,8 +26,8 @@ const FeaturedMovie: FunctionComponent<Props> = ({ featuredMovie }) => {
           })`,
         }}
       ></div>
-      {featuredMovie.intro && (
-        <p className={styles.intro}>{featuredMovie.intro}</p>
+      {intro && (
+        <p className={styles.intro}>{intro}</p>
       )}
       <h2 className={styles.title}>
         {featuredMovie.title ||
