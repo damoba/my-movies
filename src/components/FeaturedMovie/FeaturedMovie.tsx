@@ -7,6 +7,7 @@ import Rating from "@material-ui/lab/Rating";
 import StarRoundedIcon from "@material-ui/icons/StarRounded";
 import { Button } from "@material-ui/core";
 import { Add, PlayArrowRounded } from "@material-ui/icons";
+import useStyles from "./StylesMUI"
 
 interface Props {
   selectedMovie: Movie;
@@ -17,6 +18,7 @@ const FeaturedMovie: FunctionComponent<Props> = ({
   selectedMovie,
   selectedMovieIntro,
 }) => {
+  const classes = useStyles();
 
   return (
     <div className={styles.container}>
@@ -58,17 +60,17 @@ const FeaturedMovie: FunctionComponent<Props> = ({
         />
         <p className={styles.ratingNum}>
           {(selectedMovie.vote_average / 2).toFixed(1)}
-          <small>({selectedMovie.vote_count.toLocaleString("en-US")})</small>
+          <small> ({selectedMovie.vote_count.toLocaleString("en-US")})</small>
         </p>
       </div>
       <Button
-        className={styles.button}
+        className={classes.button}
         variant="contained"
         startIcon={<PlayArrowRounded />}
       >
         Play Trailer
       </Button>
-      <Button className={styles.button} variant="contained" startIcon={<Add />}>
+      <Button className={classes.button} variant="contained" startIcon={<Add />}>
         Collect Movie
       </Button>
     </div>
