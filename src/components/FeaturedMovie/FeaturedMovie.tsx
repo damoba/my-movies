@@ -9,12 +9,14 @@ import { Button } from "@material-ui/core";
 import { Add, PlayArrowRounded } from "@material-ui/icons";
 
 interface Props {
-  featuredMovie: Movie;
-  intro: string | null;
+  selectedMovie: Movie;
+  selectedMovieIntro: string | null;
 }
 
-const FeaturedMovie: FunctionComponent<Props> = ({ featuredMovie, intro }) => {
-  useEffect(() => {}, []);
+const FeaturedMovie: FunctionComponent<Props> = ({
+  selectedMovie,
+  selectedMovieIntro,
+}) => {
 
   return (
     <div className={styles.container}>
@@ -22,41 +24,41 @@ const FeaturedMovie: FunctionComponent<Props> = ({ featuredMovie, intro }) => {
         className={styles.overlay}
         style={{
           backgroundImage: `url(${imageBaseURL}${
-            featuredMovie.backdrop_path || featuredMovie.poster_path
+            selectedMovie.backdrop_path || selectedMovie.poster_path
           })`,
         }}
       ></div>
-      {intro && (
-        <p className={styles.intro}>{intro}</p>
+      {selectedMovieIntro && (
+        <p className={styles.intro}>{selectedMovieIntro}</p>
       )}
       <h2 className={styles.title}>
-        {featuredMovie.title ||
-          featuredMovie.original_title ||
-          featuredMovie.name ||
-          featuredMovie.original_name}
-        <span className={styles.year}>({featuredMovie.year})</span>
+        {selectedMovie.title ||
+          selectedMovie.original_title ||
+          selectedMovie.name ||
+          selectedMovie.original_name}
+        <span className={styles.year}>({selectedMovie.year})</span>
       </h2>
       <p className={styles.genres}>
-        {featuredMovie.certification && (
+        {selectedMovie.certification && (
           <span className={styles.certification}>
-            {featuredMovie.certification}
+            {selectedMovie.certification}
           </span>
         )}
-        {featuredMovie?.genres?.slice(0, 3).map((genre) => (
+        {selectedMovie?.genres?.slice(0, 3).map((genre) => (
           <span className={styles.genre}>{genre.name}</span>
         ))}
       </p>
-      <p className={styles.overview}>{featuredMovie.overview}</p>
+      <p className={styles.overview}>{selectedMovie.overview}</p>
       <div className={styles.rating}>
         <Rating
-          value={featuredMovie.vote_average / 2}
+          value={selectedMovie.vote_average / 2}
           precision={0.5}
           icon={<StarRoundedIcon />}
           readOnly
         />
         <p className={styles.ratingNum}>
-          {(featuredMovie.vote_average / 2).toFixed(1)}
-          <small>({featuredMovie.vote_count.toLocaleString("en-US")})</small>
+          {(selectedMovie.vote_average / 2).toFixed(1)}
+          <small>({selectedMovie.vote_count.toLocaleString("en-US")})</small>
         </p>
       </div>
       <Button

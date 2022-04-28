@@ -7,6 +7,7 @@ import FeaturedMovie from "../components/FeaturedMovie/FeaturedMovie";
 import axios from "../config/axios";
 import requests, { fetchMovie } from "../config/api";
 import { Movie } from "../../typings";
+import { useState } from "react";
 
 interface Props {
   featuredMovie: Movie;
@@ -18,6 +19,11 @@ const IndexPage: NextPage<Props> = ({ featuredMovie }) => {
   if (userIsLoading) return null;
   if (!user) router.push("/auth");
 
+  const [selectedMovie, setSelectedMovie] = useState<Movie>(featuredMovie);
+  const [selectedMovieIntro, setSelectedMovieIntro] = useState<string>(
+    "One of Today's Featured Films"
+  );
+
   return (
     <div>
       {user && (
@@ -27,7 +33,10 @@ const IndexPage: NextPage<Props> = ({ featuredMovie }) => {
             <link rel="icon" href="/favicon.ico" />
           </Head>
           <Header />
-          <FeaturedMovie featuredMovie={featuredMovie} intro="Today's Featured Film"/>
+          <FeaturedMovie
+            selectedMovie={selectedMovie}
+            selectedMovieIntro={selectedMovieIntro}
+          />
         </>
       )}
     </div>
@@ -59,7 +68,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
   var date = new Date(
     featuredMovieFull.release_date || featuredMovieFull.first_air_date
   );
-  var year = date.getFullYear();
+  var year = date?.getFullYear();
 
   const featuredMovie = {
     certification: certification ?? null,

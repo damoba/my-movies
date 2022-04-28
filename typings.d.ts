@@ -1,18 +1,18 @@
 export interface Movie {
-  certification?: string;
-  videoId?: string;
-  year?: number;
-  title?: string;
-  original_title?: string;
-  name?: string;
-  original_name?: string;
+  certification?: string | null;
+  videoId?: string | null;
+  year?: number | null;
+  title?: string | null;
+  original_title?: string | null;
+  name?: string | null;
+  original_name?: string | null;
   genres?: {
-    id?: number;
-    name?: string;
-  }[];
-  overview?: string;
-  vote_average?: number;
-  vote_count?: number;
-  backdrop_path?: string;
-  poster_path?: string;
+    id?: number | null;
+    name?: string | null;
+  }[] | null;
+  overview?: string | null;
+  vote_average?: number | null;
+  vote_count?: number | null;
+  backdrop_path?: string | null;
+  poster_path?: string | null;
 }
