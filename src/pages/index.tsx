@@ -6,7 +6,7 @@ import Header from "../components/Header/Header";
 import FeaturedMovie from "../components/FeaturedMovie/FeaturedMovie";
 import axios from "../config/axios";
 import requests, { fetchMovie } from "../config/api";
-import { Movie } from "../../typings";
+import { Movie, MovieFull } from "../../typings";
 import { useState } from "react";
 
 interface Props {
@@ -46,6 +46,45 @@ const IndexPage: NextPage<Props> = ({ featuredMovie }) => {
 export default IndexPage;
 
 export const getServerSideProps: GetServerSideProps = async () => {
+  /**
+   * Takes a full movie from the API and returns one with only selected attributes.
+   * Calculates some of these attributes.
+   * @param {MovieFull} movieFull Full movie to be filtered
+   * @returns {Movie} Movie with selected attributes
+   */
+  const filterMovie = (movieFull: MovieFull): Movie => {
+    var releaseDates = movieFull.release_dates.results;
+    var certification = null;
+    for (let i = 0; i < releaseDates.length; i++) {
+      if (
+        releaseDates[i].iso_3166_1 === "US" ||
+        releaseDates[i].iso_3166_1 === "CA"
+      ) {
+        certification = releaseDates[i].release_dates[0].certification;
+      }
+    }
+    var videoId = movieFull.videos?.results[0]?.key;
+    var date = new Date(movieFull.release_date);
+    var year = date?.getFullYear();
+
+    return {
+      collected: false,
+      certification: certification ?? null,
+      videoId: videoId ?? null,
+      year,
+      title: movieFull.title ?? null,
+      original_title: movieFull.original_title ?? null,
+      name: movieFull.name ?? null,
+      original_name: movieFull.original_name ?? null,
+      genres: movieFull.genres ?? null,
+      overview: movieFull.overview ?? null,
+      vote_average: movieFull.vote_average ?? null,
+      vote_count: movieFull.vote_count ?? null,
+      backdrop_path: movieFull.backdrop_path ?? null,
+      poster_path: movieFull.poster_path ?? null,
+    };
+  };
+
   const topRatedMoviesResponse = await axios.get(requests.fetchTopRatedMovies);
   const featuredMovieId =
     topRatedMoviesResponse.data.results[
@@ -53,38 +92,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
     ].id;
   const featuredMovieResponse = await axios.get(fetchMovie(featuredMovieId));
   const featuredMovieFull = featuredMovieResponse.data;
-
-  var releaseDates = featuredMovieFull.release_dates.results;
-  var certification = null;
-  for (let i = 0; i < releaseDates.length; i++) {
-    if (
-      releaseDates[i].iso_3166_1 === "US" ||
-      releaseDates[i].iso_3166_1 === "CA"
-    ) {
-      certification = releaseDates[i].release_dates[0].certification;
-    }
-  }
-  var videoId = featuredMovieFull.videos?.results[0]?.key;
-  var date = new Date(
-    featuredMovieFull.release_date || featuredMovieFull.first_air_date
-  );
-  var year = date?.getFullYear();
-
-  const featuredMovie = {
-    certification: certification ?? null,
-    videoId: videoId ?? null,
-    year,
-    title: featuredMovieFull.title ?? null,
-    original_title: featuredMovieFull.original_title ?? null,
-    name: featuredMovieFull.name ?? null,
-    original_name: featuredMovieFull.original_name ?? null,
-    genres: featuredMovieFull.genres ?? null,
-    overview: featuredMovieFull.overview ?? null,
-    vote_average: featuredMovieFull.vote_average ?? null,
-    vote_count: featuredMovieFull.vote_count ?? null,
-    backdrop_path: featuredMovieFull.backdrop_path ?? null,
-    poster_path: featuredMovieFull.poster_path ?? null,
-  };
+  const featuredMovie = filterMovie(featuredMovieFull);
 
   return {
     props: {

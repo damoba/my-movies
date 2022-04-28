@@ -6,7 +6,7 @@ import { Movie } from "../../../typings";
 import Rating from "@material-ui/lab/Rating";
 import StarRoundedIcon from "@material-ui/icons/StarRounded";
 import { Button } from "@material-ui/core";
-import { Add, PlayArrowRounded } from "@material-ui/icons";
+import { Add, PlayArrowRounded, Remove } from "@material-ui/icons";
 import useStyles from "./StylesMUI"
 
 interface Props {
@@ -33,13 +33,13 @@ const FeaturedMovie: FunctionComponent<Props> = ({
       {selectedMovieIntro && (
         <p className={styles.intro}>{selectedMovieIntro}</p>
       )}
-      <h2 className={styles.title}>
+      <h1 className={styles.title}>
         {selectedMovie.title ||
           selectedMovie.original_title ||
           selectedMovie.name ||
           selectedMovie.original_name}
         <span className={styles.year}>({selectedMovie.year})</span>
-      </h2>
+      </h1>
       <p className={styles.genres}>
         {selectedMovie.certification && (
           <span className={styles.certification}>
@@ -70,9 +70,23 @@ const FeaturedMovie: FunctionComponent<Props> = ({
       >
         Play Trailer
       </Button>
-      <Button className={classes.button} variant="contained" startIcon={<Add />}>
-        Collect Movie
-      </Button>
+      {!selectedMovie.collected ? (
+        <Button
+          className={classes.button}
+          variant="contained"
+          startIcon={<Add />}
+        >
+          Collect Movie
+        </Button>
+      ) : (
+        <Button
+          className={`${classes.button} ${classes.alert}`}
+          variant="contained"
+          startIcon={<Remove />}
+        >
+          Remove from Collection
+        </Button>
+      )}
     </div>
   );
 };

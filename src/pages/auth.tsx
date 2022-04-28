@@ -91,7 +91,7 @@ const AuthPage: NextPage = () => {
    * Generates a fake email for the guest.
    * @returns {string} Fake email (e.g. "TypicalPandaNell@guest.guest")
    */
-  const generateGuestEmail = () => {
+  const generateGuestEmail = (): string => {
     const localPart = uniqueNamesGenerator({
       dictionaries: [adjectives, animals, names],
       separator: "",
@@ -106,7 +106,7 @@ const AuthPage: NextPage = () => {
    * @param {number} length Password length (e.g. 12)
    * @returns {string} Password
    */
-  const generateGuestPassword = (length) => {
+  const generateGuestPassword = (length: number): string => {
     const CHARACTERS =
       "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%";
     var password = "";

@@ -11,4 +11,11 @@ export default makeStyles(() => ({
       backgroundColor: "rgb(215,215,215)",
     },
   },
+  alert: {
+    backgroundColor: "#D46A6A",
+    color: "white",
+    "&:hover": {
+      backgroundColor: "#BB6969",
+    },
+  },
 }));
