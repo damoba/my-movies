@@ -18,7 +18,7 @@
 }
 
 /* styles for the modal video of the trailer in FeaturedMovie component
-  - modified from: https://github.com/santdas36/netflix-ish/blob/main/papareact-day2/src/FeaturedMovie.css
+* - modified from: https://github.com/santdas36/netflix-ish/blob/main/papareact-day2/src/modalVideo.css
 */
 @keyframes modal-video-inner {
   from {
