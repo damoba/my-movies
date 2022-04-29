@@ -1,13 +1,14 @@
 import styles from "./FeaturedMovie.module.css";
+import useStyles from "./StylesMUI";
 
-import React, { FunctionComponent, useEffect } from "react";
+import React, { FunctionComponent, useState } from "react";
 import { imageBaseURL } from "../../config/api";
 import { Movie } from "../../../typings";
 import Rating from "@material-ui/lab/Rating";
 import StarRoundedIcon from "@material-ui/icons/StarRounded";
-import { Button } from "@material-ui/core";
+import { Button, Grow } from "@material-ui/core";
 import { Add, PlayArrowRounded, Remove } from "@material-ui/icons";
-import useStyles from "./StylesMUI"
+import ModalVideo from "react-modal-video";
 
 interface Props {
   selectedMovie: Movie;
@@ -20,8 +21,20 @@ const FeaturedMovie: FunctionComponent<Props> = ({
 }) => {
   const classes = useStyles();
 
+  const [trailerIsPlaying, setTrailerIsPlaying] = useState<boolean>(false);
+
   return (
     <div className={styles.container}>
+      {selectedMovie.videoId && (
+        <Grow in={trailerIsPlaying} mountOnEnter unmountOnExit>
+          <ModalVideo
+            isOpen="true"
+            channel="youtube"
+            videoId={selectedMovie.videoId}
+            onClose={() => setTrailerIsPlaying(false)}
+          />
+        </Grow>
+      )}
       <div
         className={styles.overlay}
         style={{
@@ -63,13 +76,17 @@ const FeaturedMovie: FunctionComponent<Props> = ({
           <small> ({selectedMovie.vote_count.toLocaleString("en-US")})</small>
         </p>
       </div>
-      <Button
-        className={classes.button}
-        variant="contained"
-        startIcon={<PlayArrowRounded />}
-      >
-        Play Trailer
-      </Button>
+
+      {selectedMovie.videoId && (
+        <Button
+          className={classes.button}
+          variant="contained"
+          startIcon={<PlayArrowRounded />}
+          onClick={() => setTrailerIsPlaying(true)}
+        >
+          Play Trailer
+        </Button>
+      )}
       {!selectedMovie.collected ? (
         <Button
           className={classes.button}

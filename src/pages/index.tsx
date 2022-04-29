@@ -16,13 +16,14 @@ interface Props {
 const IndexPage: NextPage<Props> = ({ featuredMovie }) => {
   const { user, userIsLoading } = useAuth();
   const router = useRouter();
-  if (userIsLoading) return null;
-  if (!user) router.push("/auth");
 
   const [selectedMovie, setSelectedMovie] = useState<Movie>(featuredMovie);
   const [selectedMovieIntro, setSelectedMovieIntro] = useState<string>(
     "One of Today's Featured Films"
   );
+
+  if (userIsLoading) return null;
+  if (!user) router.push("/auth");
 
   return (
     <div>

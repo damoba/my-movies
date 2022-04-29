@@ -16,6 +16,7 @@
     "next": "latest",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
+    "react-modal-video": "^1.2.8",
     "unique-names-generator": "^4.7.1"
   },
   "devDependencies": {

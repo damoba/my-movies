@@ -13,6 +13,85 @@
 }
 
 /* color for rating stars without highlight in FeaturedMovie component*/
-.MuiRating-iconEmpty{
-  color: rgba(255,255,255,0.5) !important
+.MuiRating-iconEmpty {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+
+/* styles for the modal video of the trailer in FeaturedMovie component
+  - modified from: https://github.com/santdas36/netflix-ish/blob/main/papareact-day2/src/FeaturedMovie.css
+*/
+@keyframes modal-video-inner {
+  from {
+    transform: scale(0.75);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes modal-video {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.modal-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  opacity: 1;
+  animation: modal-video 0.3s ease-in;
+}
+
+.modal-video-body {
+  max-width: 90%;
+  min-width: 300px;
+  height: 100%;
+  margin: 0 auto;
+}
+
+.modal-video-inner {
+  max-width: 90%;
+  min-width: 300px;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  margin: 0 auto;
+}
+
+.modal-video-movie-wrap {
+  width: 90%;
+  height: 0;
+  position: relative;
+  padding-bottom: 56.25%;
+  background-color: var(--main-color-dark);
+  border-radius: 1rem;
+  transform: scale(1);
+  opacity: 1;
+  animation: modal-video-inner 0.3s 0.1s ease-in;
+  box-shadow: 0 1rem 1.5rem -0.5rem rgba(0, 0, 0, 0.5);
+}
+
+.modal-video-movie-wrap iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 1rem;
+}
+
+.modal-video-close-btn {
+  display: none;
 }
