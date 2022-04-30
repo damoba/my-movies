@@ -1,73 +1,159 @@
-.container{
-  min-height: 30rem;
-  padding: 10rem 50px 2rem;
-  background: linear-gradient(to top, var(--main-color-medium), var(--main-color-light));
+.container {
+  position: relative;
+  min-height: 16rem;
+  padding: 1rem 20px 0.5rem;
+  background: linear-gradient(
+    to top,
+    var(--main-color-medium),
+    var(--main-color-light)
+  );
   color: white;
 }
 
-.overlay{
+.overlay {
   position: absolute;
   top: 0;
   right: 0;
   width: 75%;
-  height: 42rem;
+  height: 17.5rem;
   mix-blend-mode: overlay;
-  mask-image: radial-gradient(ellipse farthest-side at 75% 10%, black, transparent);
+  mask-image: radial-gradient(
+    ellipse farthest-side at 75% 10%,
+    black,
+    transparent
+  );
   background-size: cover;
   background-position: right top;
 }
 
-.intro{
+.intro {
   font-weight: 500;
+  font-size: 12px;
   text-transform: uppercase;
 }
 
-.title{
+.title {
   font-weight: 900;
+  font-size: 22px;
   margin-bottom: 10px;
 }
-
-.year{
+.year {
   margin-left: 0.75rem;
   font-family: var(--text-font);
-  font-size: 1.5rem;
+  font-size: 22px;
   font-weight: 400;
   opacity: 0.5;
 }
 
-.genres{
+.genres {
   margin-bottom: 10px;
   padding: 4px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-size: 0.95rem;
+  font-size: 10px;
   font-weight: 500;
   text-transform: uppercase;
 }
-.certification{
+.certification {
   margin-right: 0.5rem;
   margin-left: -4px;
   padding: 3px 7px;
-  background-color: rgba(255,255,255,0.1);
+  background-color: rgba(255, 255, 255, 0.1);
   border: 1px solid white;
   border-radius: 5px;
-
 }
-.genre:not(:last-of-type):after{
-  content:", ";
+.genre:not(:last-of-type):after {
+  content: ", ";
 }
 
-.overview{
-  width: 40%;
+.overview {
+  width: 100%;
   margin-bottom: 10px;
+  font-size: 12px;
 }
 
-.rating{
-  margin-bottom: 20px;
+.rating {
+  margin-bottom: 10px;
   display: flex;
   align-items: center;
 }
-.ratingNum{
+.ratingNum {
   margin-left: 4px;
+}
+
+/* Mobile in landscape orientation styles */
+@media only screen and (min-width: 640px) {
+  .container {
+    position: static;
+    min-height: 20rem;
+    padding: 5rem 50px 1rem;
+  }
+
+  .overlay {
+    height: 26rem;
+  }
+  
+  .intro{
+    font-size: 16px;
+  }
+
+  .title{
+    font-size: 32px;
+  }
+  .year{
+    font-size: 1.5rem;
+  }
+
+  .genres{
+    font-size: 0.95rem;
+  }
+
+  .rating{
+    margin-bottom: 20px;
+    font-size: 16px;
+  }
+
+  .overview {
+    font-size: 14px;
+  }
+}
+
+/* Tablet styles */
+@media only screen and (min-width: 768px) {
+  .container {
+    min-height: 24rem;
+    padding: 8rem 50px 2rem;
+  }
+
+  .overlay {
+    height: 34rem;
+  }
+  .overview {
+    width: 50%;
+    font-size: 16px;
+  }
+}
+
+/* Laptop styles */
+@media only screen and (min-width: 1280px) {
+  .overview {
+    width: 40%;
+  }
+}
+
+/* High-res laptop styles */
+@media only screen and (min-width: 1536px) {
+  .container {
+    min-height: 30rem;
+    padding: 10rem 50px 2rem;
+  }
+
+  .overlay {
+    height: 42rem;
+  }
+
+  .overview {
+    width: 40%;
+  }
 }

@@ -1,7 +1,4 @@
 .header {
-  z-index: 999;
-  position: fixed;
-  top: 0;
   width: 100%;
   color: white;
   background-color: black;
@@ -100,6 +97,9 @@
 /* Mobile in landscape orientation styles */
 @media only screen and (min-width: 640px) {
   .header {
+    z-index: 999;
+    position: fixed;
+    top: 0;
     background: linear-gradient(to top, transparent 0%, rgb(0, 0, 0, 0.2) 50%);
     transition: background-color 1s;
   }

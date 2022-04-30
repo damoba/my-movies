@@ -1,9 +1,15 @@
-import { makeStyles, rgbToHex } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 
-export default makeStyles(() => ({
+export default makeStyles((theme) => ({
   button: {
     marginRight: "5px",
+    marginBottom: "4px",
     fontWeight: 500,
+    fontSize: "10px",
+    [theme.breakpoints.up("sm")]: {
+      fontSize: "14px",
+      marginBottom: "0",
+    },
     backgroundColor: "rgb(255,255,255)",
     borderRadius: "99px",
     color: "var(--main-color-medium)",
