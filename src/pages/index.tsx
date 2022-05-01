@@ -5,7 +5,7 @@ import { useAuth } from "../context/authProvider";
 import Header from "../components/Header/Header";
 import FeaturedMovie from "../components/FeaturedMovie/FeaturedMovie";
 import axios from "../config/axios";
-import requests, { filterList } from "../config/api";
+import requests, { filterList } from "../config/requests";
 import { Movie } from "../../typings";
 import { useState } from "react";
 

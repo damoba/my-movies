@@ -2,7 +2,7 @@ import styles from "./FeaturedMovie.module.css";
 import useStyles from "./StylesMUI";
 
 import React, { FunctionComponent, useState } from "react";
-import { imageBaseURL } from "../../config/api";
+import { imageBaseURL } from "../../config/requests";
 import { Movie } from "../../../typings";
 import Rating from "@material-ui/lab/Rating";
 import StarRoundedIcon from "@material-ui/icons/StarRounded";
