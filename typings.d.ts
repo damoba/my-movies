@@ -1,4 +1,5 @@
 export interface Movie {
+  index: number;
   collected: boolean;
   certification?: string | null;
   videoId?: string | null;
@@ -7,10 +8,12 @@ export interface Movie {
   original_title?: string | null;
   name?: string | null;
   original_name?: string | null;
-  genres?: {
-    id?: number | null;
-    name?: string | null;
-  }[] | null;
+  genres?:
+    | {
+        id?: number | null;
+        name?: string | null;
+      }[]
+    | null;
   overview?: string | null;
   vote_average?: number | null;
   vote_count?: number | null;
@@ -89,4 +92,8 @@ export interface MovieFull {
   name?: string;
   original_name?: string;
   original_title?: string;
+}
+
+export interface MovieFullIndexed extends MovieFull {
+  index: number;
 }
