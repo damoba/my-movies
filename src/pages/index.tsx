@@ -8,6 +8,7 @@ import axios from "../config/axios";
 import requests, { filterList } from "../config/requests";
 import { Movie } from "../../typings";
 import { useState } from "react";
+import List from "../components/List/List";
 
 interface Props {
   featuredMovie: Movie;
@@ -15,7 +16,11 @@ interface Props {
   trendingMovies: Movie[];
 }
 
-const IndexPage: NextPage<Props> = ({ featuredMovie }) => {
+const IndexPage: NextPage<Props> = ({
+  featuredMovie,
+  topRatedMovies,
+  trendingMovies,
+}) => {
   const { user, userIsLoading } = useAuth();
   const router = useRouter();
 
@@ -39,6 +44,20 @@ const IndexPage: NextPage<Props> = ({ featuredMovie }) => {
           <FeaturedMovie
             selectedMovie={selectedMovie}
             selectedMovieIntro={selectedMovieIntro}
+          />
+          <List
+            isGradientBackground={true}
+            title="Top Rated"
+            movieList={topRatedMovies}
+            setSelectedMovie={setSelectedMovie}
+            setSelectedMovieIntro={setSelectedMovieIntro}
+          />
+          <List
+            isGradientBackground={false}
+            title="Trending Now"
+            movieList={trendingMovies}
+            setSelectedMovie={setSelectedMovie}
+            setSelectedMovieIntro={setSelectedMovieIntro}
           />
         </>
       )}

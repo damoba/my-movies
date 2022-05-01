@@ -1,0 +1,6 @@
+.list.gradientBackground{
+  background: linear-gradient(to bottom, var(--main-color-medium), var(--main-color-dark));
+}
+.list.solidBackground{
+  background-color: var(--main-color-dark);
+}
