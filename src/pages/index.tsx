@@ -11,8 +11,8 @@ import { useState } from "react";
 
 interface Props {
   featuredMovie: Movie;
-  trendingMovies: Movie[];
   topRatedMovies: Movie[];
+  trendingMovies: Movie[];
 }
 
 const IndexPage: NextPage<Props> = ({ featuredMovie }) => {
