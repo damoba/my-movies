@@ -9,18 +9,18 @@ const requests = {
 };
 
 /**
- * 
+ * Returns a string with the API call to fetch a full movie with its details
  * @param {number} id Movie ID
- * @returns Full movie with the details
+ * @returns String holding API call
  */
 const fetchMovie = (id: number) => {
   return `/movie/${id}?api_key=${process.env.TMDB_API_KEY}&append_to_response=videos,release_dates`;
 };
 
 /**
- * Fetches the movie search results from a query
+ * Returns a string with the API call to fetch the movie search results from a query
  * @param {string} queryURIencoded Query that is URI encoded
- * @returns List of movies that match the search query
+ * @returns String holding API call
  */
 const fetchSearchResults = (queryURIencoded: string) => {
   return `/search/movie?api_key=${process.env.TMDB_API_KEY}&language=en-US&query=${queryURIencoded}&page=1&include_adult=false`;
