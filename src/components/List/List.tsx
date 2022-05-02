@@ -1,4 +1,5 @@
 import styles from "./List.module.css";
+import useStyles from "./StylesMUI";
 
 import {
   ArrowBackIosOutlined,
@@ -9,6 +10,7 @@ import React, {
   FunctionComponent,
   SetStateAction,
   useRef,
+  useState,
 } from "react";
 import { Movie } from "../../../typings";
 import ListItem from "../ListItem/ListItem";
@@ -21,6 +23,8 @@ interface Props {
   setSelectedMovieIntro: Dispatch<SetStateAction<string>>;
 }
 
+const NUMBER_OF_SLIDES = 20;
+
 const List: FunctionComponent<Props> = ({
   isGradientBackground,
   title,
@@ -28,16 +32,37 @@ const List: FunctionComponent<Props> = ({
   setSelectedMovie,
   setSelectedMovieIntro,
 }) => {
+  const classes = useStyles();
+
+  const [slideNumber, setSlideNumber] = useState<number>(0);
   const listRef = useRef<HTMLDivElement>();
 
-  const handleArrowClick = (direction: string) => {};
+  const handleArrowClick = (direction: string) => {
+    let distance = listRef.current.getBoundingClientRect().x - 50;
+    if (direction === "left" && slideNumber > 0) {
+      setSlideNumber(slideNumber - 1);
+      listRef.current.style.transform = `translateX(${230 + distance}px)`;
+    }
+    if (direction === "right" && slideNumber < NUMBER_OF_SLIDES) {
+      setSlideNumber(slideNumber + 1);
+      listRef.current.style.transform = `translateX(${-230 + distance}px)`;
+    }
+  };
 
   return (
-    <div className={`${styles.list} ${isGradientBackground ? styles.gradientBackground : styles.solidBackground}`}>
+    <div
+      className={`${styles.list} ${
+        isGradientBackground
+          ? styles.gradientBackground
+          : styles.solidBackground
+      }`}
+    >
       <span className={styles.title}>{title}</span>
       <div className={styles.wrapper}>
         <ArrowBackIosOutlined
-          className={`${styles.sliderArrow} ${styles.left}`}
+          className={`${classes.sliderArrow} ${classes.left} ${
+            slideNumber > 0 && classes.scrolled
+          }`}
           onClick={() => handleArrowClick("left")}
         />
         <div className={styles.container} ref={listRef}>
@@ -50,7 +75,9 @@ const List: FunctionComponent<Props> = ({
           ))}
         </div>
         <ArrowForwardIosOutlined
-          className={`${styles.sliderArrow} ${styles.right}`}
+          className={`${classes.sliderArrow} ${classes.right} ${
+            slideNumber < NUMBER_OF_SLIDES && classes.scrolled
+          }`}
           onClick={() => handleArrowClick("right")}
         />
       </div>
