@@ -22,6 +22,7 @@ const ListItem: FunctionComponent<Props> = ({
   setSelectedMovieIntro,
 }) => {
   const [isHovered, setIsHovered] = useState<boolean>(false);
+  
   return (
     <div
       className={styles.listItem}

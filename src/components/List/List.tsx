@@ -37,6 +37,10 @@ const List: FunctionComponent<Props> = ({
   const [slideNumber, setSlideNumber] = useState<number>(0);
   const listRef = useRef<HTMLDivElement>();
 
+  /**
+   * Scrolls the list in the appropriate direction when arrow is clicked.
+   * @param {string} direction Direction to scroll ("left" or "right")
+   */
   const handleArrowClick = (direction: string) => {
     let distance = listRef.current.getBoundingClientRect().x - 50;
     if (direction === "left" && slideNumber > 0) {
