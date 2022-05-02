@@ -22,7 +22,7 @@ const ListItem: FunctionComponent<Props> = ({
   setSelectedMovieIntro,
 }) => {
   const [isHovered, setIsHovered] = useState<boolean>(false);
-  
+
   return (
     <div
       className={styles.listItem}
@@ -30,6 +30,7 @@ const ListItem: FunctionComponent<Props> = ({
       onMouseLeave={() => setIsHovered(false)}
     >
       <Image
+        className={styles.image}
         src={`${imageBaseURL}${movie.backdrop_path || movie.poster_path}`}
         layout="fill"
         objectFit="cover"

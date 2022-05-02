@@ -63,6 +63,8 @@ const List: FunctionComponent<Props> = ({
     >
       <span className={styles.title}>{title}</span>
       <div className={styles.wrapper}>
+        <div className={`${styles.leftFade} ${slideNumber > 0 && styles.scrolled}`}/>
+        <div className={`${styles.rightFade} ${slideNumber < NUMBER_OF_SLIDES && styles.scrolled}`}/>
         <ArrowBackIosOutlined
           className={`${classes.sliderArrow} ${classes.left} ${
             slideNumber > 0 && classes.scrolled

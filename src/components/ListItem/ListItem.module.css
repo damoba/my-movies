@@ -7,3 +7,7 @@
   cursor: pointer;
   color: white;
 }
+
+.image{
+  mask-image: radial-gradient(ellipse farthest-side at 0 100%, transparent, var(--main-color-dark))
+}

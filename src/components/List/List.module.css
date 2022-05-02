@@ -1,27 +1,60 @@
-.list{
+.list {
   width: 100%;
   padding-bottom: 10px;
 }
-.list.gradientBackground{
-  background: linear-gradient(to bottom, var(--main-color-medium), var(--main-color-dark));
+.list.gradientBackground {
+  background: linear-gradient(
+    to bottom,
+    var(--main-color-medium),
+    var(--main-color-dark)
+  );
 }
-.list.solidBackground{
+.list.solidBackground {
   background-color: var(--main-color-dark);
 }
 
-.title{
-margin-left: 50px;
-font-size: 20px;
-font-weight: 500;
-color: white;
+.title {
+  margin-left: 50px;
+  font-size: 20px;
+  font-weight: 500;
+  color: white;
 }
 
-.wrapper{
+.wrapper {
   position: relative;
   overflow-x: hidden;
 }
 
-.container{
+.leftFade {
+  display: none;
+  z-index: 90;
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin-top: 5px;
+  height: 120px;
+  width: 10%;
+  background: linear-gradient(to right, var(--main-color-dark), transparent);
+}
+.leftFade.scrolled {
+  display: block;
+}
+.rightFade {
+  display: none;
+  z-index: 90;
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-top: 5px;
+  height: 120px;
+  width: 10%;
+  background: linear-gradient(to left, var(--main-color-dark), transparent);
+}
+.rightFade.scrolled {
+  display: block;
+}
+
+.container {
   display: flex;
   width: max-content;
   margin-top: 5px;
