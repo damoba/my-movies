@@ -14,8 +14,8 @@
 }
 
 .title {
-  margin-left: 50px;
-  font-size: 20px;
+  margin-left: 20px;
+  font-size: 14px;
   font-weight: 500;
   color: white;
 }
@@ -58,5 +58,17 @@
   display: flex;
   width: max-content;
   margin-top: 5px;
-  margin-left: 50px;
+  margin-left: 20px;
+}
+
+
+/* Mobile in landscape orientation styles */
+@media only screen and (min-width: 640px) {
+  .title{
+    margin-left: 50px;
+    font-size: 20px;
+  }
+  .container{
+    margin-left: 50px;
+  }
 }
