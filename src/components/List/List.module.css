@@ -59,6 +59,7 @@
   width: max-content;
   margin-top: 5px;
   margin-left: 20px;
+  transition: all 1s ease;
 }
 
 
