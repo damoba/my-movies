@@ -16,6 +16,9 @@ interface Props {
   setSelectedMovieIntro: Dispatch<SetStateAction<string>>;
 }
 
+const VIDEO_BASE_URL = "https://www.youtube.com/embed/";
+const VIDEO_OPTIONS = "?autoplay=1&mute=1&loop=1";
+
 const ListItem: FunctionComponent<Props> = ({
   movie,
   setSelectedMovie,
@@ -26,6 +29,7 @@ const ListItem: FunctionComponent<Props> = ({
   return (
     <div
       className={styles.listItem}
+      style={{ left: isHovered && movie.index * 225 - 50 + movie.index * 2.5 }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -38,6 +42,14 @@ const ListItem: FunctionComponent<Props> = ({
         objectFit="cover"
         alt="Movie Poster"
       />
+      {isHovered && (
+        <>
+          {movie.videoId && <iframe
+            className={styles.video}
+            src={`${VIDEO_BASE_URL}${movie.videoId}${VIDEO_OPTIONS}`}
+          />}
+        </>
+      )}
     </div>
   );
 };

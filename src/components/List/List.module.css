@@ -11,6 +11,7 @@
 }
 .list.solidBackground {
   background-color: var(--main-color-dark);
+  padding-bottom: 50px;
 }
 
 .title {
@@ -31,7 +32,7 @@
   top: 0;
   left: 0;
   height: 120px;
-  width: 10%;
+  width: 5%;
   background: linear-gradient(to right, var(--main-color-dark), transparent);
 }
 .leftFade.scrolled {
@@ -44,7 +45,7 @@
   top: 0;
   right: 0;
   height: 120px;
-  width: 10%;
+  width: 5%;
   background: linear-gradient(to left, var(--main-color-dark), transparent);
 }
 .rightFade.scrolled {
@@ -56,15 +57,16 @@
   width: max-content;
   margin-top: 5px;
   margin-left: 20px;
+  transform: translateX(0px);
 }
 
 /* Mobile in landscape orientation styles */
 @media only screen and (min-width: 640px) {
-  .title{
+  .title {
     margin-left: 50px;
     font-size: 20px;
   }
-  .container{
+  .container {
     margin-left: 50px;
   }
 }
