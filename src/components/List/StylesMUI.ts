@@ -7,7 +7,6 @@ export default makeStyles((theme) => ({
     position: "absolute",
     top: 0,
     bottom: 0,
-    marginTop: "5px",
     width: "50px",
     height: "120px",
     backgroundColor: "rgba(23, 32, 50, 0.5)",

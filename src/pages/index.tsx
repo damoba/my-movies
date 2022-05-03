@@ -33,7 +33,7 @@ const IndexPage: NextPage<Props> = ({
   if (!user) router.push("/auth");
 
   return (
-    <div>
+    <div style={{overflowX: "hidden"}}>
       {user && (
         <>
           <Head>

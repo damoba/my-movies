@@ -32,7 +32,9 @@ const ListItem: FunctionComponent<Props> = ({
       <Image
         className={styles.image}
         src={`${imageBaseURL}${movie.backdrop_path || movie.poster_path}`}
-        layout="fill"
+        layout="fixed"
+        width={isHovered ? "325px" : "225px"}
+        height={isHovered ? "140px" : "120px"}
         objectFit="cover"
         alt="Movie Poster"
       />
