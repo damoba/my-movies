@@ -12,21 +12,21 @@ import List from "../components/List/List";
 
 interface Props {
   featuredMovie: Movie;
-  topRatedMovies: Movie[];
   trendingMovies: Movie[];
+  topRatedMovies: Movie[];
 }
 
 const IndexPage: NextPage<Props> = ({
   featuredMovie,
-  topRatedMovies,
   trendingMovies,
+  topRatedMovies,
 }) => {
   const { user, userIsLoading } = useAuth();
   const router = useRouter();
 
   const [selectedMovie, setSelectedMovie] = useState<Movie>(featuredMovie);
   const [selectedMovieIntro, setSelectedMovieIntro] = useState<string>(
-    "One of Today's Featured Films"
+    "One of Today's Trending Films"
   );
 
   if (userIsLoading) return null;
@@ -47,15 +47,15 @@ const IndexPage: NextPage<Props> = ({
           />
           <List
             isGradientBackground={true}
-            title="Top Rated"
-            movieList={topRatedMovies}
+            title="Trending Now"
+            movieList={trendingMovies}
             setSelectedMovie={setSelectedMovie}
             setSelectedMovieIntro={setSelectedMovieIntro}
           />
           <List
             isGradientBackground={false}
-            title="Trending Now"
-            movieList={trendingMovies}
+            title="Top Rated"
+            movieList={topRatedMovies}
             setSelectedMovie={setSelectedMovie}
             setSelectedMovieIntro={setSelectedMovieIntro}
           />
@@ -68,19 +68,19 @@ const IndexPage: NextPage<Props> = ({
 export default IndexPage;
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const topRatedMoviesResponse = await axios.get(requests.fetchTopRatedMovies);
-  const topRatedMovies = await filterList(topRatedMoviesResponse.data.results);
-  const featuredMovie =
-    topRatedMovies[Math.floor(Math.random() * topRatedMovies.length)];
-
   const trendingMoviesResponse = await axios.get(requests.fetchTrendingMovies);
   const trendingMovies = await filterList(trendingMoviesResponse.data.results);
+  const featuredMovie =
+    trendingMovies[Math.floor(Math.random() * trendingMovies.length)];
+
+  const topRatedMoviesResponse = await axios.get(requests.fetchTopRatedMovies);
+  const topRatedMovies = await filterList(topRatedMoviesResponse.data.results);
 
   return {
     props: {
       featuredMovie,
-      topRatedMovies,
       trendingMovies,
+      topRatedMovies,
     },
   };
 };

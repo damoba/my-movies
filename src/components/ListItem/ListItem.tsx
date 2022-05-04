@@ -9,6 +9,8 @@ import React, {
 import { Movie } from "../../../typings";
 import Image from "next/image";
 import { imageBaseURL } from "../../config/requests";
+import { Rating } from "@material-ui/lab";
+import StarRoundedIcon from "@material-ui/icons/StarRounded";
 
 interface Props {
   movie: Movie;
@@ -18,6 +20,8 @@ interface Props {
 
 const VIDEO_BASE_URL = "https://www.youtube.com/embed/";
 const VIDEO_OPTIONS = "?autoplay=1&mute=1&loop=1";
+const OVERVIEW_LENGTH = 150;
+const MINIMUM_SCREEN_LENGTH = 1279;
 
 const ListItem: FunctionComponent<Props> = ({
   movie,
@@ -27,30 +31,78 @@ const ListItem: FunctionComponent<Props> = ({
   const [isHovered, setIsHovered] = useState<boolean>(false);
 
   return (
-    <div
-      className={styles.listItem}
-      style={{ left: isHovered && movie.index * 225 - 50 + movie.index * 2.5 }}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      <Image
-        className={styles.image}
-        src={`${imageBaseURL}${movie.backdrop_path || movie.poster_path}`}
-        layout="fixed"
-        width={isHovered ? "325px" : "225px"}
-        height={isHovered ? "140px" : "120px"}
-        objectFit="cover"
-        alt="Movie Poster"
+    <>
+      <div
+        style={{
+          width: isHovered && window.innerWidth > MINIMUM_SCREEN_LENGTH && 330,
+          visibility: "hidden",
+        }}
       />
-      {isHovered && (
-        <>
-          {movie.videoId && <iframe
-            className={styles.video}
-            src={`${VIDEO_BASE_URL}${movie.videoId}${VIDEO_OPTIONS}`}
-          />}
-        </>
-      )}
-    </div>
+      <div
+        className={styles.listItem}
+        style={{
+          left: isHovered && movie.index * 230,
+        }}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        onClick={() => {
+          setSelectedMovie(movie);
+          setSelectedMovieIntro(null);
+        }}
+      >
+        <Image
+          className={styles.image}
+          src={`${imageBaseURL}${movie.backdrop_path || movie.poster_path}`}
+          layout="fixed"
+          width={
+            isHovered && window.innerWidth > MINIMUM_SCREEN_LENGTH
+              ? "325px"
+              : "225px"
+          }
+          height={
+            isHovered && window.innerWidth > MINIMUM_SCREEN_LENGTH
+              ? "140px"
+              : "120px"
+          }
+          objectFit="cover"
+          alt="Movie Poster"
+        />
+        {isHovered && (
+          <>
+            {movie.videoId && (
+              <iframe
+                className={styles.video}
+                src={`${VIDEO_BASE_URL}${movie.videoId}${VIDEO_OPTIONS}`}
+              />
+            )}
+            <h4 className={styles.title}>
+              {movie.title ||
+                movie.original_title ||
+                movie.name ||
+                movie.original_name}
+              <span className={styles.year}>({movie.year})</span>
+            </h4>
+            <p className={styles.overview}>
+              {movie.overview.length > OVERVIEW_LENGTH
+                ? movie.overview.substring(0, OVERVIEW_LENGTH) + "..."
+                : movie.overview}
+            </p>
+            <div className={styles.rating}>
+              <Rating
+                value={movie.vote_average / 2}
+                precision={0.5}
+                icon={<StarRoundedIcon />}
+                readOnly
+              />
+              <p className={styles.ratingNum}>
+                {(movie.vote_average / 2).toFixed(1)}
+                <small> ({movie.vote_count.toLocaleString("en-US")})</small>
+              </p>
+            </div>
+          </>
+        )}
+      </div>
+    </>
   );
 };
 

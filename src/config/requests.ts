@@ -4,8 +4,8 @@ import { Movie, MovieFull, MovieFullIndexed } from "../../typings";
 const imageBaseURL = "https://image.tmdb.org/t/p/original";
 
 const requests = {
-  fetchTopRatedMovies: `/movie/top_rated?api_key=${process.env.TMDB_API_KEY}&language=en-US`,
   fetchTrendingMovies: `/trending/movie/week?api_key=${process.env.TMDB_API_KEY}&language=en-US`,
+  fetchTopRatedMovies: `/movie/top_rated?api_key=${process.env.TMDB_API_KEY}&language=en-US`,
 };
 
 /**

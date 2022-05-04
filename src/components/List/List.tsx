@@ -24,6 +24,7 @@ interface Props {
 }
 
 const NUMBER_OF_SLIDES = 20;
+const MINIMUM_SCREEN_LENGTH = 639;
 
 const List: FunctionComponent<Props> = ({
   isGradientBackground,
@@ -42,7 +43,8 @@ const List: FunctionComponent<Props> = ({
    * @param {string} direction Direction to scroll ("left" or "right")
    */
   const handleArrowClick = (direction: string) => {
-    let distance = listRef.current.getBoundingClientRect().x - 50;
+    const leftMargin = window.innerWidth > MINIMUM_SCREEN_LENGTH ? 50 : 20;
+    let distance = listRef.current.getBoundingClientRect().x - leftMargin;
     if (direction === "left" && slideNumber > 0) {
       setSlideNumber(slideNumber - 1);
       listRef.current.style.transform = `translateX(${230 + distance}px)`;
@@ -63,8 +65,14 @@ const List: FunctionComponent<Props> = ({
     >
       <span className={styles.title}>{title}</span>
       <div className={styles.wrapper}>
-        <div className={`${styles.leftFade} ${slideNumber > 0 && styles.scrolled}`}/>
-        <div className={`${styles.rightFade} ${slideNumber < NUMBER_OF_SLIDES && styles.scrolled}`}/>
+        <div
+          className={`${styles.leftFade} ${slideNumber > 0 && styles.scrolled}`}
+        />
+        <div
+          className={`${styles.rightFade} ${
+            slideNumber < NUMBER_OF_SLIDES && styles.scrolled
+          }`}
+        />
         <ArrowBackIosOutlined
           className={`${classes.sliderArrow} ${classes.left} ${
             slideNumber > 0 && classes.scrolled
