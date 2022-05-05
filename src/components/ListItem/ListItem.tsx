@@ -31,7 +31,14 @@ const ListItem: FunctionComponent<Props> = ({
   const [isHovered, setIsHovered] = useState<boolean>(false);
 
   return (
-    <>
+    <div
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      onClick={() => {
+        setSelectedMovie(movie);
+        setSelectedMovieIntro(null);
+      }}
+    >
       <div
         style={{
           width: isHovered && window.innerWidth > MINIMUM_SCREEN_LENGTH && 330,
@@ -42,12 +49,6 @@ const ListItem: FunctionComponent<Props> = ({
         className={styles.listItem}
         style={{
           left: isHovered && movie.index * 230,
-        }}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-        onClick={() => {
-          setSelectedMovie(movie);
-          setSelectedMovieIntro(null);
         }}
       >
         <Image
@@ -108,7 +109,7 @@ const ListItem: FunctionComponent<Props> = ({
           </>
         )}
       </div>
-    </>
+    </div>
   );
 };
 
