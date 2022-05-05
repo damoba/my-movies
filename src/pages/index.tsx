@@ -26,7 +26,7 @@ const IndexPage: NextPage<Props> = ({
 
   const [selectedMovie, setSelectedMovie] = useState<Movie>(featuredMovie);
   const [selectedMovieIntro, setSelectedMovieIntro] = useState<string>(
-    "One of Today's Trending Films"
+    "One of this Week's Trending Films"
   );
 
   if (userIsLoading) return null;
