@@ -83,21 +83,25 @@ const ListItem: FunctionComponent<Props> = ({
               <span className={styles.year}>({movie.year})</span>
             </h4>
             <p className={styles.overview}>
-              {movie.overview.length > OVERVIEW_LENGTH
+              {movie.overview?.length > OVERVIEW_LENGTH
                 ? movie.overview.substring(0, OVERVIEW_LENGTH) + "..."
                 : movie.overview}
             </p>
             <div className={styles.rating}>
               <Rating
-                value={movie.vote_average / 2}
+                value={movie.vote_average && movie.vote_average / 2}
                 precision={0.5}
                 icon={<StarRoundedIcon />}
                 readOnly
               />
-              <p className={styles.ratingNum}>
-                {(movie.vote_average / 2).toFixed(1)}
-                <small> ({movie.vote_count.toLocaleString("en-US")})</small>
-              </p>
+              {movie.vote_count && movie.vote_count > 0 ? (
+                <p className={styles.ratingNum}>
+                  {(movie.vote_average / 2).toFixed(1)}
+                  <small> ({movie.vote_count.toLocaleString("en-US")})</small>
+                </p>
+              ) : (
+                <p className={styles.ratingNum}>(no rating yet)</p>
+              )}
             </div>
           </>
         )}

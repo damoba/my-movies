@@ -66,15 +66,19 @@ const FeaturedMovie: FunctionComponent<Props> = ({
       <p className={styles.overview}>{selectedMovie.overview}</p>
       <div className={styles.rating}>
         <Rating
-          value={selectedMovie.vote_average / 2}
+          value={selectedMovie.vote_average && selectedMovie.vote_average / 2}
           precision={0.5}
           icon={<StarRoundedIcon />}
           readOnly
         />
-        <p className={styles.ratingNum}>
-          {(selectedMovie.vote_average / 2).toFixed(1)}
-          <small> ({selectedMovie.vote_count.toLocaleString("en-US")})</small>
-        </p>
+        {selectedMovie.vote_count && selectedMovie.vote_count > 0 ? (
+          <p className={styles.ratingNum}>
+            {(selectedMovie?.vote_average / 2)?.toFixed(1)}
+            <small> ({selectedMovie.vote_count.toLocaleString("en-US")})</small>
+          </p>
+        ) : (
+          <p className={styles.ratingNum}>(no rating yet)</p>
+        )}
       </div>
 
       {selectedMovie.videoId && (
