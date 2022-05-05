@@ -59,7 +59,7 @@ const FeaturedMovie: FunctionComponent<Props> = ({
             {selectedMovie.certification}
           </span>
         )}
-        {selectedMovie?.genres?.slice(0, 3).map((genre) => (
+        {selectedMovie.genres?.slice(0, 3).map((genre) => (
           <span className={styles.genre}>{genre.name}</span>
         ))}
       </p>
@@ -71,9 +71,11 @@ const FeaturedMovie: FunctionComponent<Props> = ({
           icon={<StarRoundedIcon />}
           readOnly
         />
-        {selectedMovie.vote_count && selectedMovie.vote_count > 0 ? (
+        {selectedMovie.vote_average &&
+        selectedMovie.vote_count &&
+        selectedMovie.vote_count > 0 ? (
           <p className={styles.ratingNum}>
-            {(selectedMovie?.vote_average / 2)?.toFixed(1)}
+            {(selectedMovie.vote_average / 2).toFixed(1)}
             <small> ({selectedMovie.vote_count.toLocaleString("en-US")})</small>
           </p>
         ) : (

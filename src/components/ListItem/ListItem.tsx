@@ -94,7 +94,9 @@ const ListItem: FunctionComponent<Props> = ({
                 icon={<StarRoundedIcon />}
                 readOnly
               />
-              {movie.vote_count && movie.vote_count > 0 ? (
+              {movie.vote_average &&
+              movie.vote_count &&
+              movie.vote_count > 0 ? (
                 <p className={styles.ratingNum}>
                   {(movie.vote_average / 2).toFixed(1)}
                   <small> ({movie.vote_count.toLocaleString("en-US")})</small>
