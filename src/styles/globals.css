@@ -12,6 +12,10 @@
   padding: 0;
 }
 
+html, body{
+  background-color: var(--main-color-dark);
+}
+
 /* color for rating stars without highlight in FeaturedMovie component*/
 .MuiRating-iconEmpty {
   color: rgba(255, 255, 255, 0.5) !important;

@@ -1,3 +1,5 @@
+import styles from "../styles/Home.module.css";
+
 import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -9,6 +11,7 @@ import requests, { filterList } from "../config/requests";
 import { Movie } from "../../typings";
 import { useState } from "react";
 import List from "../components/List/List";
+import Footer from "../components/Footer/Footer";
 
 interface Props {
   featuredMovie: Movie;
@@ -33,7 +36,7 @@ const IndexPage: NextPage<Props> = ({
   if (!user) router.push("/auth");
 
   return (
-    <div style={{overflowX: "hidden"}}>
+    <div className={styles.homePage}>
       {user && (
         <>
           <Head>
@@ -59,6 +62,7 @@ const IndexPage: NextPage<Props> = ({
             setSelectedMovie={setSelectedMovie}
             setSelectedMovieIntro={setSelectedMovieIntro}
           />
+          <Footer />
         </>
       )}
     </div>
