@@ -11,7 +11,7 @@
 }
 .list.solidBackground {
   background-color: var(--main-color-dark);
-  padding-bottom: 50px;
+  padding-bottom: 10px;
 }
 
 .title {
@@ -62,6 +62,9 @@
 
 /* Mobile in landscape orientation styles */
 @media only screen and (min-width: 640px) {
+  .list.solidBackground {
+    padding-bottom: 50px;
+  }
   .title {
     margin-left: 50px;
     font-size: 20px;
