@@ -1,0 +1,33 @@
+.container {
+  display: grid;
+  place-items: center;
+  min-height: 16rem;
+  color: white;
+}
+.container > p {
+  font-size: 16px;
+}
+
+/* Mobile in landscape orientation styles */
+@media only screen and (min-width: 640px) {
+  .container {
+    min-height: 20rem;
+  }
+  .container > p {
+    font-size: 20px;
+  }
+}
+
+/* Tablet styles */
+@media only screen and (min-width: 768px) {
+  .container {
+    min-height: 24rem;
+  }
+}
+
+/* High-res laptop styles */
+@media only screen and (min-width: 1536px) {
+  .container {
+    min-height: 30rem;
+  }
+}

@@ -10,6 +10,7 @@ import { useRouter } from "next/router";
 import axios from "../config/axios";
 import { fetchSearchResults, filterList } from "../config/requests";
 import { Movie } from "../../typings";
+import Message from "../components/Message/Message";
 
 interface Props {
   matchingMovies: Movie[];
@@ -31,6 +32,7 @@ const SearchPage: NextPage<Props> = ({ matchingMovies }) => {
             <link rel="icon" href="/favicon.ico" />
           </Head>
           <Header />
+          {matchingMovies.length === 0 && <Message text="No movies match your query." style={null}/>}
           <Footer />
         </>
       )}
