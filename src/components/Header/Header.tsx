@@ -1,6 +1,6 @@
 import styles from "./Header.module.css";
 
-import React, { FunctionComponent, useRef, useState } from "react";
+import React, { FormEvent, FunctionComponent, useRef, useState } from "react";
 import { ArrowDropDown, Search } from "@material-ui/icons";
 import { useRouter } from "next/router";
 import { useAuth } from "../../context/authProvider";
@@ -48,6 +48,15 @@ const Header: FunctionComponent = () => {
     }, 300);
   };
 
+  /**
+   * When the search is submitted, prevent default behaviour and route to search page.
+   * @param e Event
+   */
+  const handleSearchSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    router.push(`/search?query=${encodeURIComponent(searchRef.current.value)}`);
+  };
+
   return (
     <header
       className={
@@ -67,13 +76,7 @@ const Header: FunctionComponent = () => {
             onClick={handleSearchClick}
           >
             <Search className={styles.searchIcon} style={{ fontSize: 20 }} />
-            <form
-              onSubmit={() =>
-                router.push(
-                  `/search?query=${encodeURIComponent(searchRef.current.value)}`
-                )
-              }
-            >
+            <form onSubmit={handleSearchSubmit}>
               <input
                 ref={searchRef}
                 type="search"

@@ -90,6 +90,6 @@ const filterList = async (movieList: MovieFull[]): Promise<Movie[]> => {
   return movieListFiltered;
 };
 
-export { imageBaseURL, fetchMovie, filterMovie, filterList };
+export { imageBaseURL, fetchMovie, fetchSearchResults, filterMovie, filterList };
 
 export default requests;
