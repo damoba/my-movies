@@ -51,7 +51,9 @@ const FeaturedMovie: FunctionComponent<Props> = ({
           selectedMovie.original_title ||
           selectedMovie.name ||
           selectedMovie.original_name}
-        <span className={styles.year}>({selectedMovie.year})</span>
+        {selectedMovie.year && (
+          <span className={styles.year}>({selectedMovie.year})</span>
+        )}
       </h1>
       <p className={styles.genres}>
         {selectedMovie.certification && (

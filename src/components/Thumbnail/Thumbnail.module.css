@@ -1,0 +1,74 @@
+.container {
+  padding: 6px;
+  cursor: pointer;
+}
+.container:hover .rating {
+  visibility: visible;
+}
+.container:hover .title {
+  font-weight: 700;
+}
+.container:hover .year {
+  font-weight: 600;
+}
+
+.image {
+  mask-image: radial-gradient(
+    ellipse farthest-side at 0 100%,
+    transparent,
+    var(--main-color-dark)
+  );
+}
+
+.description {
+  padding: 5px;
+}
+
+.overview {
+  max-width: 80%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 12px;
+}
+
+.title {
+  font-weight: 500;
+  margin-top: 4px;
+  transition: all 100ms ease-in-out;
+}
+.year {
+  margin-left: 5px;
+  font-family: var(--text-font);
+  font-weight: 400;
+  transition: all 100ms ease-in-out;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  margin-left: -3px;
+  font-size: 12px;
+  visibility: hidden;
+}
+.ratingNum {
+  margin-left: 4px;
+}
+
+/* Mobile in landscape orientation styles */
+@media only screen and (min-width: 640px) {
+  .container {
+    transition: all ease-in;
+  }
+  .container:hover {
+    z-index: 99;
+    transform: scale(1.05);
+  }
+}
+
+/* Super high-res desktop styles */
+@media only screen and (min-width: 2000px) {
+  .container{
+    width: 400px;
+  }
+}

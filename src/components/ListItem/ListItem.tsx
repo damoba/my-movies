@@ -81,7 +81,9 @@ const ListItem: FunctionComponent<Props> = ({
                 movie.original_title ||
                 movie.name ||
                 movie.original_name}
-              <span className={styles.year}>({movie.year})</span>
+              {movie.year && (
+                <span className={styles.year}>({movie.year})</span>
+              )}
             </h4>
             <p className={styles.overview}>
               {movie.overview?.length > OVERVIEW_LENGTH

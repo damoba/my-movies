@@ -12,9 +12,11 @@ const SearchResults: FunctionComponent<Props> = ({ results }) => {
   return (
     <div className={styles.container}>
       <p>Search Results</p>
-      {results.map((movie) => (
-        <Thumbnail key={movie.id} movie={movie} /> 
-      ))}
+      <div className={styles.wrapper}>
+        {results.map((movie) => (
+          <Thumbnail key={movie.id} movie={movie} />
+        ))}
+      </div>
     </div>
   );
 };
