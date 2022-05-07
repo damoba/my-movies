@@ -1,6 +1,7 @@
 export interface Movie {
   index: number;
   collected: boolean;
+  id: number;
   certification?: string | null;
   videoId?: string | null;
   year?: number | null;

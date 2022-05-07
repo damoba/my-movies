@@ -50,6 +50,7 @@ const filterMovie = (movieFull: MovieFullIndexed): Movie => {
   return {
     index: movieFull.index,
     collected: false,
+    id: movieFull.id,
     certification: certification ?? null,
     videoId: videoId ?? null,
     year,
