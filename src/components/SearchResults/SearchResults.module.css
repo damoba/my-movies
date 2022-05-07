@@ -1,0 +1,18 @@
+.container {
+  padding: 1rem 20px 0.5rem;
+  color: white;
+}
+.container > p {
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+/* Mobile in landscape orientation styles */
+@media only screen and (min-width: 640px) {
+  .container {
+    padding: 5rem 50px 1rem;
+  }
+  .container > p {
+    font-size: 20px;
+  }
+}

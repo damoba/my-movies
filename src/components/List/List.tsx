@@ -82,6 +82,7 @@ const List: FunctionComponent<Props> = ({
         <div className={styles.container} ref={listRef}>
           {movieList.map((m) => (
             <ListItem
+              key={m.id}
               movie={m}
               setSelectedMovie={setSelectedMovie}
               setSelectedMovieIntro={setSelectedMovieIntro}
