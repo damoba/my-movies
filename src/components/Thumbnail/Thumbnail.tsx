@@ -25,13 +25,13 @@ const Thumbnail: FunctionComponent<Props> = ({ movie }) => {
       />
       <div className={styles.description}>
         <p className={styles.overview}>{movie.overview}</p>
-        <h4 className={styles.title}>
+        <h3 className={styles.title}>
           {movie.title ||
             movie.original_title ||
             movie.name ||
             movie.original_name}
           {movie.year && <span className={styles.year}>({movie.year})</span>}
-        </h4>
+        </h3>
         <div className={styles.rating}>
           <Rating
             value={movie.vote_average && movie.vote_average / 2}

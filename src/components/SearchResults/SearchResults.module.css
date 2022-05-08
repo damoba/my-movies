@@ -3,19 +3,18 @@
   color: white;
 }
 .container > p {
-  margin-bottom: 5px;
   font-size: 15px;
   font-weight: bold;
 }
 
 .wrapper{
-  margin-top: 20px;
+  margin-top: 40px;
 }
 
 /* Mobile in landscape orientation styles */
 @media only screen and (min-width: 640px) {
   .container {
-    padding: 5rem 50px 1rem;
+    padding: 6rem 50px 1rem;
   }
   .container > p {
     font-size: 20px;
