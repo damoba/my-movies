@@ -1,7 +1,7 @@
 import styles from "../styles/Search.module.css";
 
 import { GetServerSideProps, NextPage } from "next";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer/Footer";
@@ -12,6 +12,7 @@ import { fetchSearchResults, filterList } from "../config/requests";
 import { Movie } from "../../typings";
 import Message from "../components/Message/Message";
 import SearchResults from "../components/SearchResults/SearchResults";
+import Loader from "../components/Loader/Loader";
 
 interface Props {
   matchingMovies: Movie[];
@@ -20,6 +21,15 @@ interface Props {
 const SearchPage: NextPage<Props> = ({ matchingMovies }) => {
   const { user, userIsLoading } = useAuth();
   const router = useRouter();
+
+  const [nextPageIsLoading, setNextPageIsLoading] = useState<boolean>(false);
+
+  /**
+   * When the new search is loaded, stop the loader display
+   */
+  useEffect(() => {
+    setNextPageIsLoading(false);
+  }, [matchingMovies]);
 
   if (userIsLoading) return null;
   if (!user) router.push("/auth");
@@ -32,7 +42,12 @@ const SearchPage: NextPage<Props> = ({ matchingMovies }) => {
             <title>My Movies - search results</title>
             <link rel="icon" href="/favicon.ico" />
           </Head>
-          <Header />
+          {nextPageIsLoading && <Loader />}
+          <Header
+            setNextPageIsLoading={setNextPageIsLoading}
+            homeIsCurrentPage={false}
+            collectionIsCurrentPage={false}
+          />
           {matchingMovies.length === 0 ? (
             <Message text="No movies match your query." style={null} />
           ) : (

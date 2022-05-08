@@ -1,11 +1,28 @@
 import styles from "./Header.module.css";
 
-import React, { FormEvent, FunctionComponent, useRef, useState } from "react";
+import React, {
+  Dispatch,
+  FormEvent,
+  FunctionComponent,
+  SetStateAction,
+  useRef,
+  useState,
+} from "react";
 import { ArrowDropDown, Search } from "@material-ui/icons";
 import { useRouter } from "next/router";
 import { useAuth } from "../../context/authProvider";
 
-const Header: FunctionComponent = () => {
+interface Props {
+  setNextPageIsLoading: Dispatch<SetStateAction<boolean>>;
+  homeIsCurrentPage: boolean;
+  collectionIsCurrentPage: boolean;
+}
+
+const Header: FunctionComponent<Props> = ({
+  setNextPageIsLoading,
+  homeIsCurrentPage,
+  collectionIsCurrentPage,
+}) => {
   const router = useRouter();
   const { user, logout } = useAuth();
 
@@ -39,6 +56,16 @@ const Header: FunctionComponent = () => {
   };
 
   /**
+   * When the logo is clicked, route to the home page only if not already there.
+   */
+  const handleLogoClick = () => {
+    if (!homeIsCurrentPage) {
+      setNextPageIsLoading(true);
+      router.push("/");
+    }
+  };
+
+  /**
    * When the search icon is clicked, searchIsOpen state turns true.
    */
   const handleSearchClick = () => {
@@ -50,11 +77,28 @@ const Header: FunctionComponent = () => {
 
   /**
    * When the search is submitted, prevent default behaviour and route to search page.
+   * Only display loader if search query is not already submitted on search page.
    * @param e Event
    */
   const handleSearchSubmit = (e: FormEvent) => {
     e.preventDefault();
-    router.push(`/search?query=${encodeURIComponent(searchRef.current.value)}`);
+
+    const searchQuery = encodeURIComponent(searchRef.current.value);
+    const params = new URL(document.location.href).searchParams;
+    if (params.get("query") !== searchQuery) {
+      setNextPageIsLoading(true);
+      router.push(`/search?query=${searchQuery}`);
+    }
+  };
+
+  /**
+   * When the "My Collection" option is clicked, route to the according page only if not already there.
+   */
+  const handleCollectionClick = () => {
+    if (!collectionIsCurrentPage) {
+      setNextPageIsLoading(true);
+      router.push("/collection");
+    }
   };
 
   return (
@@ -64,7 +108,7 @@ const Header: FunctionComponent = () => {
       }
     >
       <div className={styles.navMainContainer}>
-        <span className={styles.logo} onClick={() => router.push("/")}>
+        <span className={styles.logo} onClick={handleLogoClick}>
           My Movies
         </span>
 
@@ -108,7 +152,7 @@ const Header: FunctionComponent = () => {
               <span className={styles.profileEmail}>{user.email}</span>
               <span
                 className={styles.profileOption}
-                onClick={() => router.push("/collection")}
+                onClick={handleCollectionClick}
               >
                 My Collection
               </span>

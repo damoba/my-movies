@@ -12,6 +12,7 @@ import { Movie } from "../../typings";
 import { useState } from "react";
 import List from "../components/List/List";
 import Footer from "../components/Footer/Footer";
+import Loader from "../components/Loader/Loader";
 
 interface Props {
   featuredMovie: Movie;
@@ -26,6 +27,8 @@ const IndexPage: NextPage<Props> = ({
 }) => {
   const { user, userIsLoading } = useAuth();
   const router = useRouter();
+
+  const [nextPageIsLoading, setNextPageIsLoading] = useState<boolean>(false);
 
   const [selectedMovie, setSelectedMovie] = useState<Movie>(featuredMovie);
   const [selectedMovieIntro, setSelectedMovieIntro] = useState<string>(
@@ -43,7 +46,12 @@ const IndexPage: NextPage<Props> = ({
             <title>My Movies</title>
             <link rel="icon" href="/favicon.ico" />
           </Head>
-          <Header />
+          {nextPageIsLoading && <Loader />}
+          <Header
+            setNextPageIsLoading={setNextPageIsLoading}
+            homeIsCurrentPage={true}
+            collectionIsCurrentPage={false}
+          />
           <FeaturedMovie
             selectedMovie={selectedMovie}
             selectedMovieIntro={selectedMovieIntro}
