@@ -52,13 +52,6 @@ const AuthPage: NextPage = () => {
       emailRef.current.value,
       passwordRef.current.value
     )
-      .then(() => {
-        if (buttonType === MAIN_BUTTON_TYPE) {
-          setIsLoadingMain(false);
-        } else {
-          setIsLoadingGuest(false);
-        }
-      })
       .catch((error) => {
         alert(error.message);
         if (buttonType === MAIN_BUTTON_TYPE) {
@@ -78,9 +71,6 @@ const AuthPage: NextPage = () => {
       emailRef.current.value,
       passwordRef.current.value
     )
-      .then(() => {
-        setIsLoadingMain(false);
-      })
       .catch((error) => {
         alert(error.message);
         setIsLoadingMain(false);
