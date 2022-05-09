@@ -112,6 +112,8 @@ const SearchPage: NextPage<Props> = ({
             <SearchResults
               results={matchingMovies}
               setNextPageIsLoading={setNextPageIsLoading}
+              title="Search Results"
+              isCollection={false}
             />
           )}
           <Footer />

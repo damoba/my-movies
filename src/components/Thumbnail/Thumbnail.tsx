@@ -11,11 +11,13 @@ import { useRouter } from "next/router";
 interface Props {
   movie: Movie;
   setNextPageIsLoading: Dispatch<SetStateAction<boolean>>;
+  isCollection: boolean;
 }
 
 const Thumbnail: FunctionComponent<Props> = ({
   movie,
   setNextPageIsLoading,
+  isCollection,
 }) => {
   const router = useRouter();
 
