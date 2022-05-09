@@ -54,7 +54,6 @@ const SearchPage: NextPage<Props> = ({
   /**
    * When the back or forward button are pressed, set page to loading
    * @param {PopStateEvent} e Event
-   * @returns Cleanup function
    */
   window.onpopstate = (e: PopStateEvent) => {
     setNextPageIsLoading(true);
@@ -63,7 +62,6 @@ const SearchPage: NextPage<Props> = ({
   /**
    * When the refresh button is pressed, set page to loading
    * @param {BeforeUnloadEvent} e Event
-   * @returns Cleanup function
    */
   window.onbeforeunload = (e: BeforeUnloadEvent) => {
     setNextPageIsLoading(true);
