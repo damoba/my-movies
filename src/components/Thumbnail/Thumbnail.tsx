@@ -1,19 +1,32 @@
 import styles from "./Thumbnail.module.css";
 
-import React, { FunctionComponent } from "react";
+import React, { Dispatch, FunctionComponent, SetStateAction } from "react";
 import { Movie } from "../../../typings";
 import Image from "next/image";
 import { imageBaseURL } from "../../config/requests";
 import { Rating } from "@material-ui/lab";
 import StarRoundedIcon from "@material-ui/icons/StarRounded";
+import { useRouter } from "next/router";
 
 interface Props {
   movie: Movie;
+  setNextPageIsLoading: Dispatch<SetStateAction<boolean>>;
 }
 
-const Thumbnail: FunctionComponent<Props> = ({ movie }) => {
+const Thumbnail: FunctionComponent<Props> = ({
+  movie,
+  setNextPageIsLoading,
+}) => {
+  const router = useRouter();
+
   return (
-    <div className={styles.container}>
+    <div
+      className={styles.container}
+      onClick={() => {
+        setNextPageIsLoading(true);
+        router.push(`/search?id=${movie.id}`);
+      }}
+    >
       <Image
         className={styles.image}
         src={`${imageBaseURL}${movie.backdrop_path || movie.poster_path}`}

@@ -9,7 +9,7 @@ const requests = {
 };
 
 /**
- * Returns a string with the API call to fetch a full movie with its details
+ * Returns a string with the API call to fetch a full movie with its details.
  * @param {number} id Movie ID
  * @returns {string} String holding API call
  */
@@ -18,12 +18,30 @@ const fetchMovie = (id: number) => {
 };
 
 /**
- * Returns a string with the API call to fetch the movie search results from a query
+ * Returns a string with the API call to fetch the movie search results from a query.
  * @param {string} queryURIencoded Query that is URI encoded
  * @returns {string} String holding API call
  */
 const fetchSearchResults = (queryURIencoded: string) => {
   return `/search/movie?api_key=${process.env.TMDB_API_KEY}&language=en-US&query=${queryURIencoded}&page=1&include_adult=false`;
+};
+
+/**
+ * Returns a string with the API call to fetch similar movies to the movie pertaining to the given ID.
+ * @param {number} id Id of movie to find similar movies of
+ * @returns {string} String holding API call
+ */
+const fetchSimilarMovies = (id: number) => {
+  return `/movie/${id}/similar?api_key=${process.env.TMDB_API_KEY}&language=en-US`;
+};
+
+/**
+ * Returns a string with the API call to fetch recommendations for the movie pertaining to the given ID.
+ * @param {number} id Id of movie to find recommendations for
+ * @returns {string} String holding API call
+ */
+const fetchRecommendedMovies = (id: number) => {
+  return `/movie/${id}/recommendations?api_key=${process.env.TMDB_API_KEY}&language=en-US`;
 };
 
 /**
@@ -91,6 +109,14 @@ const filterList = async (movieList: MovieFull[]): Promise<Movie[]> => {
   return movieListFiltered;
 };
 
-export { imageBaseURL, fetchMovie, fetchSearchResults, filterMovie, filterList };
+export {
+  imageBaseURL,
+  fetchMovie,
+  fetchSearchResults,
+  fetchSimilarMovies,
+  fetchRecommendedMovies,
+  filterMovie,
+  filterList,
+};
 
 export default requests;

@@ -19,8 +19,7 @@ interface Props {
   isGradientBackground: boolean;
   title: string;
   movieList: Movie[];
-  setSelectedMovie: Dispatch<SetStateAction<Movie>>;
-  setSelectedMovieIntro: Dispatch<SetStateAction<string>>;
+  setNextPageIsLoading: Dispatch<SetStateAction<boolean>>;
 }
 
 const MINIMUM_SCREEN_LENGTH = 639;
@@ -29,8 +28,7 @@ const List: FunctionComponent<Props> = ({
   isGradientBackground,
   title,
   movieList,
-  setSelectedMovie,
-  setSelectedMovieIntro,
+  setNextPageIsLoading,
 }) => {
   const NUMBER_OF_SLIDES = movieList.length;
   const classes = useStyles();
@@ -84,8 +82,7 @@ const List: FunctionComponent<Props> = ({
             <ListItem
               key={m.id}
               movie={m}
-              setSelectedMovie={setSelectedMovie}
-              setSelectedMovieIntro={setSelectedMovieIntro}
+              setNextPageIsLoading={setNextPageIsLoading}
             />
           ))}
         </div>

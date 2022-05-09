@@ -8,17 +8,34 @@ import Footer from "../components/Footer/Footer";
 import { useAuth } from "../context/authProvider";
 import { useRouter } from "next/router";
 import axios from "../config/axios";
-import { fetchSearchResults, filterList } from "../config/requests";
+import {
+  fetchMovie,
+  fetchRecommendedMovies,
+  fetchSearchResults,
+  fetchSimilarMovies,
+  filterList,
+  filterMovie,
+} from "../config/requests";
 import { Movie } from "../../typings";
 import Message from "../components/Message/Message";
 import SearchResults from "../components/SearchResults/SearchResults";
 import Loader from "../components/Loader/Loader";
+import FeaturedMovie from "../components/FeaturedMovie/FeaturedMovie";
+import List from "../components/List/List";
 
 interface Props {
   matchingMovies: Movie[];
+  similarMovies: Movie[];
+  searchedMovie: Movie;
+  recommendedMovies: Movie[];
 }
 
-const SearchPage: NextPage<Props> = ({ matchingMovies }) => {
+const SearchPage: NextPage<Props> = ({
+  matchingMovies,
+  searchedMovie,
+  similarMovies,
+  recommendedMovies,
+}) => {
   const { user, userIsLoading } = useAuth();
   const router = useRouter();
 
@@ -33,6 +50,24 @@ const SearchPage: NextPage<Props> = ({ matchingMovies }) => {
 
   if (userIsLoading) return null;
   if (!user) router.push("/auth");
+
+  /**
+   * When the back or forward button are pressed, set page to loading
+   * @param {PopStateEvent} e Event
+   * @returns Cleanup function
+   */
+  window.onpopstate = (e: PopStateEvent) => {
+    setNextPageIsLoading(true);
+  };
+
+  /**
+   * When the refresh button is pressed, set page to loading
+   * @param {BeforeUnloadEvent} e Event
+   * @returns Cleanup function
+   */
+  window.onbeforeunload = (e: BeforeUnloadEvent) => {
+    setNextPageIsLoading(true);
+  };
 
   return (
     <div className={styles.searchPage}>
@@ -49,9 +84,37 @@ const SearchPage: NextPage<Props> = ({ matchingMovies }) => {
             collectionIsCurrentPage={false}
           />
           {matchingMovies.length === 0 ? (
-            <Message text="No movies match your query." style={null} />
+            searchedMovie === null ? (
+              <Message text="No movies match your query." style={null} />
+            ) : (
+              <>
+                <FeaturedMovie
+                  selectedMovie={searchedMovie}
+                  selectedMovieIntro={null}
+                />
+                {similarMovies.length > 0 && (
+                  <List
+                    isGradientBackground={true}
+                    title="Similar Movies"
+                    movieList={similarMovies}
+                    setNextPageIsLoading={setNextPageIsLoading}
+                  />
+                )}
+                {recommendedMovies.length > 0 && (
+                  <List
+                    isGradientBackground={false}
+                    title="Recommended For You"
+                    movieList={recommendedMovies}
+                    setNextPageIsLoading={setNextPageIsLoading}
+                  />
+                )}
+              </>
+            )
           ) : (
-            <SearchResults results={matchingMovies} />
+            <SearchResults
+              results={matchingMovies}
+              setNextPageIsLoading={setNextPageIsLoading}
+            />
           )}
           <Footer />
         </>
@@ -64,18 +127,45 @@ export default SearchPage;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   var matchingMovies = [];
+  var searchedMovie = null;
+  var similarMovies = [];
+  var recommendedMovies = [];
   const query = context.query.query;
+  const id = context.query.id;
 
   if (query) {
     const matchingMoviesResponse = await axios.get(
       fetchSearchResults(query.toString())
     );
     matchingMovies = await filterList(matchingMoviesResponse.data.results);
+  } else if (id) {
+    const searchedMovieResponse = await axios.get(
+      fetchMovie(parseInt(id as string))
+    );
+    searchedMovie = filterMovie({
+      ...searchedMovieResponse.data,
+      index: 0,
+    });
+
+    const similarMoviesResponse = await axios.get(
+      fetchSimilarMovies(parseInt(id as string))
+    );
+    similarMovies = await filterList(similarMoviesResponse.data.results);
+
+    const recommendedMoviesResponse = await axios.get(
+      fetchRecommendedMovies(parseInt(id as string))
+    );
+    recommendedMovies = await filterList(
+      recommendedMoviesResponse.data.results
+    );
   }
 
   return {
     props: {
       matchingMovies,
+      searchedMovie,
+      similarMovies,
+      recommendedMovies,
     },
   };
 };

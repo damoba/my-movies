@@ -23,6 +23,8 @@ const FeaturedMovie: FunctionComponent<Props> = ({
 
   const [trailerIsPlaying, setTrailerIsPlaying] = useState<boolean>(false);
 
+  if (!selectedMovie) return null;
+
   return (
     <div className={styles.container}>
       {selectedMovie.videoId && (

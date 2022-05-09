@@ -11,11 +11,11 @@ import Image from "next/image";
 import { imageBaseURL } from "../../config/requests";
 import { Rating } from "@material-ui/lab";
 import StarRoundedIcon from "@material-ui/icons/StarRounded";
+import { useRouter } from "next/router";
 
 interface Props {
   movie: Movie;
-  setSelectedMovie: Dispatch<SetStateAction<Movie>>;
-  setSelectedMovieIntro: Dispatch<SetStateAction<string>>;
+  setNextPageIsLoading: Dispatch<SetStateAction<boolean>>;
 }
 
 const VIDEO_BASE_URL = "https://www.youtube.com/embed/";
@@ -25,9 +25,9 @@ const MINIMUM_SCREEN_LENGTH = 1279;
 
 const ListItem: FunctionComponent<Props> = ({
   movie,
-  setSelectedMovie,
-  setSelectedMovieIntro,
+  setNextPageIsLoading,
 }) => {
+  const router = useRouter();
   const [isHovered, setIsHovered] = useState<boolean>(false);
 
   return (
@@ -35,8 +35,8 @@ const ListItem: FunctionComponent<Props> = ({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onClick={() => {
-        setSelectedMovie(movie);
-        setSelectedMovieIntro(null);
+        setNextPageIsLoading(true);
+        router.push(`/search?id=${movie.id}`);
       }}
     >
       <div

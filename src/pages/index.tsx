@@ -20,6 +20,8 @@ interface Props {
   topRatedMovies: Movie[];
 }
 
+const FEATURED_MOVIE_INTRO = "One of this Week's Trending Films";
+
 const IndexPage: NextPage<Props> = ({
   featuredMovie,
   trendingMovies,
@@ -30,13 +32,26 @@ const IndexPage: NextPage<Props> = ({
 
   const [nextPageIsLoading, setNextPageIsLoading] = useState<boolean>(false);
 
-  const [selectedMovie, setSelectedMovie] = useState<Movie>(featuredMovie);
-  const [selectedMovieIntro, setSelectedMovieIntro] = useState<string>(
-    "One of this Week's Trending Films"
-  );
-
   if (userIsLoading) return null;
   if (!user) router.push("/auth");
+
+  /**
+   * When the back or forward button are pressed, set page to loading
+   * @param {PopStateEvent} e Event
+   * @returns Cleanup function
+   */
+  window.onpopstate = (e: PopStateEvent) => {
+    setNextPageIsLoading(true);
+  };
+
+  /**
+   * When the refresh button is pressed, set page to loading
+   * @param {BeforeUnloadEvent} e Event
+   * @returns Cleanup function
+   */
+  window.onbeforeunload = (e: BeforeUnloadEvent) => {
+    setNextPageIsLoading(true);
+  };
 
   return (
     <div className={styles.homePage}>
@@ -53,22 +68,20 @@ const IndexPage: NextPage<Props> = ({
             collectionIsCurrentPage={false}
           />
           <FeaturedMovie
-            selectedMovie={selectedMovie}
-            selectedMovieIntro={selectedMovieIntro}
+            selectedMovie={featuredMovie}
+            selectedMovieIntro={FEATURED_MOVIE_INTRO}
           />
           <List
             isGradientBackground={true}
             title="Trending Now"
             movieList={trendingMovies}
-            setSelectedMovie={setSelectedMovie}
-            setSelectedMovieIntro={setSelectedMovieIntro}
+            setNextPageIsLoading={setNextPageIsLoading}
           />
           <List
             isGradientBackground={false}
             title="Top Rated"
             movieList={topRatedMovies}
-            setSelectedMovie={setSelectedMovie}
-            setSelectedMovieIntro={setSelectedMovieIntro}
+            setNextPageIsLoading={setNextPageIsLoading}
           />
           <Footer />
         </>
