@@ -23,7 +23,6 @@ interface Props {
   setSelectedMovieIntro: Dispatch<SetStateAction<string>>;
 }
 
-const NUMBER_OF_SLIDES = 20;
 const MINIMUM_SCREEN_LENGTH = 639;
 
 const List: FunctionComponent<Props> = ({
@@ -33,6 +32,7 @@ const List: FunctionComponent<Props> = ({
   setSelectedMovie,
   setSelectedMovieIntro,
 }) => {
+  const NUMBER_OF_SLIDES = movieList.length;
   const classes = useStyles();
 
   const [slideNumber, setSlideNumber] = useState<number>(0);
