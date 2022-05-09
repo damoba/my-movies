@@ -1,4 +1,4 @@
-import styles from "./SearchResults.module.css";
+import styles from "./Results.module.css";
 
 import React, { Dispatch, FunctionComponent, SetStateAction } from "react";
 import { Movie } from "../../../typings";
@@ -9,7 +9,7 @@ interface Props {
   setNextPageIsLoading: Dispatch<SetStateAction<boolean>>;
 }
 
-const SearchResults: FunctionComponent<Props> = ({
+const Results: FunctionComponent<Props> = ({
   results,
   setNextPageIsLoading,
 }) => {
@@ -29,4 +29,4 @@ const SearchResults: FunctionComponent<Props> = ({
   );
 };
 
-export default SearchResults;
+export default Results;

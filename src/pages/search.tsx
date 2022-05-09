@@ -18,7 +18,7 @@ import {
 } from "../config/requests";
 import { Movie } from "../../typings";
 import Message from "../components/Message/Message";
-import SearchResults from "../components/SearchResults/SearchResults";
+import SearchResults from "../components/Results/Results";
 import Loader from "../components/Loader/Loader";
 import FeaturedMovie from "../components/FeaturedMovie/FeaturedMovie";
 import List from "../components/List/List";
