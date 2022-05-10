@@ -11,14 +11,7 @@ import { Add, PlayArrowRounded, Remove } from "@material-ui/icons";
 import ModalVideo from "react-modal-video";
 import { addMovie, removeMovie } from "../../firebase/api";
 import { useAuth } from "../../context/authProvider";
-import {
-  child,
-  get,
-  off,
-  onChildAdded,
-  onChildRemoved,
-  ref,
-} from "firebase/database";
+import { child, get, off, onChildRemoved, ref } from "firebase/database";
 import { db } from "../../firebase/config";
 
 interface Props {
@@ -32,54 +25,54 @@ const FeaturedMovie: FunctionComponent<Props> = ({
 }) => {
   const classes = useStyles();
   const { user } = useAuth();
-  const [movieCollectionIDs, setMovieCollectionIDs] = useState<string[]>([]);
-  const [renderToggler, setRenderToggler] = useState(false);
+  const movieRef = ref(db, `movies/${user.uid}`);
+  const [renderToggler, setRenderToggler] = useState<boolean>(false);
   const [trailerIsPlaying, setTrailerIsPlaying] = useState<boolean>(false);
 
   if (!selectedMovie) return null;
 
-  useEffect(() => {
-    if (movieCollectionIDs) {
-      selectedMovie.collected = movieCollectionIDs.includes(
-        selectedMovie.id.toString()
-      );
+  /**
+   * When the "collect movie" button is pressed, add this movie to the database
+   * and update the featured movie status to collected.
+   */
+  const handleAddClick = () => {
+    addMovie(user.uid, selectedMovie);
+    selectedMovie.collected = true;
+    setRenderToggler(!renderToggler);
+  };
+
+  /**
+   * When a movie is removed from the database (whether from featured movie or
+   * from collection list), the featured movie status is updated to not collected
+   * if it matches the removed movie's ID.
+   */
+  onChildRemoved(movieRef, (data) => {
+    if (data.key.toString() === selectedMovie.id.toString()) {
+      selectedMovie.collected = false;
       setRenderToggler(!renderToggler);
     }
-  }, [movieCollectionIDs]);
+    return () => {
+      off(movieRef);
+    };
+  });
 
+  /**
+   * When the featured movie is loaded, change the collected status to
+   * true if it's ID is in the database.
+   */
   useEffect(() => {
     const dbRef = ref(db);
     get(child(dbRef, `movies/${user.uid}`)).then((snapshot) => {
       if (snapshot.exists()) {
         const items = snapshot.val();
         const keys = Object.keys(items);
-        setMovieCollectionIDs(keys);
+        if (keys.includes(selectedMovie.id.toString())) {
+          selectedMovie.collected = true;
+          setRenderToggler(!renderToggler);
+        }
       }
     });
   }, [selectedMovie]);
-
-  useEffect(() => {
-    if (user) {
-      const movieRef = ref(db, `movies/${user.uid}`);
-
-      onChildAdded(movieRef, (data) => {
-        const newMovieCollectionIDs = [...movieCollectionIDs];
-        newMovieCollectionIDs.push(data.key.toString());
-        setMovieCollectionIDs(newMovieCollectionIDs);
-      });
-
-      onChildRemoved(movieRef, (data) => {
-        const newMovieCollectionIDs = movieCollectionIDs.filter(
-          (i) => i.toString() !== data.key.toString()
-        );
-        setMovieCollectionIDs(newMovieCollectionIDs);
-      });
-
-      return () => {
-        off(movieRef);
-      };
-    }
-  }, []);
 
   return (
     <div className={styles.container}>
@@ -158,7 +151,7 @@ const FeaturedMovie: FunctionComponent<Props> = ({
           className={classes.button}
           variant="contained"
           startIcon={<Add />}
-          onClick={() => addMovie(user.uid, selectedMovie)}
+          onClick={handleAddClick}
         >
           Collect Movie
         </Button>

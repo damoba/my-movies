@@ -32,6 +32,9 @@ const AuthProvider: FunctionComponent<PropsWithChildren<HeaderProps>> = ({
   const [user, setUser] = useState<User | null>(null);
   const [userIsLoading, setAuthIsLoading] = useState<boolean>(true);
 
+  /**
+   * If the auth token is changed (by loading a page or logging in/out) the user is set accordingly.
+   */
   useEffect(() => {
     const cancelAuthListener = onIdTokenChanged(auth, (u) => {
       setUser(u);
@@ -42,7 +45,9 @@ const AuthProvider: FunctionComponent<PropsWithChildren<HeaderProps>> = ({
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, userIsLoading, logout: () => signOut(auth) }}>
+    <AuthContext.Provider
+      value={{ user, userIsLoading, logout: () => signOut(auth) }}
+    >
       {children}
     </AuthContext.Provider>
   );

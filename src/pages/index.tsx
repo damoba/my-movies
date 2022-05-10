@@ -33,7 +33,6 @@ const IndexPage: NextPage<Props> = ({
 }) => {
   const { user, userIsLoading } = useAuth();
   const router = useRouter();
-
   const [nextPageIsLoading, setNextPageIsLoading] = useState<boolean>(false);
 
   if (userIsLoading) return null;
