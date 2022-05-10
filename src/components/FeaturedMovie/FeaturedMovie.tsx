@@ -3,7 +3,7 @@ import useStyles from "./StylesMUI";
 
 import React, { FunctionComponent, useState } from "react";
 import { imageBaseURL } from "../../config/requests";
-import { Movie } from "../../../typings";
+import { MovieFromFeatured } from "../../../typings";
 import Rating from "@material-ui/lab/Rating";
 import StarRoundedIcon from "@material-ui/icons/StarRounded";
 import { Button, Grow } from "@material-ui/core";
@@ -11,7 +11,7 @@ import { Add, PlayArrowRounded, Remove } from "@material-ui/icons";
 import ModalVideo from "react-modal-video";
 
 interface Props {
-  selectedMovie: Movie;
+  selectedMovie: MovieFromFeatured;
   selectedMovieIntro: string | null;
 }
 

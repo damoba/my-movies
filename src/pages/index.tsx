@@ -7,17 +7,21 @@ import { useAuth } from "../context/authProvider";
 import Header from "../components/Header/Header";
 import FeaturedMovie from "../components/FeaturedMovie/FeaturedMovie";
 import axios from "../config/axios";
-import requests, { filterList } from "../config/requests";
-import { Movie } from "../../typings";
+import requests, {
+  fetchMovieForFeatured,
+  filterList,
+  filterMovieForFeatured,
+} from "../config/requests";
+import { MovieFromFeatured, MovieFromListItem } from "../../typings";
 import { useState } from "react";
 import List from "../components/List/List";
 import Footer from "../components/Footer/Footer";
 import Loader from "../components/Loader/Loader";
 
 interface Props {
-  featuredMovie: Movie;
-  trendingMovies: Movie[];
-  topRatedMovies: Movie[];
+  featuredMovie: MovieFromFeatured;
+  trendingMovies: MovieFromListItem[];
+  topRatedMovies: MovieFromListItem[];
 }
 
 const FEATURED_MOVIE_INTRO = "One of this Week's Trending Films";
@@ -37,17 +41,15 @@ const IndexPage: NextPage<Props> = ({
 
   /**
    * When the back or forward button are pressed, set page to loading
-   * @param {PopStateEvent} e Event
    */
-  window.onpopstate = (e: PopStateEvent) => {
+  window.onpopstate = () => {
     setNextPageIsLoading(true);
   };
 
   /**
    * When the refresh button is pressed, set page to loading
-   * @param {BeforeUnloadEvent} e Event
    */
-  window.onbeforeunload = (e: BeforeUnloadEvent) => {
+  window.onbeforeunload = () => {
     setNextPageIsLoading(true);
   };
 
@@ -92,12 +94,19 @@ export default IndexPage;
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const trendingMoviesResponse = await axios.get(requests.fetchTrendingMovies);
-  const trendingMovies = await filterList(trendingMoviesResponse.data.results);
-  const featuredMovie =
-    trendingMovies[Math.floor(Math.random() * trendingMovies.length)];
+  const featuredMovieId =
+    trendingMoviesResponse.data.results[
+      Math.floor(Math.random() * trendingMoviesResponse.data.results.length)
+    ].id;
+  var trendingMovies = await filterList(trendingMoviesResponse.data.results, featuredMovieId);
+
+  const featuredMovieResponse = await axios.get(
+    fetchMovieForFeatured(featuredMovieId)
+  );
+  const featuredMovie = filterMovieForFeatured(featuredMovieResponse.data);
 
   const topRatedMoviesResponse = await axios.get(requests.fetchTopRatedMovies);
-  const topRatedMovies = await filterList(topRatedMoviesResponse.data.results);
+  const topRatedMovies = await filterList(topRatedMoviesResponse.data.results, null);
 
   return {
     props: {

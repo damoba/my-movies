@@ -12,13 +12,13 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { Movie } from "../../../typings";
+import { MovieFromListItem } from "../../../typings";
 import ListItem from "../ListItem/ListItem";
 
 interface Props {
   isGradientBackground: boolean;
   title: string;
-  movieList: Movie[];
+  movieList: MovieFromListItem[];
   setNextPageIsLoading: Dispatch<SetStateAction<boolean>>;
 }
 

@@ -70,9 +70,7 @@ const Header: FunctionComponent<Props> = ({
    */
   const handleSearchClick = () => {
     setSearchIsOpen(true);
-    setTimeout(() => {
-      searchRef.current.focus();
-    }, 300);
+    searchRef.current.focus();
   };
 
   /**

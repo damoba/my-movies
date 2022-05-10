@@ -6,7 +6,7 @@ import React, {
   SetStateAction,
   useState,
 } from "react";
-import { Movie } from "../../../typings";
+import { MovieFromListItem } from "../../../typings";
 import Image from "next/image";
 import { imageBaseURL } from "../../config/requests";
 import { Rating } from "@material-ui/lab";
@@ -14,7 +14,7 @@ import StarRoundedIcon from "@material-ui/icons/StarRounded";
 import { useRouter } from "next/router";
 
 interface Props {
-  movie: Movie;
+  movie: MovieFromListItem;
   setNextPageIsLoading: Dispatch<SetStateAction<boolean>>;
 }
 

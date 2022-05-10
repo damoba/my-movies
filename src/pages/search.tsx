@@ -9,25 +9,30 @@ import { useAuth } from "../context/authProvider";
 import { useRouter } from "next/router";
 import axios from "../config/axios";
 import {
-  fetchMovie,
+  fetchMovieForFeatured,
   fetchRecommendedMovies,
   fetchSearchResults,
   fetchSimilarMovies,
   filterList,
-  filterMovie,
+  filterMovieForFeatured,
+  filterResults,
 } from "../config/requests";
-import { Movie } from "../../typings";
+import {
+  MovieFromFeatured,
+  MovieFromListItem,
+  MovieFromThumbnail,
+} from "../../typings";
 import Message from "../components/Message/Message";
-import SearchResults from "../components/Results/Results";
+import Results from "../components/Results/Results";
 import Loader from "../components/Loader/Loader";
 import FeaturedMovie from "../components/FeaturedMovie/FeaturedMovie";
 import List from "../components/List/List";
 
 interface Props {
-  matchingMovies: Movie[];
-  similarMovies: Movie[];
-  searchedMovie: Movie;
-  recommendedMovies: Movie[];
+  matchingMovies: MovieFromThumbnail[];
+  similarMovies: MovieFromListItem[];
+  searchedMovie: MovieFromFeatured;
+  recommendedMovies: MovieFromListItem[];
 }
 
 const SearchPage: NextPage<Props> = ({
@@ -53,17 +58,15 @@ const SearchPage: NextPage<Props> = ({
 
   /**
    * When the back or forward button are pressed, set page to loading
-   * @param {PopStateEvent} e Event
    */
-  window.onpopstate = (e: PopStateEvent) => {
+  window.onpopstate = () => {
     setNextPageIsLoading(true);
   };
 
   /**
    * When the refresh button is pressed, set page to loading
-   * @param {BeforeUnloadEvent} e Event
    */
-  window.onbeforeunload = (e: BeforeUnloadEvent) => {
+  window.onbeforeunload = () => {
     setNextPageIsLoading(true);
   };
 
@@ -109,7 +112,7 @@ const SearchPage: NextPage<Props> = ({
               </>
             )
           ) : (
-            <SearchResults
+            <Results
               results={matchingMovies}
               setNextPageIsLoading={setNextPageIsLoading}
               title="Search Results"
@@ -137,26 +140,23 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const matchingMoviesResponse = await axios.get(
       fetchSearchResults(query.toString())
     );
-    matchingMovies = await filterList(matchingMoviesResponse.data.results);
+    matchingMovies = await filterResults(matchingMoviesResponse.data.results);
   } else if (id) {
     const searchedMovieResponse = await axios.get(
-      fetchMovie(parseInt(id as string))
+      fetchMovieForFeatured(parseInt(id as string))
     );
-    searchedMovie = filterMovie({
-      ...searchedMovieResponse.data,
-      index: 0,
-    });
+    searchedMovie = filterMovieForFeatured(searchedMovieResponse.data);
 
     const similarMoviesResponse = await axios.get(
       fetchSimilarMovies(parseInt(id as string))
     );
-    similarMovies = await filterList(similarMoviesResponse.data.results);
+    similarMovies = await filterList(similarMoviesResponse.data.results, null);
 
     const recommendedMoviesResponse = await axios.get(
       fetchRecommendedMovies(parseInt(id as string))
     );
     recommendedMovies = await filterList(
-      recommendedMoviesResponse.data.results
+      recommendedMoviesResponse.data.results, null
     );
   }
 

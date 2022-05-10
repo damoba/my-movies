@@ -1,11 +1,11 @@
 import styles from "./Results.module.css";
 
 import React, { Dispatch, FunctionComponent, SetStateAction } from "react";
-import { Movie } from "../../../typings";
+import { MovieFromThumbnail } from "../../../typings";
 import Thumbnail from "../Thumbnail/Thumbnail";
 
 interface Props {
-  results: Movie[];
+  results: MovieFromThumbnail[];
   setNextPageIsLoading: Dispatch<SetStateAction<boolean>>;
   title: string;
   isCollection: boolean;
