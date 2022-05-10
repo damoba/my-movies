@@ -1,7 +1,7 @@
 import styles from "./FeaturedMovie.module.css";
 import useStyles from "./StylesMUI";
 
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent, useEffect, useState } from "react";
 import { imageBaseURL } from "../../config/requests";
 import { MovieFromFeatured } from "../../../typings";
 import Rating from "@material-ui/lab/Rating";
@@ -9,6 +9,16 @@ import StarRoundedIcon from "@material-ui/icons/StarRounded";
 import { Button, Grow } from "@material-ui/core";
 import { Add, PlayArrowRounded, Remove } from "@material-ui/icons";
 import ModalVideo from "react-modal-video";
+import { addMovie, removeMovie } from "../../firebase/api";
+import { useAuth } from "../../context/authProvider";
+import {
+  child,
+  get,
+  onChildAdded,
+  onChildRemoved,
+  ref,
+} from "firebase/database";
+import { db } from "../../firebase/config";
 
 interface Props {
   selectedMovie: MovieFromFeatured;
@@ -20,10 +30,51 @@ const FeaturedMovie: FunctionComponent<Props> = ({
   selectedMovieIntro,
 }) => {
   const classes = useStyles();
-
+  const { user } = useAuth();
+  const [movieCollectionIDs, setMovieCollectionIDs] = useState<string[]>([]);
+  const [renderToggler, setRenderToggler] = useState(false);
   const [trailerIsPlaying, setTrailerIsPlaying] = useState<boolean>(false);
 
   if (!selectedMovie) return null;
+
+  useEffect(() => {
+    if (movieCollectionIDs) {
+      selectedMovie.collected = movieCollectionIDs.includes(
+        selectedMovie.id.toString()
+      );
+      setRenderToggler(!renderToggler);
+    }
+  }, [movieCollectionIDs]);
+
+  useEffect(() => {
+    const dbRef = ref(db);
+    get(child(dbRef, `movies/${user.uid}`)).then((snapshot) => {
+      if (snapshot.exists()) {
+        const items = snapshot.val();
+        const keys = Object.keys(items);
+        setMovieCollectionIDs(keys);
+      }
+    });
+  }, [selectedMovie]);
+
+  useEffect(() => {
+    if (user) {
+      const movieRef = ref(db, `movies/${user.uid}`);
+
+      onChildAdded(movieRef, (data) => {
+        const newMovieCollectionIDs = [...movieCollectionIDs];
+        newMovieCollectionIDs.push(data.key.toString());
+        setMovieCollectionIDs(newMovieCollectionIDs);
+      });
+
+      onChildRemoved(movieRef, (data) => {
+        const newMovieCollectionIDs = movieCollectionIDs.filter(
+          (i) => i.toString() !== data.key.toString()
+        );
+        setMovieCollectionIDs(newMovieCollectionIDs);
+      });
+    }
+  }, []);
 
   return (
     <div className={styles.container}>
@@ -102,6 +153,7 @@ const FeaturedMovie: FunctionComponent<Props> = ({
           className={classes.button}
           variant="contained"
           startIcon={<Add />}
+          onClick={() => addMovie(user.uid, selectedMovie)}
         >
           Collect Movie
         </Button>
@@ -110,6 +162,7 @@ const FeaturedMovie: FunctionComponent<Props> = ({
           className={`${classes.button} ${classes.alert}`}
           variant="contained"
           startIcon={<Remove />}
+          onClick={() => removeMovie(user.uid, selectedMovie.id)}
         >
           Remove from Collection
         </Button>
