@@ -14,6 +14,7 @@ import { useAuth } from "../../context/authProvider";
 import {
   child,
   get,
+  off,
   onChildAdded,
   onChildRemoved,
   ref,
@@ -73,6 +74,10 @@ const FeaturedMovie: FunctionComponent<Props> = ({
         );
         setMovieCollectionIDs(newMovieCollectionIDs);
       });
+
+      return () => {
+        off(movieRef);
+      };
     }
   }, []);
 
