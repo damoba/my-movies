@@ -26,7 +26,7 @@ const Results: FunctionComponent<Props> = ({
             key={movie.id}
             movie={movie}
             setNextPageIsLoading={setNextPageIsLoading}
-            isCollection={false}
+            isCollection={isCollection}
           />
         ))}
       </div>

@@ -1,4 +1,5 @@
 export interface MovieFromThumbnail {
+  timestamp?: string;
   id: number;
   year?: number | null;
   title?: string | null;

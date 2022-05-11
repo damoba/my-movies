@@ -9,6 +9,7 @@ import { child, get, ref, remove, set } from "firebase/database";
  */
 const addMovie = (uid: string, movie: MovieFromFeatured) => {
   const movieFromThumbnail = {
+    timestamp: Date.now(),
     id: movie.id,
     year: movie.year ?? null,
     title: movie.title ?? null,

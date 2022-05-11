@@ -56,7 +56,7 @@ const SearchPage: NextPage<Props> = ({
   if (!user) router.push("/auth");
 
   /**
-   * When the back or forward button are pressed, set page to loading
+   * When the back or forward button is pressed, set page to loading
    */
   window.onpopstate = () => {
     setNextPageIsLoading(true);
