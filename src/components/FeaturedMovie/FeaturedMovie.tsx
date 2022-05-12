@@ -25,9 +25,29 @@ const FeaturedMovie: FunctionComponent<Props> = ({
 }) => {
   const classes = useStyles();
   const { user } = useAuth();
+  const dbRef = ref(db);
   const movieRef = ref(db, `movies/${user.uid}`);
   const [renderToggler, setRenderToggler] = useState<boolean>(false);
   const [trailerIsPlaying, setTrailerIsPlaying] = useState<boolean>(false);
+
+  /**
+   * When the featured movie is loaded, change the collected status to
+   * true if it's ID is in the database.
+   */
+  useEffect(() => {
+    if (selectedMovie) {
+      get(child(dbRef, `movies/${user.uid}`)).then((snapshot) => {
+        if (snapshot.exists()) {
+          const items = snapshot.val();
+          const keys = Object.keys(items);
+          if (keys.includes(selectedMovie.id.toString())) {
+            selectedMovie.collected = true;
+            setRenderToggler(!renderToggler);
+          }
+        }
+      });
+    }
+  }, [selectedMovie]);
 
   if (!selectedMovie) return null;
 
@@ -55,24 +75,6 @@ const FeaturedMovie: FunctionComponent<Props> = ({
       off(movieRef);
     };
   });
-
-  /**
-   * When the featured movie is loaded, change the collected status to
-   * true if it's ID is in the database.
-   */
-  useEffect(() => {
-    const dbRef = ref(db);
-    get(child(dbRef, `movies/${user.uid}`)).then((snapshot) => {
-      if (snapshot.exists()) {
-        const items = snapshot.val();
-        const keys = Object.keys(items);
-        if (keys.includes(selectedMovie.id.toString())) {
-          selectedMovie.collected = true;
-          setRenderToggler(!renderToggler);
-        }
-      }
-    });
-  }, [selectedMovie]);
 
   return (
     <div className={styles.container}>

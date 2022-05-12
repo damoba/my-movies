@@ -33,31 +33,50 @@ const collectionPage: NextPage = ({}) => {
     []
   );
 
+  /**
+   * When the page is loaded, load all of the collected movies from the database.
+   */
+  useEffect(() => {
+    if (user) {
+      get(child(dbRef, `movies/${user.uid}`)).then((snapshot) => {
+        if (snapshot.exists()) {
+          const moviesFromThumbnail = [];
+          const items = snapshot.val();
+          const keys = Object.keys(items);
+          for (let i = 0; i < keys.length; i++) {
+            moviesFromThumbnail.push(items[keys[i]]);
+          }
+          setCollectedMovies(moviesFromThumbnail);
+        }
+      });
+    }
+  }, [user]);
+
   if (userIsLoading) return null;
   if (!user) router.push("/auth");
 
+  var movieRef = null;
   if (user) {
-    const movieRef = ref(db, `movies/${user.uid}`);
-    const now = new Date().getTime();
-    const childAddedQueryConstraints = [
-      orderByChild("timestamp"),
-      startAt(now),
-    ];
+    movieRef = ref(db, `movies/${user.uid}`);
+  }
+  const now = new Date().getTime();
+  const childAddedQueryConstraints = [orderByChild("timestamp"), startAt(now)];
 
-    /**
-     * When the back or forward button is pressed, set page to loading
-     */
-    window.onpopstate = () => {
-      setNextPageIsLoading(true);
-    };
+  /**
+   * When the back or forward button is pressed, set page to loading
+   */
+  window.onpopstate = () => {
+    setNextPageIsLoading(true);
+  };
 
-    /**
-     * When the refresh button is pressed, set page to loading
-     */
-    window.onbeforeunload = () => {
-      setNextPageIsLoading(true);
-    };
+  /**
+   * When the refresh button is pressed, set page to loading
+   */
+  window.onbeforeunload = () => {
+    setNextPageIsLoading(true);
+  };
 
+  if (movieRef) {
     /**
      * When a movie is added to the database (from featured movie banner),
      * the movie is added to the collection in the client.
@@ -82,23 +101,6 @@ const collectionPage: NextPage = ({}) => {
       };
     });
   }
-
-  /**
-   * When the page is loaded, load all of the collected movies from the database.
-   */
-  useEffect(() => {
-    get(child(dbRef, `movies/${user.uid}`)).then((snapshot) => {
-      if (snapshot.exists()) {
-        const moviesFromThumbnail = [];
-        const items = snapshot.val();
-        const keys = Object.keys(items);
-        for (let i = 0; i < keys.length; i++) {
-          moviesFromThumbnail.push(items[keys[i]]);
-        }
-        setCollectedMovies(moviesFromThumbnail);
-      }
-    });
-  }, []);
 
   return (
     <div className={styles.collectionPage}>
