@@ -1,5 +1,4 @@
 import styles from "./FeaturedMovie.module.css";
-import useStyles from "../../styles/StylesMUI";
 
 import React, { FunctionComponent, useEffect, useState } from "react";
 import { imageBaseURL } from "../../config/requests";
@@ -23,7 +22,6 @@ const FeaturedMovie: FunctionComponent<Props> = ({
   selectedMovie,
   selectedMovieIntro,
 }) => {
-  const classes = useStyles();
   const { user } = useAuth();
   const dbRef = ref(db);
   const movieRef = ref(db, `movies/${user.uid}`);
@@ -140,7 +138,7 @@ const FeaturedMovie: FunctionComponent<Props> = ({
 
       {selectedMovie.videoId && (
         <Button
-          className={classes.button}
+          className={styles.button}
           variant="contained"
           startIcon={<PlayArrowRounded />}
           onClick={() => setTrailerIsPlaying(true)}
@@ -150,7 +148,7 @@ const FeaturedMovie: FunctionComponent<Props> = ({
       )}
       {!selectedMovie.collected ? (
         <Button
-          className={classes.button}
+          className={styles.button}
           variant="contained"
           startIcon={<Add />}
           onClick={handleAddClick}
@@ -159,7 +157,7 @@ const FeaturedMovie: FunctionComponent<Props> = ({
         </Button>
       ) : (
         <Button
-          className={`${classes.button} ${classes.alert}`}
+          className={`${styles.button} ${styles.alert}`}
           variant="contained"
           startIcon={<Remove />}
           onClick={() => removeMovie(user.uid, selectedMovie.id)}

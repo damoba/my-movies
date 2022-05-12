@@ -82,6 +82,27 @@
   margin-left: 4px;
 }
 
+.button {
+  margin-right: 5px !important;
+  margin-bottom: 4px !important;
+  font-weight: 500 !important;
+  font-size: 10px !important;
+  background-color: rgb(255, 255, 255) !important;
+  border-radius: 99px !important;
+  color: var(--main-color-medium) !important;
+}
+.button:hover {
+  background-color: rgb(215, 215, 215) !important;
+}
+
+.alert {
+  background-color: #d46a6a !important;
+  color: white !important;
+}
+.alert:hover {
+  background-color: #bb6969 !important;
+}
+
 /* Mobile in landscape orientation styles */
 @media only screen and (min-width: 640px) {
   .container {
@@ -93,29 +114,34 @@
   .overlay {
     height: 26rem;
   }
-  
-  .intro{
+
+  .intro {
     font-size: 16px;
   }
 
-  .title{
+  .title {
     font-size: 32px;
   }
-  .year{
+  .year {
     font-size: 1.5rem;
   }
 
-  .genres{
+  .genres {
     font-size: 0.95rem;
   }
 
-  .rating{
+  .rating {
     margin-bottom: 20px;
     font-size: 16px;
   }
 
   .overview {
     font-size: 14px;
+  }
+
+  .button {
+    font-size: 14px !important;
+    margin-bottom: 0 !important;
   }
 }
 
