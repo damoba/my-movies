@@ -1,5 +1,5 @@
 import styles from "./List.module.css";
-import useStyles from "./StylesMUI";
+import useStyles from "../../styles/StylesMUI";
 
 import {
   ArrowBackIosOutlined,

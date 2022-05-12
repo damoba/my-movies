@@ -1,5 +1,5 @@
 import styles from "./FeaturedMovie.module.css";
-import useStyles from "./StylesMUI";
+import useStyles from "../../styles/StylesMUI";
 
 import React, { FunctionComponent, useEffect, useState } from "react";
 import { imageBaseURL } from "../../config/requests";
