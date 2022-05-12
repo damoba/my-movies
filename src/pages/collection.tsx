@@ -83,6 +83,9 @@ const collectionPage: NextPage = ({}) => {
     });
   }
 
+  /**
+   * When the page is loaded, load all of the collected movies from the database.
+   */
   useEffect(() => {
     get(child(dbRef, `movies/${user.uid}`)).then((snapshot) => {
       if (snapshot.exists()) {
