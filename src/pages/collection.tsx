@@ -107,7 +107,7 @@ const collectionPage: NextPage = ({}) => {
       {user && (
         <>
           <Head>
-            <title>My Movies - search results</title>
+            <title>My Movies - collection</title>
             <link rel="icon" href="/favicon.ico" />
           </Head>
           {nextPageIsLoading && <Loader />}

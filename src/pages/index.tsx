@@ -97,7 +97,10 @@ export const getServerSideProps: GetServerSideProps = async () => {
     trendingMoviesResponse.data.results[
       Math.floor(Math.random() * trendingMoviesResponse.data.results.length)
     ].id;
-  var trendingMovies = await filterList(trendingMoviesResponse.data.results, featuredMovieId);
+  var trendingMovies = await filterList(
+    trendingMoviesResponse.data.results,
+    featuredMovieId
+  );
 
   const featuredMovieResponse = await axios.get(
     fetchMovieForFeatured(featuredMovieId)
@@ -105,7 +108,10 @@ export const getServerSideProps: GetServerSideProps = async () => {
   const featuredMovie = filterMovieForFeatured(featuredMovieResponse.data);
 
   const topRatedMoviesResponse = await axios.get(requests.fetchTopRatedMovies);
-  const topRatedMovies = await filterList(topRatedMoviesResponse.data.results, null);
+  const topRatedMovies = await filterList(
+    topRatedMoviesResponse.data.results,
+    featuredMovieId
+  );
 
   return {
     props: {

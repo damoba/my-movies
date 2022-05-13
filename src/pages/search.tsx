@@ -149,13 +149,17 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const similarMoviesResponse = await axios.get(
       fetchSimilarMovies(parseInt(id as string))
     );
-    similarMovies = await filterList(similarMoviesResponse.data.results, null);
+    similarMovies = await filterList(
+      similarMoviesResponse.data.results,
+      searchedMovie.id
+    );
 
     const recommendedMoviesResponse = await axios.get(
       fetchRecommendedMovies(parseInt(id as string))
     );
     recommendedMovies = await filterList(
-      recommendedMoviesResponse.data.results, null
+      recommendedMoviesResponse.data.results,
+      searchedMovie.id
     );
   }
 
