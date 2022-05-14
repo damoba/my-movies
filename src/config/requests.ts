@@ -12,6 +12,11 @@ const imageBaseURL = "https://image.tmdb.org/t/p/original";
 const requests = {
   fetchTrendingMovies: `/trending/movie/week?api_key=${process.env.TMDB_API_KEY}&language=en-US`,
   fetchTopRatedMovies: `/movie/top_rated?api_key=${process.env.TMDB_API_KEY}&language=en-US`,
+  fetchActionMovies: `/discover/movie?api_key=${process.env.TMDB_API_KEY}&language=en-US&with_genres=28&include_adult=false`,
+  fetchDramaMovies: `/discover/movie?api_key=${process.env.TMDB_API_KEY}&language=en-US&with_genres=18&include_adult=false`,
+  fetchComedyMovies: `/discover/movie?api_key=${process.env.TMDB_API_KEY}&language=en-US&with_genres=35&include_adult=false`,
+  fetchRomanceMovies: `/discover/movie?api_key=${process.env.TMDB_API_KEY}&language=en-US&with_genres=10749&include_adult=false`,
+  fetchDocumentaryMovies: `/discover/movie?api_key=${process.env.TMDB_API_KEY}&language=en-US&with_genres=99&include_adult=false`,
 };
 
 /**
@@ -130,6 +135,34 @@ const filterMovieForListItem = (
 };
 
 /**
+ * Takes a full movie from the API (indexed) and returns one with only selected attributes.
+ * Calculates some of these attributes.
+ * @param {MovieFullIndexed} movieFullIndexed Full indexed movie to be filtered
+ * @returns {MovieFromListItem} Movie with selected attributes
+ */
+const filterMovieForHomeListItem = (
+  movieFullIndexed: MovieFullIndexed
+): MovieFromListItem => {
+  var date = new Date(movieFullIndexed.release_date);
+  var year = date?.getFullYear();
+
+  return {
+    index: movieFullIndexed.index,
+    id: movieFullIndexed.id,
+    year: year ?? null,
+    title: movieFullIndexed.title ?? null,
+    original_title: movieFullIndexed.original_title ?? null,
+    name: movieFullIndexed.name ?? null,
+    original_name: movieFullIndexed.original_name ?? null,
+    overview: movieFullIndexed.overview ?? null,
+    vote_average: movieFullIndexed.vote_average ?? null,
+    vote_count: movieFullIndexed.vote_count ?? null,
+    backdrop_path: movieFullIndexed.backdrop_path ?? null,
+    poster_path: movieFullIndexed.poster_path ?? null,
+  };
+};
+
+/**
  * Takes a full movie from the API and returns one with only selected attributes.
  * Calculates some of these attributes.
  * @param {MovieFull} movieFull Full movie to be filtered
@@ -186,6 +219,33 @@ const filterList = async (
 };
 
 /**
+ * Takes a list of movies with the data coming from the API call,
+ * then filters them down to the selected attributes needed from them.
+ * @param {MovieFull[]} movieList List of full movies
+ * @param {number} id ID of movie not to be included
+ * @returns {Promise<MovieFromListItem[]>} List of movies with selected attributes
+ */
+const filterHomeList = async (
+  movieList: MovieFull[],
+  id: number
+): Promise<MovieFromListItem[]> => {
+  const movieListFiltered = [];
+  var j = 0;
+  for (let i = 0; i < movieList.length; i++) {
+    if (
+      (movieList[i].backdrop_path || movieList[i].poster_path) &&
+      (!movieList[i].adult || movieList[i].adult === false) &&
+      movieList[i].id !== id
+    ) {
+      movieListFiltered.push(
+        filterMovieForHomeListItem({ ...movieList[i], index: j++ })
+      );
+    }
+  }
+  return movieListFiltered;
+};
+
+/**
  * Takes a list of movies with the data coming from the API call, then
  * fills them up with all specific movie details, and then filters them
  * down to the selected attributes needed from them.
@@ -216,6 +276,7 @@ export {
   fetchRecommendedMovies,
   filterMovieForFeatured,
   filterList,
+  filterHomeList,
   filterResults,
 };
 

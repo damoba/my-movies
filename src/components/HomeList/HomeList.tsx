@@ -1,4 +1,4 @@
-import styles from "./List.module.css";
+import styles from "./HomeList.module.css";
 import useStyles from "../../styles/stylesMUI";
 
 import {
@@ -13,11 +13,12 @@ import React, {
   useState,
 } from "react";
 import { MovieFromListItem } from "../../../typings";
-import ListItem from "../ListItem/ListItem";
+import HomeListItem from "../HomeListItem/HomeListItem";
 
 interface Props {
   isGradientBackground: boolean;
   isLast: boolean;
+  isPoster: boolean;
   title: string;
   movieList: MovieFromListItem[];
   setNextPageIsLoading: Dispatch<SetStateAction<boolean>>;
@@ -25,9 +26,10 @@ interface Props {
 
 const MINIMUM_SCREEN_LENGTH = 639;
 
-const List: FunctionComponent<Props> = ({
+const HomeList: FunctionComponent<Props> = ({
   isGradientBackground,
   isLast,
+  isPoster,
   title,
   movieList,
   setNextPageIsLoading,
@@ -47,11 +49,19 @@ const List: FunctionComponent<Props> = ({
     let distance = listRef.current.getBoundingClientRect().x - leftMargin;
     if (direction === "left" && slideNumber > 0) {
       setSlideNumber(slideNumber - 1);
-      listRef.current.style.transform = `translateX(${230 + distance}px)`;
+      if (!isPoster) {
+        listRef.current.style.transform = `translateX(${230 + distance}px)`;
+      } else {
+        listRef.current.style.transform = `translateX(${205 + distance}px)`;
+      }
     }
     if (direction === "right" && slideNumber < NUMBER_OF_SLIDES) {
       setSlideNumber(slideNumber + 1);
-      listRef.current.style.transform = `translateX(${-230 + distance}px)`;
+      if (!isPoster) {
+        listRef.current.style.transform = `translateX(${-230 + distance}px)`;
+      } else {
+        listRef.current.style.transform = `translateX(${-205 + distance}px)`;
+      }
     }
   };
 
@@ -66,32 +76,35 @@ const List: FunctionComponent<Props> = ({
       <span className={styles.title}>{title}</span>
       <div className={styles.wrapper}>
         <div
-          className={`${styles.leftFade} ${slideNumber > 0 && styles.scrolled}`}
+          className={`${styles.leftFade} ${
+            slideNumber > 0 && styles.scrolled
+          } ${isPoster && styles.poster}`}
         />
         <div
           className={`${styles.rightFade} ${
             slideNumber < NUMBER_OF_SLIDES && styles.scrolled
-          }`}
+          } ${isPoster && styles.poster}`}
         />
         <ArrowBackIosOutlined
           className={`${classes.sliderArrow} ${classes.left} ${
             slideNumber > 0 && classes.scrolled
-          }`}
+          } ${isPoster && classes.poster}`}
           onClick={() => handleArrowClick("left")}
         />
         <div className={styles.container} ref={listRef}>
           {movieList.map((m) => (
-            <ListItem
+            <HomeListItem
               key={m.id}
               movie={m}
               setNextPageIsLoading={setNextPageIsLoading}
+              isPoster={isPoster}
             />
           ))}
         </div>
         <ArrowForwardIosOutlined
           className={`${classes.sliderArrow} ${classes.right} ${
             slideNumber < NUMBER_OF_SLIDES && classes.scrolled
-          }`}
+          } ${isPoster && classes.poster}`}
           onClick={() => handleArrowClick("right")}
         />
       </div>
@@ -99,4 +112,4 @@ const List: FunctionComponent<Props> = ({
   );
 };
 
-export default List;
+export default HomeList;

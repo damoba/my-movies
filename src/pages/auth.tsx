@@ -51,15 +51,14 @@ const AuthPage: NextPage = () => {
       auth,
       emailRef.current.value,
       passwordRef.current.value
-    )
-      .catch((error) => {
-        alert(error.message);
-        if (buttonType === MAIN_BUTTON_TYPE) {
-          setIsLoadingMain(false);
-        } else {
-          setIsLoadingGuest(false);
-        }
-      });
+    ).catch((error) => {
+      alert(error.message);
+      if (buttonType === MAIN_BUTTON_TYPE) {
+        setIsLoadingMain(false);
+      } else {
+        setIsLoadingGuest(false);
+      }
+    });
   };
 
   /**
@@ -70,11 +69,10 @@ const AuthPage: NextPage = () => {
       auth,
       emailRef.current.value,
       passwordRef.current.value
-    )
-      .catch((error) => {
-        alert(error.message);
-        setIsLoadingMain(false);
-      });
+    ).catch((error) => {
+      alert(error.message);
+      setIsLoadingMain(false);
+    });
   };
 
   /**
@@ -141,69 +139,71 @@ const AuthPage: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <header className={styles.logo}>My Movies</header>
-      <form className={styles.form} onSubmit={handleSubmit}>
-        <h1>{isSignup ? "Sign Up" : "Log In"}</h1>
-        <input ref={emailRef} placeholder="Email" type="email" />
-        <span
-          className={styles.showPasswordToggler}
-          onClick={() => setShowPassword(!showPassword)}
-        >
-          {!showPassword ? (
-            <>
-              <Visibility />{" "}
-              <span className={styles.showPasswordText}>Show</span>
-            </>
-          ) : (
-            <>
-              <VisibilityOff />{" "}
-              <span className={styles.showPasswordText}>Hide</span>
-            </>
-          )}
-        </span>
-        <input
-          ref={passwordRef}
-          placeholder="Password"
-          type={!showPassword ? "password" : "text"}
-        />
-        <button
-          type="submit"
-          style={
-            !isSignup
-              ? { backgroundColor: "#3cb19f" }
-              : { backgroundColor: "#ec215f" }
-          }
-          disabled={isLoadingMain}
-        >
-          {!isLoadingMain
-            ? isSignup
-              ? "Create Account"
-              : "Log In"
-            : isSignup
-            ? "Creating account..."
-            : "Logging in..."}
-        </button>
-        {!isSignup && (
-          <button className={styles.guest} disabled={isLoadingGuest}>
-            {!isLoadingGuest ? GUEST_INNER_HTML : "Logging in..."}
+      <div className={styles.wrapper}>
+        <form className={styles.form} onSubmit={handleSubmit}>
+          <h1>{isSignup ? "Sign Up" : "Log In"}</h1>
+          <input ref={emailRef} placeholder="Email" type="email" />
+          <span
+            className={styles.showPasswordToggler}
+            onClick={() => setShowPassword(!showPassword)}
+          >
+            {!showPassword ? (
+              <>
+                <Visibility />{" "}
+                <span className={styles.showPasswordText}>Show</span>
+              </>
+            ) : (
+              <>
+                <VisibilityOff />{" "}
+                <span className={styles.showPasswordText}>Hide</span>
+              </>
+            )}
+          </span>
+          <input
+            ref={passwordRef}
+            placeholder="Password"
+            type={!showPassword ? "password" : "text"}
+          />
+          <button
+            type="submit"
+            style={
+              !isSignup
+                ? { backgroundColor: "#3cb19f" }
+                : { backgroundColor: "#ec215f" }
+            }
+            disabled={isLoadingMain}
+          >
+            {!isLoadingMain
+              ? isSignup
+                ? "Create Account"
+                : "Log In"
+              : isSignup
+              ? "Creating account..."
+              : "Logging in..."}
           </button>
-        )}
-        {!isSignup ? (
-          <h4>
-            Try the app without creating an account by using a guest account.
-            Want your own account?{" "}
-            <span className={styles.forSignUp} onClick={handleAuthType}>
-              Sign up now.
-            </span>
-          </h4>
-        ) : (
-          <h4>
-            Already have an account or want to use a guest account?{" "}
-            <span className={styles.forLogIn} onClick={handleAuthType}>
-              Log in.
-            </span>
-          </h4>
-        )}
-      </form>
+          {!isSignup && (
+            <button className={styles.guest} disabled={isLoadingGuest}>
+              {!isLoadingGuest ? GUEST_INNER_HTML : "Logging in..."}
+            </button>
+          )}
+          {!isSignup ? (
+            <h4>
+              Try the app without creating an account by using a guest account.
+              Want your own account?{" "}
+              <span className={styles.forSignUp} onClick={handleAuthType}>
+                Sign up now.
+              </span>
+            </h4>
+          ) : (
+            <h4>
+              Already have an account or want to use a guest account?{" "}
+              <span className={styles.forLogIn} onClick={handleAuthType}>
+                Log in.
+              </span>
+            </h4>
+          )}
+        </form>
+      </div>
     </div>
   );
 };

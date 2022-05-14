@@ -1,4 +1,4 @@
-import styles from "./ListItem.module.css";
+import styles from "./HomeListItem.module.css";
 
 import React, {
   Dispatch,
@@ -16,16 +16,15 @@ import { useRouter } from "next/router";
 interface Props {
   movie: MovieFromListItem;
   setNextPageIsLoading: Dispatch<SetStateAction<boolean>>;
+  isPoster: boolean;
 }
 
-const VIDEO_BASE_URL = "https://www.youtube.com/embed/";
-const VIDEO_OPTIONS = "?autoplay=1&mute=1&loop=1";
-const OVERVIEW_LENGTH = 150;
-const MINIMUM_SCREEN_LENGTH = 1279;
+const OVERVIEW_LENGTH = 50;
 
-const ListItem: FunctionComponent<Props> = ({
+const HomeListItem: FunctionComponent<Props> = ({
   movie,
   setNextPageIsLoading,
+  isPoster,
 }) => {
   const router = useRouter();
   const [isHovered, setIsHovered] = useState<boolean>(false);
@@ -40,35 +39,33 @@ const ListItem: FunctionComponent<Props> = ({
       }}
     >
       <div
-        style={{
-          width: isHovered && window.innerWidth > MINIMUM_SCREEN_LENGTH && 330,
-          visibility: "hidden",
-        }}
-      />
-      <div
-        className={`${styles.listItem} ${isHovered && styles.hovered}`}
-        style={{
-          left: isHovered && movie.index * 230,
-        }}
+        className={styles.listItem}
+        style={
+          !isPoster
+            ? { width: "225px", height: "120px" }
+            : { width: "200px", height: "300px" }
+        }
       >
-        <Image
-          className={styles.image}
-          src={`${imageBaseURL}${movie.backdrop_path || movie.poster_path}`}
-          layout="fixed"
-          width={
-            isHovered && window.innerWidth > MINIMUM_SCREEN_LENGTH
-              ? "325px"
-              : "225px"
-          }
-          height={
-            isHovered && window.innerWidth > MINIMUM_SCREEN_LENGTH
-              ? "140px"
-              : "120px"
-          }
-          objectFit="cover"
-          alt="Movie Poster"
-        />
-        {!isHovered && (
+        <div className={styles.imageWrapper}>
+          <Image
+            className={
+              !isHovered
+                ? `${styles.image}`
+                : `${styles.image} ${styles.hovered}`
+            }
+            src={
+              !isPoster
+                ? `${imageBaseURL}${movie.backdrop_path || movie.poster_path}`
+                : `${imageBaseURL}${movie.poster_path || movie.backdrop_path}`
+            }
+            layout="fixed"
+            width={!isPoster ? "225px" : "200px"}
+            height={!isPoster ? "120px" : "300px"}
+            objectFit="cover"
+            alt="Movie Poster"
+          />
+        </div>
+        {!isHovered && !isPoster && (
           <h4 className={styles.shownTitle}>
             {movie.title ||
               movie.original_title ||
@@ -78,14 +75,14 @@ const ListItem: FunctionComponent<Props> = ({
           </h4>
         )}
         {isHovered && (
-          <>
-            {movie.videoId && (
-              <iframe
-                className={styles.video}
-                src={`${VIDEO_BASE_URL}${movie.videoId}${VIDEO_OPTIONS}`}
-              />
-            )}
-            <h4 className={styles.title}>
+          <div className={styles.details}>
+            <h4
+              className={
+                !isPoster
+                  ? `${styles.title}`
+                  : `${styles.title} ${styles.poster}`
+              }
+            >
               {movie.title ||
                 movie.original_title ||
                 movie.name ||
@@ -111,17 +108,16 @@ const ListItem: FunctionComponent<Props> = ({
               movie.vote_count > 0 ? (
                 <p className={styles.ratingNum}>
                   {(movie.vote_average / 2).toFixed(1)}
-                  <small> ({movie.vote_count.toLocaleString("en-US")})</small>
                 </p>
               ) : (
                 <p className={styles.ratingNum}>(no rating yet)</p>
               )}
             </div>
-          </>
+          </div>
         )}
       </div>
     </div>
   );
 };
 
-export default ListItem;
+export default HomeListItem;

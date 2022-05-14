@@ -1,6 +1,6 @@
 .list {
   width: 100%;
-  padding-bottom: 10px;
+  padding-bottom: 30px;
 }
 .list.gradientBackground {
   background: linear-gradient(
@@ -8,6 +8,7 @@
     var(--main-color-medium),
     var(--main-color-dark)
   );
+  padding-bottom: 50px;
 }
 .list.solidBackground {
   background-color: var(--main-color-dark);
@@ -37,6 +38,9 @@
 .leftFade.scrolled {
   display: block;
 }
+.leftFade.poster {
+  height: 300px;
+}
 .rightFade {
   display: none;
   z-index: 90;
@@ -50,6 +54,9 @@
 .rightFade.scrolled {
   display: block;
 }
+.rightFade.poster {
+  height: 300px;
+}
 
 .container {
   display: flex;
@@ -61,7 +68,7 @@
 
 /* Mobile in landscape orientation styles */
 @media only screen and (min-width: 640px) {
-  .list.last{
+  .list.last {
     padding-bottom: 50px;
   }
   .title {

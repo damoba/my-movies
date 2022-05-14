@@ -95,6 +95,7 @@ const SearchPage: NextPage<Props> = ({
                 {similarMovies.length > 0 && (
                   <List
                     isGradientBackground={true}
+                    isLast={recommendedMovies.length > 0 ? false : true}
                     title="Similar Movies"
                     movieList={similarMovies}
                     setNextPageIsLoading={setNextPageIsLoading}
@@ -103,6 +104,7 @@ const SearchPage: NextPage<Props> = ({
                 {recommendedMovies.length > 0 && (
                   <List
                     isGradientBackground={false}
+                    isLast={true}
                     title="Recommended For You"
                     movieList={recommendedMovies}
                     setNextPageIsLoading={setNextPageIsLoading}

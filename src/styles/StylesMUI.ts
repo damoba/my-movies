@@ -22,4 +22,7 @@ export default makeStyles((theme) => ({
   scrolled: {
     display: "inline-block",
   },
+  poster: {
+    height: "300px",
+  },
 }));
