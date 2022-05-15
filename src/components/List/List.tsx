@@ -1,5 +1,4 @@
 import styles from "./List.module.css";
-import useStyles from "../../styles/stylesMUI";
 
 import {
   ArrowBackIosOutlined,
@@ -9,11 +8,12 @@ import React, {
   Dispatch,
   FunctionComponent,
   SetStateAction,
+  useEffect,
   useRef,
   useState,
 } from "react";
 import { MovieFromListItem } from "../../../typings";
-import ListItem from "../ListItem/ListItem";
+import HomeListItem from "../ListItem/ListItem";
 
 interface Props {
   isGradientBackground: boolean;
@@ -23,8 +23,6 @@ interface Props {
   setNextPageIsLoading: Dispatch<SetStateAction<boolean>>;
 }
 
-const MINIMUM_SCREEN_LENGTH = 639;
-
 const List: FunctionComponent<Props> = ({
   isGradientBackground,
   isLast,
@@ -32,26 +30,44 @@ const List: FunctionComponent<Props> = ({
   movieList,
   setNextPageIsLoading,
 }) => {
-  const NUMBER_OF_SLIDES = movieList.length;
-  const classes = useStyles();
+  const wrapperRef = useRef<HTMLDivElement>();
+  const [wrapperChildrenWidth, setWrapperChildrenWidth] = useState<number>(0);
+  const [scrollDistance, setScrollDistance] = useState<number>(0);
 
-  const [slideNumber, setSlideNumber] = useState<number>(0);
-  const listRef = useRef<HTMLDivElement>();
+  /**
+   * Sets the total width of the wrapper's children once, and updates
+   * the scroll distance for the list on every scroll.
+   */
+  useEffect(() => {
+    // save wrapper dif from ref
+    const wrapperDiv = wrapperRef.current;
+
+    // wrapper children width
+    const children = wrapperDiv.children;
+    var totalWidth = 0;
+    for (var i = 0; i < children.length; i++) {
+      totalWidth += children[i].scrollWidth;
+    }
+    setWrapperChildrenWidth(totalWidth);
+
+    // scroll distance
+    const onScroll = () => {
+      setScrollDistance(wrapperDiv.scrollLeft);
+    };
+    wrapperDiv.addEventListener("scroll", onScroll);
+    return () => wrapperDiv.removeEventListener("scroll", onScroll);
+  }, [wrapperRef.current]);
 
   /**
    * Scrolls the list in the appropriate direction when arrow is clicked.
    * @param {string} direction Direction to scroll ("left" or "right")
    */
   const handleArrowClick = (direction: string) => {
-    const leftMargin = window.innerWidth > MINIMUM_SCREEN_LENGTH ? 50 : 20;
-    let distance = listRef.current.getBoundingClientRect().x - leftMargin;
-    if (direction === "left" && slideNumber > 0) {
-      setSlideNumber(slideNumber - 1);
-      listRef.current.style.transform = `translateX(${230 + distance}px)`;
+    if (direction === "left") {
+      wrapperRef.current.scroll({ left: -(205 - scrollDistance) });
     }
-    if (direction === "right" && slideNumber < NUMBER_OF_SLIDES) {
-      setSlideNumber(slideNumber + 1);
-      listRef.current.style.transform = `translateX(${-230 + distance}px)`;
+    if (direction === "right") {
+      wrapperRef.current.scroll({ left: 205 + scrollDistance });
     }
   };
 
@@ -64,37 +80,41 @@ const List: FunctionComponent<Props> = ({
       } ${isLast && styles.last}`}
     >
       <span className={styles.title}>{title}</span>
-      <div className={styles.wrapper}>
-        <div
-          className={`${styles.leftFade} ${slideNumber > 0 && styles.scrolled}`}
-        />
-        <div
-          className={`${styles.rightFade} ${
-            slideNumber < NUMBER_OF_SLIDES && styles.scrolled
-          }`}
-        />
-        <ArrowBackIosOutlined
-          className={`${classes.sliderArrow} ${classes.left} ${
-            slideNumber > 0 && classes.scrolled
-          }`}
-          onClick={() => handleArrowClick("left")}
-        />
-        <div className={styles.container} ref={listRef}>
+      <div className={styles.wrapper} ref={wrapperRef}>
+        <div className={styles.container}>
           {movieList.map((m) => (
-            <ListItem
+            <HomeListItem
               key={m.id}
               movie={m}
               setNextPageIsLoading={setNextPageIsLoading}
             />
           ))}
         </div>
-        <ArrowForwardIosOutlined
-          className={`${classes.sliderArrow} ${classes.right} ${
-            slideNumber < NUMBER_OF_SLIDES && classes.scrolled
-          }`}
-          onClick={() => handleArrowClick("right")}
-        />
       </div>
+      <div
+        className={`${styles.fade} ${styles.left} ${
+          scrollDistance !== 0 && styles.scrolled
+        } ${isLast && styles.last}`}
+      />
+      <div
+        className={`${styles.fade} ${styles.right} ${
+          scrollDistance + window.innerWidth < wrapperChildrenWidth &&
+          styles.scrolled
+        } ${isLast && styles.last}`}
+      />
+      <ArrowBackIosOutlined
+        className={`${styles.sliderArrow} ${styles.left} ${
+          scrollDistance !== 0 && styles.scrolled
+        } ${isLast && styles.last}`}
+        onClick={() => handleArrowClick("left")}
+      />
+      <ArrowForwardIosOutlined
+        className={`${styles.sliderArrow} ${styles.right} ${
+          scrollDistance + window.innerWidth < wrapperChildrenWidth &&
+          styles.scrolled
+        } ${isLast && styles.last}`}
+        onClick={() => handleArrowClick("right")}
+      />
     </div>
   );
 };

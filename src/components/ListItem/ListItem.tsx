@@ -18,10 +18,7 @@ interface Props {
   setNextPageIsLoading: Dispatch<SetStateAction<boolean>>;
 }
 
-const VIDEO_BASE_URL = "https://www.youtube.com/embed/";
-const VIDEO_OPTIONS = "?autoplay=1&mute=1&loop=1";
-const OVERVIEW_LENGTH = 150;
-const MINIMUM_SCREEN_LENGTH = 1279;
+const OVERVIEW_LENGTH = 100;
 
 const ListItem: FunctionComponent<Props> = ({
   movie,
@@ -31,60 +28,27 @@ const ListItem: FunctionComponent<Props> = ({
   const [isHovered, setIsHovered] = useState<boolean>(false);
 
   return (
-    <div
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      onClick={() => {
-        setNextPageIsLoading(true);
-        router.push(`/search?id=${movie.id}`);
-      }}
-    >
+    <>
       <div
-        style={{
-          width: isHovered && window.innerWidth > MINIMUM_SCREEN_LENGTH && 330,
-          visibility: "hidden",
-        }}
-      />
-      <div
-        className={`${styles.listItem} ${isHovered && styles.hovered}`}
-        style={{
-          left: isHovered && movie.index * 230,
+        className={styles.listItem}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        onClick={() => {
+          setNextPageIsLoading(true);
+          router.push(`/search?id=${movie.id}`);
         }}
       >
-        <Image
-          className={styles.image}
-          src={`${imageBaseURL}${movie.backdrop_path || movie.poster_path}`}
-          layout="fixed"
-          width={
-            isHovered && window.innerWidth > MINIMUM_SCREEN_LENGTH
-              ? "325px"
-              : "225px"
-          }
-          height={
-            isHovered && window.innerWidth > MINIMUM_SCREEN_LENGTH
-              ? "140px"
-              : "120px"
-          }
-          objectFit="cover"
-          alt="Movie Poster"
-        />
-        {!isHovered && (
-          <h4 className={styles.shownTitle}>
-            {movie.title ||
-              movie.original_title ||
-              movie.name ||
-              movie.original_name}
-            {movie.year && <span className={styles.year}>({movie.year})</span>}
-          </h4>
-        )}
+        <div className={styles.imageWrapper}>
+          <Image
+            className={styles.image}
+            src={`${imageBaseURL}${movie.poster_path || movie.backdrop_path}`}
+            layout="fill"
+            objectFit="cover"
+            alt="Movie Poster"
+          />
+        </div>
         {isHovered && (
-          <>
-            {movie.videoId && (
-              <iframe
-                className={styles.video}
-                src={`${VIDEO_BASE_URL}${movie.videoId}${VIDEO_OPTIONS}`}
-              />
-            )}
+          <div className={styles.details}>
             <h4 className={styles.title}>
               {movie.title ||
                 movie.original_title ||
@@ -111,16 +75,15 @@ const ListItem: FunctionComponent<Props> = ({
               movie.vote_count > 0 ? (
                 <p className={styles.ratingNum}>
                   {(movie.vote_average / 2).toFixed(1)}
-                  <small> ({movie.vote_count.toLocaleString("en-US")})</small>
                 </p>
               ) : (
-                <p className={styles.ratingNum}>(no rating yet)</p>
+                <p className={styles.ratingNum}>N/A</p>
               )}
             </div>
-          </>
+          </div>
         )}
       </div>
-    </div>
+    </>
   );
 };
 

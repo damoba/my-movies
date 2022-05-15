@@ -14,7 +14,6 @@ export interface MovieFromThumbnail {
 }
 
 export interface MovieFromListItem {
-  index: number;
   id: number;
   videoId?: string | null;
   year?: number | null;
@@ -123,8 +122,4 @@ export interface MovieFull {
   name?: string;
   original_name?: string;
   original_title?: string;
-}
-
-export interface MovieFullIndexed extends MovieFull {
-  index: number;
 }

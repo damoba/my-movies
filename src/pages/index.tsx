@@ -9,24 +9,19 @@ import FeaturedMovie from "../components/FeaturedMovie/FeaturedMovie";
 import axios from "../config/axios";
 import requests, {
   fetchMovieForFeatured,
-  filterHomeList,
+  filterList,
   filterMovieForFeatured,
 } from "../config/requests";
 import { MovieFromFeatured, MovieFromListItem } from "../../typings";
 import { useState } from "react";
 import Footer from "../components/Footer/Footer";
 import Loader from "../components/Loader/Loader";
-import HomeList from "../components/HomeList/HomeList";
+import List from "../components/List/List";
 
 interface Props {
   featuredMovie: MovieFromFeatured;
   trendingMovies: MovieFromListItem[];
   topRatedMovies: MovieFromListItem[];
-  actionMovies: MovieFromListItem[];
-  dramaMovies: MovieFromListItem[];
-  comedyMovies: MovieFromListItem[];
-  romanceMovies: MovieFromListItem[];
-  documentaryMovies: MovieFromListItem[];
 }
 
 const FEATURED_MOVIE_INTRO = "One of this Week's Trending Films";
@@ -35,11 +30,6 @@ const IndexPage: NextPage<Props> = ({
   featuredMovie,
   trendingMovies,
   topRatedMovies,
-  actionMovies,
-  dramaMovies,
-  comedyMovies,
-  romanceMovies,
-  documentaryMovies,
 }) => {
   const { user, userIsLoading } = useAuth();
   const router = useRouter();
@@ -80,60 +70,18 @@ const IndexPage: NextPage<Props> = ({
             selectedMovie={featuredMovie}
             selectedMovieIntro={FEATURED_MOVIE_INTRO}
           />
-          <HomeList
+          <List
             isGradientBackground={true}
             isLast={false}
-            isPoster={true}
             title="Trending Now"
             movieList={trendingMovies}
             setNextPageIsLoading={setNextPageIsLoading}
           />
-          <HomeList
+          <List
             isGradientBackground={false}
             isLast={false}
-            isPoster={false}
             title="Top Rated"
             movieList={topRatedMovies}
-            setNextPageIsLoading={setNextPageIsLoading}
-          />
-          <HomeList
-            isGradientBackground={false}
-            isLast={false}
-            isPoster={false}
-            title="Action Movies"
-            movieList={actionMovies}
-            setNextPageIsLoading={setNextPageIsLoading}
-          />
-          <HomeList
-            isGradientBackground={false}
-            isLast={false}
-            isPoster={false}
-            title="Drama Movies"
-            movieList={dramaMovies}
-            setNextPageIsLoading={setNextPageIsLoading}
-          />
-          <HomeList
-            isGradientBackground={false}
-            isLast={false}
-            isPoster={false}
-            title="Comedy Movies"
-            movieList={comedyMovies}
-            setNextPageIsLoading={setNextPageIsLoading}
-          />
-          <HomeList
-            isGradientBackground={false}
-            isLast={false}
-            isPoster={false}
-            title="Romance Movies"
-            movieList={romanceMovies}
-            setNextPageIsLoading={setNextPageIsLoading}
-          />
-          <HomeList
-            isGradientBackground={false}
-            isLast={true}
-            isPoster={false}
-            title="Documentaries"
-            movieList={documentaryMovies}
             setNextPageIsLoading={setNextPageIsLoading}
           />
           <Footer />
@@ -151,7 +99,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
     trendingMoviesResponse.data.results[
       Math.floor(Math.random() * trendingMoviesResponse.data.results.length)
     ].id;
-  var trendingMovies = await filterHomeList(
+  var trendingMovies = await filterList(
     trendingMoviesResponse.data.results,
     featuredMovieId
   );
@@ -162,40 +110,8 @@ export const getServerSideProps: GetServerSideProps = async () => {
   const featuredMovie = filterMovieForFeatured(featuredMovieResponse.data);
 
   const topRatedMoviesResponse = await axios.get(requests.fetchTopRatedMovies);
-  const topRatedMovies = await filterHomeList(
+  const topRatedMovies = await filterList(
     topRatedMoviesResponse.data.results,
-    featuredMovieId
-  );
-
-  const actionMoviesResponse = await axios.get(requests.fetchActionMovies);
-  const actionMovies = await filterHomeList(
-    actionMoviesResponse.data.results,
-    featuredMovieId
-  );
-
-  const dramaMoviesResponse = await axios.get(requests.fetchDramaMovies);
-  const dramaMovies = await filterHomeList(
-    dramaMoviesResponse.data.results,
-    featuredMovieId
-  );
-
-  const comedyMoviesResponse = await axios.get(requests.fetchComedyMovies);
-  const comedyMovies = await filterHomeList(
-    comedyMoviesResponse.data.results,
-    featuredMovieId
-  );
-
-  const romanceMoviesResponse = await axios.get(requests.fetchRomanceMovies);
-  const romanceMovies = await filterHomeList(
-    romanceMoviesResponse.data.results,
-    featuredMovieId
-  );
-
-  const documentaryMoviesResponse = await axios.get(
-    requests.fetchDocumentaryMovies
-  );
-  const documentaryMovies = await filterHomeList(
-    documentaryMoviesResponse.data.results,
     featuredMovieId
   );
 
@@ -204,11 +120,6 @@ export const getServerSideProps: GetServerSideProps = async () => {
       featuredMovie,
       trendingMovies,
       topRatedMovies,
-      actionMovies,
-      dramaMovies,
-      comedyMovies,
-      romanceMovies,
-      documentaryMovies,
     },
   };
 };

@@ -8,7 +8,7 @@ import Footer from "../components/Footer/Footer";
 import { useAuth } from "../context/authProvider";
 import { useRouter } from "next/router";
 import axios from "../config/axios";
-import {
+import requests, {
   fetchMovieForFeatured,
   fetchRecommendedMovies,
   fetchSearchResults,
@@ -30,9 +30,11 @@ import List from "../components/List/List";
 
 interface Props {
   matchingMovies: MovieFromThumbnail[];
-  similarMovies: MovieFromListItem[];
   searchedMovie: MovieFromFeatured;
+  similarMovies: MovieFromListItem[];
   recommendedMovies: MovieFromListItem[];
+  genreMovies: MovieFromThumbnail[];
+  genreTitle: string;
 }
 
 const SearchPage: NextPage<Props> = ({
@@ -40,6 +42,8 @@ const SearchPage: NextPage<Props> = ({
   searchedMovie,
   similarMovies,
   recommendedMovies,
+  genreMovies,
+  genreTitle,
 }) => {
   const { user, userIsLoading } = useAuth();
   const router = useRouter();
@@ -50,7 +54,7 @@ const SearchPage: NextPage<Props> = ({
    */
   useEffect(() => {
     setNextPageIsLoading(false);
-  }, [matchingMovies]);
+  }, [matchingMovies, genreMovies]);
 
   if (userIsLoading) return null;
   if (!user) router.push("/auth");
@@ -85,7 +89,16 @@ const SearchPage: NextPage<Props> = ({
           />
           {matchingMovies.length === 0 ? (
             searchedMovie === null ? (
-              <Message text="No movies match your query." style={null} />
+              genreMovies.length == 0 ? (
+                <Message text="No movies match your query." style={null} />
+              ) : (
+                <Results
+                  results={genreMovies}
+                  setNextPageIsLoading={setNextPageIsLoading}
+                  title={genreTitle}
+                  isCollection={false}
+                />
+              )
             ) : (
               <>
                 <FeaturedMovie
@@ -134,8 +147,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   var searchedMovie = null;
   var similarMovies = [];
   var recommendedMovies = [];
+  var genreMovies = [];
+  var genreTitle = "";
   const query = context.query.query;
   const id = context.query.id;
+  const genre = context.query.genre;
 
   if (query) {
     const matchingMoviesResponse = await axios.get(
@@ -163,6 +179,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       recommendedMoviesResponse.data.results,
       searchedMovie.id
     );
+  } else if (genre) {
+    const genreMoviesResponse = await axios.get(
+      requests[`${genre.toString()}`]?.url || requests.fetchActionMovies.url
+    );
+    genreMovies = await filterResults(genreMoviesResponse.data.results);
+    genreTitle =
+      requests[`${genre.toString()}`]?.title ||
+      requests.fetchActionMovies.title;
   }
 
   return {
@@ -171,6 +195,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       searchedMovie,
       similarMovies,
       recommendedMovies,
+      genreMovies,
+      genreTitle,
     },
   };
 };

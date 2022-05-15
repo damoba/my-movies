@@ -1,6 +1,7 @@
 .list {
+  position: relative;
   width: 100%;
-  padding-bottom: 10px;
+  padding-bottom: 30px;
 }
 .list.gradientBackground {
   background: linear-gradient(
@@ -21,34 +22,14 @@
 }
 
 .wrapper {
+  margin-top: 10px;
   position: relative;
+  overflow-x: scroll;
+  scrollbar-width: none;
 }
-
-.leftFade {
+.wrapper::-webkit-scrollbar{
+  background-color: transparent;
   display: none;
-  z-index: 90;
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 120px;
-  width: 5%;
-  background: linear-gradient(to right, var(--main-color-dark), transparent);
-}
-.leftFade.scrolled {
-  display: block;
-}
-.rightFade {
-  display: none;
-  z-index: 90;
-  position: absolute;
-  top: 0;
-  right: 0;
-  height: 120px;
-  width: 5%;
-  background: linear-gradient(to left, var(--main-color-dark), transparent);
-}
-.rightFade.scrolled {
-  display: block;
 }
 
 .container {
@@ -56,12 +37,42 @@
   width: max-content;
   margin-top: 5px;
   margin-left: 20px;
-  transform: translateX(0px);
+  padding-right: 205px;
+}
+
+.fade {
+  display: none;
+  z-index: 90;
+  position: absolute;
+  bottom: 30px;
+  height: 300px;
+  width: 50px;
+}
+.fade.scrolled {
+  display: block;
+}
+.fade.last {
+  bottom: 50px;
+}
+.fade.left {
+  left: 0;
+  background: linear-gradient(to right, var(--main-color-dark), transparent);
+}
+.fade.right {
+  right: 0;
+  background: linear-gradient(to left, var(--main-color-dark), transparent);
+}
+
+.sliderArrow {
+  display: none !important;
 }
 
 /* Mobile in landscape orientation styles */
 @media only screen and (min-width: 640px) {
-  .list.last{
+  .fade{
+    width: 80px;
+  }
+  .list.last {
     padding-bottom: 50px;
   }
   .title {
@@ -70,5 +81,35 @@
   }
   .container {
     margin-left: 50px;
+  }
+}
+
+/* Laptop styles */
+@media only screen and (min-width: 1280px) {
+  .fade {
+    width: 60px;
+  }
+
+  .sliderArrow {
+    z-index: 99 !important;
+    position: absolute !important;
+    bottom: 30px !important;
+    width: 50px !important;
+    height: 300px !important;
+    background-color: rgba(23, 32, 50, 0.5) !important;
+    color: white !important;
+    cursor: pointer !important;
+  }
+  .sliderArrow.left {
+    left: 0 !important;
+  }
+  .sliderArrow.right {
+    right: 0 !important;
+  }
+  .sliderArrow.scrolled {
+    display: inline-block !important;
+  }
+  .sliderArrow.last {
+    bottom: 50px !important;
   }
 }

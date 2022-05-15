@@ -29,6 +29,8 @@ const Header: FunctionComponent<Props> = ({
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
   const [searchIsOpen, setSearchIsOpen] = useState<boolean>(false);
   const searchRef = useRef<HTMLInputElement>(null);
+  const genreOptionsRef = useRef<HTMLDivElement>(null);
+  const [genresAreOpen, setGenresAreOpen] = useState<boolean>(false);
   const [profileIsOpen, setProfileIsOpen] = useState<boolean>(false);
 
   /**
@@ -43,7 +45,7 @@ const Header: FunctionComponent<Props> = ({
   /**
    * When the window is clicked and the clicked element is not part
    * of the profile element and the profile menu is open, the profile
-   * menu is closed.
+   * menu is closed. Same for the genres menu.
    * @param {MouseEvent} e Event
    * @returns Cleanup function
    */
@@ -52,6 +54,11 @@ const Header: FunctionComponent<Props> = ({
     if (profile && !profile.contains(e.target as Node) && profileIsOpen) {
       setProfileIsOpen(false);
     }
+    var genres = document.getElementById("genres");
+    if (genres && !genres.contains(e.target as Node) && genresAreOpen) {
+      setGenresAreOpen(false);
+    }
+
     return () => (window.onclick = null);
   };
 
@@ -75,7 +82,7 @@ const Header: FunctionComponent<Props> = ({
 
   /**
    * When the search is submitted, prevent default behaviour and route to search page.
-   * Only display loader if search query is not already submitted on search page.
+   * Only route to search page if search query is not already submitted on search page.
    * @param e Event
    */
   const handleSearchSubmit = (e: FormEvent) => {
@@ -86,6 +93,18 @@ const Header: FunctionComponent<Props> = ({
     if (params.get("query") !== searchQuery) {
       setNextPageIsLoading(true);
       router.push(`/search?query=${searchQuery}`);
+    }
+  };
+
+  /**
+   * When a genre is clicked, route to the search page with appropriate genre only if not already there.
+   * @param genreRequest
+   */
+  const handleGenreClick = (genreRequest: string) => {
+    const params = new URL(document.location.href).searchParams;
+    if (params.get("genre") !== genreRequest) {
+      setNextPageIsLoading(true);
+      router.push(`/search?genre=${genreRequest}`);
     }
   };
 
@@ -127,6 +146,135 @@ const Header: FunctionComponent<Props> = ({
               />
               <button type="submit" style={{ display: "none" }} />
             </form>
+          </div>
+
+          <div
+            className={styles.genres}
+            id="genres"
+            onClick={() => setGenresAreOpen(true)}
+          >
+            <div>Genres</div>
+            <div
+              ref={genreOptionsRef}
+              className={`${styles.genreOptions} ${
+                genresAreOpen && styles.open
+              }`}
+            >
+              <span
+                className={styles.genreOption}
+                onClick={() => handleGenreClick("fetchActionMovies")}
+              >
+                Action
+              </span>
+              <span
+                className={styles.genreOption}
+                onClick={() => handleGenreClick("fetchAdventureMovies")}
+              >
+                Adventure
+              </span>
+              <span
+                className={styles.genreOption}
+                onClick={() => handleGenreClick("fetchAnimationMovies")}
+              >
+                Animation
+              </span>
+              <span
+                className={styles.genreOption}
+                onClick={() => handleGenreClick("fetchComedyMovies")}
+              >
+                Comedy
+              </span>
+              <span
+                className={styles.genreOption}
+                onClick={() => handleGenreClick("fetchCrimeMovies")}
+              >
+                Crime
+              </span>
+              <span
+                className={styles.genreOption}
+                onClick={() => handleGenreClick("fetchDocumentaryMovies")}
+              >
+                Documentary
+              </span>
+              <span
+                className={styles.genreOption}
+                onClick={() => handleGenreClick("fetchDramaMovies")}
+              >
+                Drama
+              </span>
+              <span
+                className={styles.genreOption}
+                onClick={() => handleGenreClick("fetchFamilyMovies")}
+              >
+                Family
+              </span>
+              <span
+                className={styles.genreOption}
+                onClick={() => handleGenreClick("fetchFantasyMovies")}
+              >
+                Fantasy
+              </span>
+              <span
+                className={styles.genreOption}
+                onClick={() => handleGenreClick("fetchHistoryMovies")}
+              >
+                History
+              </span>
+              <span
+                className={styles.genreOption}
+                onClick={() => handleGenreClick("fetchHorrorMovies")}
+              >
+                Horror
+              </span>
+              <span
+                className={styles.genreOption}
+                onClick={() => handleGenreClick("fetchMusicMovies")}
+              >
+                Music
+              </span>
+              <span
+                className={styles.genreOption}
+                onClick={() => handleGenreClick("fetchMysteryMovies")}
+              >
+                Mystery
+              </span>
+              <span
+                className={styles.genreOption}
+                onClick={() => handleGenreClick("fetchRomanceMovies")}
+              >
+                Romance
+              </span>
+              <span
+                className={styles.genreOption}
+                onClick={() => handleGenreClick("fetchScienceFictionMovies")}
+              >
+                Science Fiction
+              </span>
+              <span
+                className={styles.genreOption}
+                onClick={() => handleGenreClick("fetchTVMovies")}
+              >
+                TV Movie
+              </span>
+              <span
+                className={styles.genreOption}
+                onClick={() => handleGenreClick("fetchThrillerMovies")}
+              >
+                Thriller
+              </span>
+              <span
+                className={styles.genreOption}
+                onClick={() => handleGenreClick("fetchWarMovies")}
+              >
+                War
+              </span>
+              <span
+                className={styles.genreOption}
+                onClick={() => handleGenreClick("fetchWesternMovies")}
+              >
+                Western
+              </span>
+            </div>
           </div>
 
           <div

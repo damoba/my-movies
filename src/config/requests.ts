@@ -1,10 +1,8 @@
-import axios from "./axios";
 import {
   MovieFromFeatured,
   MovieFromListItem,
   MovieFromThumbnail,
   MovieFull,
-  MovieFullIndexed,
 } from "../../typings";
 
 const imageBaseURL = "https://image.tmdb.org/t/p/original";
@@ -12,11 +10,83 @@ const imageBaseURL = "https://image.tmdb.org/t/p/original";
 const requests = {
   fetchTrendingMovies: `/trending/movie/week?api_key=${process.env.TMDB_API_KEY}&language=en-US`,
   fetchTopRatedMovies: `/movie/top_rated?api_key=${process.env.TMDB_API_KEY}&language=en-US`,
-  fetchActionMovies: `/discover/movie?api_key=${process.env.TMDB_API_KEY}&language=en-US&with_genres=28&include_adult=false`,
-  fetchDramaMovies: `/discover/movie?api_key=${process.env.TMDB_API_KEY}&language=en-US&with_genres=18&include_adult=false`,
-  fetchComedyMovies: `/discover/movie?api_key=${process.env.TMDB_API_KEY}&language=en-US&with_genres=35&include_adult=false`,
-  fetchRomanceMovies: `/discover/movie?api_key=${process.env.TMDB_API_KEY}&language=en-US&with_genres=10749&include_adult=false`,
-  fetchDocumentaryMovies: `/discover/movie?api_key=${process.env.TMDB_API_KEY}&language=en-US&with_genres=99&include_adult=false`,
+
+  fetchActionMovies: {
+    title: "Action Movies",
+    url: `/discover/movie?api_key=${process.env.TMDB_API_KEY}&language=en-US&with_genres=28&include_adult=false`,
+  },
+  fetchAdventureMovies: {
+    title: "Adventure Movies",
+    url: `/discover/movie?api_key=${process.env.TMDB_API_KEY}&language=en-US&with_genres=12&include_adult=false`,
+  },
+  fetchAnimationMovies: {
+    title: "Animation Movies",
+    url: `/discover/movie?api_key=${process.env.TMDB_API_KEY}&language=en-US&with_genres=16&include_adult=false`,
+  },
+  fetchComedyMovies: {
+    title: "Comedy Movies",
+    url: `/discover/movie?api_key=${process.env.TMDB_API_KEY}&language=en-US&with_genres=35&include_adult=false`,
+  },
+  fetchCrimeMovies: {
+    title: "Crime Movies",
+    url: `/discover/movie?api_key=${process.env.TMDB_API_KEY}&language=en-US&with_genres=80&include_adult=false`,
+  },
+  fetchDocumentaryMovies: {
+    title: "Documentaries",
+    url: `/discover/movie?api_key=${process.env.TMDB_API_KEY}&language=en-US&with_genres=99&include_adult=false`,
+  },
+  fetchDramaMovies: {
+    title: "Dramas",
+    url: `/discover/movie?api_key=${process.env.TMDB_API_KEY}&language=en-US&with_genres=18&include_adult=false`,
+  },
+  fetchFamilyMovies: {
+    title: "Family Movies",
+    url: `/discover/movie?api_key=${process.env.TMDB_API_KEY}&language=en-US&with_genres=10751&include_adult=false`,
+  },
+  fetchFantasyMovies: {
+    title: "Fantasy Movies",
+    url: `/discover/movie?api_key=${process.env.TMDB_API_KEY}&language=en-US&with_genres=14&include_adult=false`,
+  },
+  fetchHistoryMovies: {
+    title: "History Movies",
+    url: `/discover/movie?api_key=${process.env.TMDB_API_KEY}&language=en-US&with_genres=36&include_adult=false`,
+  },
+  fetchHorrorMovies: {
+    title: "Horror Movies",
+    url: `/discover/movie?api_key=${process.env.TMDB_API_KEY}&language=en-US&with_genres=27&include_adult=false`,
+  },
+  fetchMusicMovies: {
+    title: "Music Movies",
+    url: `/discover/movie?api_key=${process.env.TMDB_API_KEY}&language=en-US&with_genres=10402&include_adult=false`,
+  },
+  fetchMysteryMovies: {
+    title: "Mystery Movies",
+    url: `/discover/movie?api_key=${process.env.TMDB_API_KEY}&language=en-US&with_genres=9648&include_adult=false`,
+  },
+  fetchRomanceMovies: {
+    title: "Romance Movies",
+    url: `/discover/movie?api_key=${process.env.TMDB_API_KEY}&language=en-US&with_genres=10749&include_adult=false`,
+  },
+  fetchScienceFictionMovies: {
+    title: "Science Fiction Movies",
+    url: `/discover/movie?api_key=${process.env.TMDB_API_KEY}&language=en-US&with_genres=878&include_adult=false`,
+  },
+  fetchTVMovies: {
+    title: "TV Movies",
+    url: `/discover/movie?api_key=${process.env.TMDB_API_KEY}&language=en-US&with_genres=10770&include_adult=false`,
+  },
+  fetchThrillerMovies: {
+    title: "Thriller Movies",
+    url: `/discover/movie?api_key=${process.env.TMDB_API_KEY}&language=en-US&with_genres=53&include_adult=false`,
+  },
+  fetchWarMovies: {
+    title: "War Movies",
+    url: `/discover/movie?api_key=${process.env.TMDB_API_KEY}&language=en-US&with_genres=10752&include_adult=false`,
+  },
+  fetchWesternMovies: {
+    title: "Western Movies",
+    url: `/discover/movie?api_key=${process.env.TMDB_API_KEY}&language=en-US&with_genres=37&include_adult=false`,
+  },
 };
 
 /**
@@ -26,15 +96,6 @@ const requests = {
  */
 const fetchMovieForFeatured = (id: number) => {
   return `/movie/${id}?api_key=${process.env.TMDB_API_KEY}&append_to_response=videos,release_dates`;
-};
-
-/**
- * Returns a string with the API call to fetch a full movie with its details.
- * @param {number} id Movie ID
- * @returns {string} String holding API call
- */
-const fetchMovieForListItem = (id: number) => {
-  return `/movie/${id}?api_key=${process.env.TMDB_API_KEY}&append_to_response=videos`;
 };
 
 /**
@@ -107,58 +168,25 @@ const filterMovieForFeatured = (movieFull: MovieFull): MovieFromFeatured => {
 /**
  * Takes a full movie from the API (indexed) and returns one with only selected attributes.
  * Calculates some of these attributes.
- * @param {MovieFullIndexed} movieFullIndexed Full indexed movie to be filtered
+ * @param {MovieFull} movieFull Full indexed movie to be filtered
  * @returns {MovieFromListItem} Movie with selected attributes
  */
-const filterMovieForListItem = (
-  movieFullIndexed: MovieFullIndexed
-): MovieFromListItem => {
-  var videoId = movieFullIndexed.videos?.results[0]?.key;
-  var date = new Date(movieFullIndexed.release_date);
+const filterMovieForListItem = (movieFull: MovieFull): MovieFromListItem => {
+  var date = new Date(movieFull.release_date);
   var year = date?.getFullYear();
 
   return {
-    index: movieFullIndexed.index,
-    id: movieFullIndexed.id,
-    videoId: videoId ?? null,
+    id: movieFull.id,
     year: year ?? null,
-    title: movieFullIndexed.title ?? null,
-    original_title: movieFullIndexed.original_title ?? null,
-    name: movieFullIndexed.name ?? null,
-    original_name: movieFullIndexed.original_name ?? null,
-    overview: movieFullIndexed.overview ?? null,
-    vote_average: movieFullIndexed.vote_average ?? null,
-    vote_count: movieFullIndexed.vote_count ?? null,
-    backdrop_path: movieFullIndexed.backdrop_path ?? null,
-    poster_path: movieFullIndexed.poster_path ?? null,
-  };
-};
-
-/**
- * Takes a full movie from the API (indexed) and returns one with only selected attributes.
- * Calculates some of these attributes.
- * @param {MovieFullIndexed} movieFullIndexed Full indexed movie to be filtered
- * @returns {MovieFromListItem} Movie with selected attributes
- */
-const filterMovieForHomeListItem = (
-  movieFullIndexed: MovieFullIndexed
-): MovieFromListItem => {
-  var date = new Date(movieFullIndexed.release_date);
-  var year = date?.getFullYear();
-
-  return {
-    index: movieFullIndexed.index,
-    id: movieFullIndexed.id,
-    year: year ?? null,
-    title: movieFullIndexed.title ?? null,
-    original_title: movieFullIndexed.original_title ?? null,
-    name: movieFullIndexed.name ?? null,
-    original_name: movieFullIndexed.original_name ?? null,
-    overview: movieFullIndexed.overview ?? null,
-    vote_average: movieFullIndexed.vote_average ?? null,
-    vote_count: movieFullIndexed.vote_count ?? null,
-    backdrop_path: movieFullIndexed.backdrop_path ?? null,
-    poster_path: movieFullIndexed.poster_path ?? null,
+    title: movieFull.title ?? null,
+    original_title: movieFull.original_title ?? null,
+    name: movieFull.name ?? null,
+    original_name: movieFull.original_name ?? null,
+    overview: movieFull.overview ?? null,
+    vote_average: movieFull.vote_average ?? null,
+    vote_count: movieFull.vote_count ?? null,
+    backdrop_path: movieFull.backdrop_path ?? null,
+    poster_path: movieFull.poster_path ?? null,
   };
 };
 
@@ -188,9 +216,8 @@ const filterMovieForThumbnail = (movieFull: MovieFull): MovieFromThumbnail => {
 };
 
 /**
- * Takes a list of movies with the data coming from the API call, then
- * fills them up with all specific movie details, and then filters them
- * down to the selected attributes needed from them.
+ * Takes a list of movies with the data coming from the API call,
+ * then filters them down to the selected attributes needed from them.
  * @param {MovieFull[]} movieList List of full movies
  * @param {number} id ID of movie not to be included
  * @returns {Promise<MovieFromListItem[]>} List of movies with selected attributes
@@ -207,39 +234,7 @@ const filterList = async (
       (!movieList[i].adult || movieList[i].adult === false) &&
       movieList[i].id !== id
     ) {
-      const movieFullerResponse = await axios.get(
-        fetchMovieForListItem(movieList[i].id)
-      );
-      movieListFiltered.push(
-        filterMovieForListItem({ ...movieFullerResponse.data, index: j++ })
-      );
-    }
-  }
-  return movieListFiltered;
-};
-
-/**
- * Takes a list of movies with the data coming from the API call,
- * then filters them down to the selected attributes needed from them.
- * @param {MovieFull[]} movieList List of full movies
- * @param {number} id ID of movie not to be included
- * @returns {Promise<MovieFromListItem[]>} List of movies with selected attributes
- */
-const filterHomeList = async (
-  movieList: MovieFull[],
-  id: number
-): Promise<MovieFromListItem[]> => {
-  const movieListFiltered = [];
-  var j = 0;
-  for (let i = 0; i < movieList.length; i++) {
-    if (
-      (movieList[i].backdrop_path || movieList[i].poster_path) &&
-      (!movieList[i].adult || movieList[i].adult === false) &&
-      movieList[i].id !== id
-    ) {
-      movieListFiltered.push(
-        filterMovieForHomeListItem({ ...movieList[i], index: j++ })
-      );
+      movieListFiltered.push(filterMovieForListItem(movieList[i]));
     }
   }
   return movieListFiltered;
@@ -276,7 +271,6 @@ export {
   fetchRecommendedMovies,
   filterMovieForFeatured,
   filterList,
-  filterHomeList,
   filterResults,
 };
 
