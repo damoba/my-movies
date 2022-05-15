@@ -16,12 +16,16 @@ interface Props {
   setNextPageIsLoading: Dispatch<SetStateAction<boolean>>;
   homeIsCurrentPage: boolean;
   collectionIsCurrentPage: boolean;
+  genresAreOpen: boolean;
+  setGenresAreOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 const Header: FunctionComponent<Props> = ({
   setNextPageIsLoading,
   homeIsCurrentPage,
   collectionIsCurrentPage,
+  genresAreOpen,
+  setGenresAreOpen,
 }) => {
   const router = useRouter();
   const { user, logout } = useAuth();
@@ -30,7 +34,6 @@ const Header: FunctionComponent<Props> = ({
   const [searchIsOpen, setSearchIsOpen] = useState<boolean>(false);
   const searchRef = useRef<HTMLInputElement>(null);
   const genreOptionsRef = useRef<HTMLDivElement>(null);
-  const [genresAreOpen, setGenresAreOpen] = useState<boolean>(false);
   const [profileIsOpen, setProfileIsOpen] = useState<boolean>(false);
 
   /**

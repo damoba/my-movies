@@ -17,11 +17,6 @@
   width: 75%;
   height: 17.5rem;
   mix-blend-mode: overlay;
-  mask-image: radial-gradient(
-    ellipse farthest-side at 75% 10%,
-    black,
-    transparent
-  );
   background-size: cover;
   background-position: right top;
 }
@@ -51,7 +46,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-size: 10px;
+  font-size: 14px;
   font-weight: 500;
   text-transform: uppercase;
 }
@@ -70,7 +65,7 @@
 .overview {
   width: 100%;
   margin-bottom: 10px;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .rating {
@@ -86,7 +81,7 @@
   margin-right: 5px !important;
   margin-bottom: 4px !important;
   font-weight: 500 !important;
-  font-size: 10px !important;
+  font-size: 12px !important;
   background-color: rgb(255, 255, 255) !important;
   border-radius: 99px !important;
   color: var(--main-color-medium) !important;
@@ -135,13 +130,20 @@
     font-size: 16px;
   }
 
-  .overview {
-    font-size: 14px;
-  }
-
   .button {
     font-size: 14px !important;
     margin-bottom: 0 !important;
+  }
+}
+
+/* Smaller than tablet styles */
+@media only screen and (max-width: 767px) {
+  .overlay {
+    mask-image: radial-gradient(
+      ellipse farthest-side at 75% 10%,
+      rgba(0, 0, 0, 0.2),
+      transparent
+    );
   }
 }
 
@@ -154,6 +156,11 @@
 
   .overlay {
     height: 34rem;
+    mask-image: radial-gradient(
+      ellipse farthest-side at 75% 10%,
+      black,
+      transparent
+    );
   }
   .overview {
     width: 50%;

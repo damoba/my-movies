@@ -29,6 +29,7 @@ const collectionPage: NextPage = ({}) => {
   const dbRef = ref(db);
   const router = useRouter();
   const [nextPageIsLoading, setNextPageIsLoading] = useState<boolean>(false);
+  const [genresAreOpen, setGenresAreOpen] = useState<boolean>(false);
   const [collectedMovies, setCollectedMovies] = useState<MovieFromThumbnail[]>(
     []
   );
@@ -46,6 +47,9 @@ const collectionPage: NextPage = ({}) => {
           for (let i = 0; i < keys.length; i++) {
             moviesFromThumbnail.push(items[keys[i]]);
           }
+          moviesFromThumbnail.sort((a, b) => {
+            return a.timestamp - b.timestamp;
+          });
           setCollectedMovies(moviesFromThumbnail);
         }
       });
@@ -115,6 +119,8 @@ const collectionPage: NextPage = ({}) => {
             setNextPageIsLoading={setNextPageIsLoading}
             homeIsCurrentPage={false}
             collectionIsCurrentPage={false}
+            genresAreOpen={genresAreOpen}
+            setGenresAreOpen={setGenresAreOpen}
           />
           {collectedMovies.length === 0 ? (
             <Message

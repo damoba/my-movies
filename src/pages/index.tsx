@@ -34,6 +34,7 @@ const IndexPage: NextPage<Props> = ({
   const { user, userIsLoading } = useAuth();
   const router = useRouter();
   const [nextPageIsLoading, setNextPageIsLoading] = useState<boolean>(false);
+  const [genresAreOpen, setGenresAreOpen] = useState<boolean>(false);
 
   if (userIsLoading) return null;
   if (!user) router.push("/auth");
@@ -65,6 +66,8 @@ const IndexPage: NextPage<Props> = ({
             setNextPageIsLoading={setNextPageIsLoading}
             homeIsCurrentPage={true}
             collectionIsCurrentPage={false}
+            genresAreOpen={genresAreOpen}
+            setGenresAreOpen={setGenresAreOpen}
           />
           <FeaturedMovie
             selectedMovie={featuredMovie}

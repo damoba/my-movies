@@ -48,13 +48,23 @@ const SearchPage: NextPage<Props> = ({
   const { user, userIsLoading } = useAuth();
   const router = useRouter();
   const [nextPageIsLoading, setNextPageIsLoading] = useState<boolean>(false);
+  const [genresAreOpen, setGenresAreOpen] = useState<boolean>(false);
 
   /**
    * When the new search is loaded, stop the loader display
    */
   useEffect(() => {
     setNextPageIsLoading(false);
-  }, [matchingMovies, genreMovies]);
+  }, [matchingMovies]);
+
+  /**
+   * When search by genres is loaded, stop the loader display
+   * and close the genres tab.
+   */
+  useEffect(() => {
+    setNextPageIsLoading(false);
+    setGenresAreOpen(false);
+  }, [genreMovies]);
 
   if (userIsLoading) return null;
   if (!user) router.push("/auth");
@@ -86,6 +96,8 @@ const SearchPage: NextPage<Props> = ({
             setNextPageIsLoading={setNextPageIsLoading}
             homeIsCurrentPage={false}
             collectionIsCurrentPage={false}
+            genresAreOpen={genresAreOpen}
+            setGenresAreOpen={setGenresAreOpen}
           />
           {matchingMovies.length === 0 ? (
             searchedMovie === null ? (
