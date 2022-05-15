@@ -13,7 +13,7 @@ import React, {
   useState,
 } from "react";
 import { MovieFromListItem } from "../../../typings";
-import HomeListItem from "../ListItem/ListItem";
+import ListItem from "../ListItem/ListItem";
 
 interface Props {
   isGradientBackground: boolean;
@@ -83,7 +83,7 @@ const List: FunctionComponent<Props> = ({
       <div className={styles.wrapper} ref={wrapperRef}>
         <div className={styles.container}>
           {movieList.map((m) => (
-            <HomeListItem
+            <ListItem
               key={m.id}
               movie={m}
               setNextPageIsLoading={setNextPageIsLoading}
