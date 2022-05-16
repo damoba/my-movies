@@ -27,7 +27,7 @@
   overflow-x: scroll;
   scrollbar-width: none;
 }
-.wrapper::-webkit-scrollbar{
+.wrapper::-webkit-scrollbar {
   background-color: transparent;
   display: none;
 }
@@ -45,14 +45,11 @@
   z-index: 90;
   position: absolute;
   bottom: 30px;
-  height: 300px;
+  height: 225px;
   width: 50px;
 }
 .fade.scrolled {
   display: block;
-}
-.fade.last {
-  bottom: 50px;
 }
 .fade.left {
   left: 0;
@@ -69,18 +66,29 @@
 
 /* Mobile in landscape orientation styles */
 @media only screen and (min-width: 640px) {
-  .fade{
-    width: 80px;
-  }
   .list.last {
     padding-bottom: 50px;
   }
+
   .title {
     margin-left: 50px;
     font-size: 20px;
   }
+
   .container {
     margin-left: 50px;
+  }
+
+  .fade.last {
+    bottom: 50px;
+  }
+}
+
+/* Tablet styles */
+@media only screen and (min-width: 768px) {
+  .fade {
+    height: 300px;
+    width: 80px;
   }
 }
 

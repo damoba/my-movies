@@ -45,13 +45,11 @@ const AuthPage: NextPage = () => {
    * Registers the user. It uses the button type to know whether a main
    * button or the guest button was used.
    * @param {string} buttonType Type of button (e.g. "main")
+   * @param {string} email Email being signed up
+   * @param {string} password Password being used for account
    */
-  const signUp = (buttonType: string) => {
-    createUserWithEmailAndPassword(
-      auth,
-      emailRef.current.value,
-      passwordRef.current.value
-    ).catch((error) => {
+  const signUp = (buttonType: string, email: string, password: string) => {
+    createUserWithEmailAndPassword(auth, email, password).catch((error) => {
       alert(error.message);
       if (buttonType === MAIN_BUTTON_TYPE) {
         setIsLoadingMain(false);
@@ -117,16 +115,22 @@ const AuthPage: NextPage = () => {
     e.preventDefault();
     if (document.activeElement.innerHTML === GUEST_INNER_HTML) {
       setIsLoadingGuest(true);
-      emailRef.current.value = generateGuestEmail();
-      passwordRef.current.value = generateGuestPassword(12);
-      signUp(GUEST_BUTTON_TYPE);
+      signUp(
+        GUEST_BUTTON_TYPE,
+        generateGuestEmail(),
+        generateGuestPassword(12)
+      );
       return;
     }
 
     setIsLoadingMain(true);
 
     if (isSignup) {
-      signUp(MAIN_BUTTON_TYPE);
+      signUp(
+        MAIN_BUTTON_TYPE,
+        emailRef.current.value,
+        passwordRef.current.value
+      );
     } else {
       logIn();
     }
@@ -187,13 +191,19 @@ const AuthPage: NextPage = () => {
             </button>
           )}
           {!isSignup ? (
-            <h4>
-              Try the app without creating an account by using a guest account.
-              Want your own account?{" "}
-              <span className={styles.forSignUp} onClick={handleAuthType}>
-                Sign up now.
-              </span>
-            </h4>
+            <>
+              <h4>
+                Try the app without creating an account by clicking on "Use a
+                Guest Account". Make sure all fields are empty.{" "}
+              </h4>
+              <h4>
+                {" "}
+                Want your own account?{" "}
+                <span className={styles.forSignUp} onClick={handleAuthType}>
+                  Sign up now.
+                </span>
+              </h4>
+            </>
           ) : (
             <h4>
               Already have an account or want to use a guest account?{" "}

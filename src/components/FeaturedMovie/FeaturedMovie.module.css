@@ -1,7 +1,7 @@
 .container {
   position: relative;
-  min-height: 16rem;
-  padding: 1rem 20px 0.5rem;
+  min-height: 14.5rem;
+  padding: 1rem 20px 2rem;
   background: linear-gradient(
     to top,
     var(--main-color-medium),
@@ -102,8 +102,8 @@
 @media only screen and (min-width: 640px) {
   .container {
     position: static;
-    min-height: 20rem;
-    padding: 5rem 50px 1rem;
+    min-height: 19rem;
+    padding: 5rem 50px 2rem;
   }
 
   .overlay {
@@ -150,12 +150,12 @@
 /* Tablet styles */
 @media only screen and (min-width: 768px) {
   .container {
-    min-height: 24rem;
-    padding: 8rem 50px 2rem;
+    min-height: 23rem;
+    padding: 6rem 50px 3rem;
   }
 
   .overlay {
-    height: 34rem;
+    height: 32rem;
     mask-image: radial-gradient(
       ellipse farthest-side at 75% 10%,
       black,
@@ -170,6 +170,13 @@
 
 /* Laptop styles */
 @media only screen and (min-width: 1280px) {
+  .container {
+    min-height: 23rem;
+    padding: 8rem 50px 3rem;
+  }
+  .overlay {
+    height: 34rem;
+  }
   .overview {
     width: 40%;
   }

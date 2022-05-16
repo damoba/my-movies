@@ -35,27 +35,44 @@ const List: FunctionComponent<Props> = ({
   const [scrollDistance, setScrollDistance] = useState<number>(0);
 
   /**
-   * Sets the total width of the wrapper's children once, and updates
-   * the scroll distance for the list on every scroll.
+   * Calculates the total width of an elements children.
+   * @param {HTMLElement} element Element for which to calculate
+   * @returns {number} Total width of children
+   */
+  const calcChildrenWidth = (element: HTMLElement): number => {
+    const children = element.children;
+    var totalWidth = 0;
+    for (var i = 0; i < children.length; i++) {
+      totalWidth += children[i].scrollWidth;
+    }
+    return totalWidth;
+  };
+
+  /**
+   * Sets the total width of the wrapper's children, updates it if resized,
+   * and updates the scroll distance for the list on every scroll.
    */
   useEffect(() => {
     // save wrapper dif from ref
     const wrapperDiv = wrapperRef.current;
 
     // wrapper children width
-    const children = wrapperDiv.children;
-    var totalWidth = 0;
-    for (var i = 0; i < children.length; i++) {
-      totalWidth += children[i].scrollWidth;
-    }
-    setWrapperChildrenWidth(totalWidth);
+    setWrapperChildrenWidth(calcChildrenWidth(wrapperDiv));
+    const onResize = () => {
+      setWrapperChildrenWidth(calcChildrenWidth(wrapperDiv));
+    };
+    window.addEventListener("resize", onResize);
 
     // scroll distance
     const onScroll = () => {
       setScrollDistance(wrapperDiv.scrollLeft);
     };
     wrapperDiv.addEventListener("scroll", onScroll);
-    return () => wrapperDiv.removeEventListener("scroll", onScroll);
+
+    return () => {
+      window.removeEventListener("resize", onResize);
+      wrapperDiv.removeEventListener("scroll", onScroll);
+    };
   }, [wrapperRef.current]);
 
   /**

@@ -1,7 +1,7 @@
 .listItem {
   position: relative;
-  width: 200px;
-  height: 300px;
+  width: 150px;
+  height: 225px;
   margin-right: 5px;
   background-color: var(--main-color-dark);
   border-radius: 5px;
@@ -61,4 +61,12 @@
 }
 .ratingNum {
   margin-left: 4px;
+}
+
+/* Tablet styles */
+@media only screen and (min-width: 768px) {
+  .listItem {
+    width: 200px;
+    height: 300px;
+  }
 }

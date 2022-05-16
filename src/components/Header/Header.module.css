@@ -15,8 +15,6 @@
   font-size: 35px;
   font-weight: bolder;
   cursor: pointer;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 .navRightContainer {
@@ -28,10 +26,11 @@
   display: flex;
   align-items: center;
   padding: 0.25rem;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-top: 15px;
+  margin-bottom: 5px;
   margin-right: 25px;
-  width: 20px;
+  width: 35px;
+  height: 35px;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.5);
   border-radius: 99px;
@@ -43,6 +42,7 @@
 }
 .searchIcon {
   margin-right: 0.375rem;
+  font-size: 35px !important;
 }
 .search > form {
   width: 100%;
@@ -143,11 +143,6 @@
     justify-content: space-between;
   }
 
-  .logo {
-    margin-left: 0;
-    margin-right: 0;
-  }
-
   .navRightContainer {
     flex-direction: row;
     align-items: center;
@@ -156,9 +151,14 @@
   .search {
     margin-top: 0;
     margin-bottom: 0;
+    width: 20px;
+    height: 20px;
   }
   .search.open {
     width: 12rem;
+  }
+  .searchIcon{
+    font-size: 20px !important;
   }
 
   .genreOptions.open {

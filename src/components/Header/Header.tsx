@@ -139,7 +139,7 @@ const Header: FunctionComponent<Props> = ({
             }
             onClick={handleSearchClick}
           >
-            <Search className={styles.searchIcon} style={{ fontSize: 20 }} />
+            <Search className={styles.searchIcon}/>
             <form onSubmit={handleSearchSubmit}>
               <input
                 ref={searchRef}
