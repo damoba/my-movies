@@ -3,7 +3,7 @@ import styles from "./Footer.module.css";
 import React, { FunctionComponent } from "react";
 import Image from "next/image";
 
-const MINIMUM_SCREEN_LENGTH = 639;
+const MINIMUM_MOBILE_LANDSCAPE_WIDTH = 640;
 
 const Footer: FunctionComponent = () => {
   return (
@@ -13,8 +13,16 @@ const Footer: FunctionComponent = () => {
         <Image
           src="/images/attribution.svg"
           layout="fixed"
-          width={window.innerWidth > MINIMUM_SCREEN_LENGTH ? "100px" : "80px"}
-          height={window.innerWidth > MINIMUM_SCREEN_LENGTH ? "20px" : "15px"}
+          width={
+            window.innerWidth >= MINIMUM_MOBILE_LANDSCAPE_WIDTH
+              ? "100px"
+              : "80px"
+          }
+          height={
+            window.innerWidth >= MINIMUM_MOBILE_LANDSCAPE_WIDTH
+              ? "20px"
+              : "15px"
+          }
           objectFit="contain"
           alt="Attribution Logo"
         />

@@ -40,7 +40,7 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
-  width: 180px;
+  width: 130px;
 }
 .year {
   margin-left: 0.5rem;
@@ -61,6 +61,7 @@
 }
 .ratingNum {
   margin-left: 4px;
+  display: none
 }
 
 /* Tablet styles */
@@ -68,5 +69,11 @@
   .listItem {
     width: 200px;
     height: 300px;
+  }
+  .title{
+    width: 180px;
+  }
+  .ratingNum{
+    display: block;
   }
 }
