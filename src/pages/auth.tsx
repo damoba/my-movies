@@ -19,6 +19,7 @@ import { useRouter } from "next/router";
 import { useAuth } from "../context/authProvider";
 
 const GUEST_INNER_HTML = "Use a Guest Account";
+const GUEST_INNER_HTML_LOADING = "Setting up...";
 const MAIN_BUTTON_TYPE = "main";
 const GUEST_BUTTON_TYPE = "guest";
 
@@ -113,7 +114,10 @@ const AuthPage: NextPage = () => {
    */
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (document.activeElement.innerHTML === GUEST_INNER_HTML) {
+    if (
+      document.activeElement.innerHTML === GUEST_INNER_HTML ||
+      document.activeElement.innerHTML === GUEST_INNER_HTML_LOADING
+    ) {
       setIsLoadingGuest(true);
       signUp(
         GUEST_BUTTON_TYPE,
@@ -187,7 +191,7 @@ const AuthPage: NextPage = () => {
           </button>
           {!isSignup && (
             <button className={styles.guest} disabled={isLoadingGuest}>
-              {!isLoadingGuest ? GUEST_INNER_HTML : "Logging in..."}
+              {!isLoadingGuest ? GUEST_INNER_HTML : GUEST_INNER_HTML_LOADING}
             </button>
           )}
           {!isSignup ? (
