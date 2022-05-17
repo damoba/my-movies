@@ -118,7 +118,7 @@ const collectionPage: NextPage = ({}) => {
           <Header
             setNextPageIsLoading={setNextPageIsLoading}
             homeIsCurrentPage={false}
-            collectionIsCurrentPage={false}
+            collectionIsCurrentPage={true}
             genresAreOpen={genresAreOpen}
             setGenresAreOpen={setGenresAreOpen}
           />
