@@ -29,7 +29,7 @@
   padding-bottom: 20px;
 }
 
-.form {
+.contents {
   display: grid;
   flex-direction: column;
   margin-left: auto;
@@ -38,9 +38,15 @@
   padding: 20px 50px 0 50px;
 }
 
-.form > h1 {
+.contents > h1 {
   color: white;
   margin-bottom: 30px;
+}
+
+.form{
+  display: grid;
+  flex-direction: column;
+  
 }
 
 .form > input {
@@ -65,7 +71,7 @@
   background: #4ca1af;
 }
 
-.form > button {
+.form > button, .contents > button {
   outline-width: 0;
   margin-top: 35px;
   padding: 16px 20px;
@@ -77,42 +83,42 @@
   transition: all 0.2s;
 }
 
-.form > button:hover {
+.form > button:hover, .contents > button:hover {
   transform: scale(1.02);
   cursor: pointer;
 }
 
-.form > button:focus {
+.form > button:focus, .contents > button:focus {
   transform: scale(0.98);
 }
 
-.form > button:disabled {
+.form > button:disabled, .contents > button:disabled {
   opacity: 0.6;
 }
 
-.form > button.guest {
+.contents > button.guest {
   margin-top: 20px;
   background: rgba(255, 255, 255, 0.05);
   border: 1px rgba(255, 255, 255, 0.5) solid;
 }
 
-.form > h4 {
+.contents > h4 {
   margin-top: 35px;
   margin-bottom: 20px;
   color: gray;
 }
 
-.form > h4 > span.forSignUp {
+.contents > h4 > span.forSignUp {
   color: #ec215f;
 }
 
-.form > h4 > span.forSignUp:hover,
-.form > h4 > span.forLogIn:hover {
+.contents > h4 > span.forSignUp:hover,
+.contents > h4 > span.forLogIn:hover {
   text-decoration: underline;
   cursor: pointer;
 }
 
-.form > h4 > span.forLogIn {
+.contents > h4 > span.forLogIn {
   color: #3cb19f;
 }
 
@@ -134,7 +140,7 @@
     font-size: 45px;
   }
 
-  .form {
+  .contents {
     max-width: 400px;
     padding: 50px 70px 160px 70px;
     margin-top: 30px;

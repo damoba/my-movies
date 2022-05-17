@@ -18,8 +18,6 @@ import {
 import { useRouter } from "next/router";
 import { useAuth } from "../context/authProvider";
 
-const GUEST_INNER_HTML = "Use a Guest Account";
-const GUEST_INNER_HTML_LOADING = "Setting up...";
 const MAIN_BUTTON_TYPE = "main";
 const GUEST_BUTTON_TYPE = "guest";
 
@@ -75,6 +73,27 @@ const AuthPage: NextPage = () => {
   };
 
   /**
+   * Handles the click of an auth button. Whether the action is a signup or login,
+   * the respective function is called.
+   * @param {React.FormEvent<HTMLFormElement>} e Event
+   * @returns {void}
+   */
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsLoadingMain(true);
+
+    if (isSignup) {
+      signUp(
+        MAIN_BUTTON_TYPE,
+        emailRef.current.value,
+        passwordRef.current.value
+      );
+    } else {
+      logIn();
+    }
+  };
+
+  /**
    * Generates a fake email for the guest.
    * @returns {string} Fake email (e.g. "TypicalPandaNell@guest.guest")
    */
@@ -106,38 +125,13 @@ const AuthPage: NextPage = () => {
   };
 
   /**
-   * Handles the click of an auth button. If it's the guest button, the
-   * guest credentials are generated and then the signup continues. If
-   * it's a regular signup or login, the respective functions are called.
-   * @param {React.FormEvent<HTMLFormElement>} e Event
-   * @returns {void}
+   * Guest credentials are generated and guest account gets created for user.
+   * @param {React.MouseEvent<HTMLButtonElement>} e Event
    */
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleGuestLogIn = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    if (
-      document.activeElement.innerHTML === GUEST_INNER_HTML ||
-      document.activeElement.innerHTML === GUEST_INNER_HTML_LOADING
-    ) {
-      setIsLoadingGuest(true);
-      signUp(
-        GUEST_BUTTON_TYPE,
-        generateGuestEmail(),
-        generateGuestPassword(12)
-      );
-      return;
-    }
-
-    setIsLoadingMain(true);
-
-    if (isSignup) {
-      signUp(
-        MAIN_BUTTON_TYPE,
-        emailRef.current.value,
-        passwordRef.current.value
-      );
-    } else {
-      logIn();
-    }
+    setIsLoadingGuest(true);
+    signUp(GUEST_BUTTON_TYPE, generateGuestEmail(), generateGuestPassword(12));
   };
 
   return (
@@ -148,57 +142,63 @@ const AuthPage: NextPage = () => {
       </Head>
       <header className={styles.logo}>My Movies</header>
       <div className={styles.wrapper}>
-        <form className={styles.form} onSubmit={handleSubmit}>
+        <div className={styles.contents}>
           <h1>{isSignup ? "Sign Up" : "Log In"}</h1>
-          <input ref={emailRef} placeholder="Email" type="email" />
-          <span
-            className={styles.showPasswordToggler}
-            onClick={() => setShowPassword(!showPassword)}
-          >
-            {!showPassword ? (
-              <>
-                <Visibility />{" "}
-                <span className={styles.showPasswordText}>Show</span>
-              </>
-            ) : (
-              <>
-                <VisibilityOff />{" "}
-                <span className={styles.showPasswordText}>Hide</span>
-              </>
-            )}
-          </span>
-          <input
-            ref={passwordRef}
-            placeholder="Password"
-            type={!showPassword ? "password" : "text"}
-          />
-          <button
-            type="submit"
-            style={
-              !isSignup
-                ? { backgroundColor: "#3cb19f" }
-                : { backgroundColor: "#ec215f" }
-            }
-            disabled={isLoadingMain}
-          >
-            {!isLoadingMain
-              ? isSignup
-                ? "Create Account"
-                : "Log In"
-              : isSignup
-              ? "Creating account..."
-              : "Logging in..."}
-          </button>
+          <form className={styles.form} onSubmit={handleSubmit}>
+            <input ref={emailRef} placeholder="Email" type="email" />
+            <span
+              className={styles.showPasswordToggler}
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {!showPassword ? (
+                <>
+                  <Visibility />{" "}
+                  <span className={styles.showPasswordText}>Show</span>
+                </>
+              ) : (
+                <>
+                  <VisibilityOff />{" "}
+                  <span className={styles.showPasswordText}>Hide</span>
+                </>
+              )}
+            </span>
+            <input
+              ref={passwordRef}
+              placeholder="Password"
+              type={!showPassword ? "password" : "text"}
+            />
+            <button
+              type="submit"
+              style={
+                !isSignup
+                  ? { backgroundColor: "#3cb19f" }
+                  : { backgroundColor: "#ec215f" }
+              }
+              disabled={isLoadingMain}
+            >
+              {!isLoadingMain
+                ? isSignup
+                  ? "Create Account"
+                  : "Log In"
+                : isSignup
+                ? "Creating account..."
+                : "Logging in..."}
+            </button>
+          </form>
           {!isSignup && (
-            <button className={styles.guest} disabled={isLoadingGuest}>
-              {!isLoadingGuest ? GUEST_INNER_HTML : GUEST_INNER_HTML_LOADING}
+            <button
+              className={styles.guest}
+              disabled={isLoadingGuest}
+              onClick={handleGuestLogIn}
+            >
+              {!isLoadingGuest ? "Use a Guest Account" : "Setting up..."}
             </button>
           )}
           {!isSignup ? (
             <>
               <h4>
                 Try the app without creating an account by clicking on "Use a
-                Guest Account". Make sure all fields are empty.{" "}
+                Guest Account".{" "}
               </h4>
               <h4>
                 {" "}
@@ -216,7 +216,7 @@ const AuthPage: NextPage = () => {
               </span>
             </h4>
           )}
-        </form>
+        </div>
       </div>
     </div>
   );
