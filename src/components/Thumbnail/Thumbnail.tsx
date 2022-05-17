@@ -50,6 +50,7 @@ const Thumbnail: FunctionComponent<Props> = ({
           height={1080}
           objectFit="cover"
           alt="Movie Poster"
+          unoptimized={true}
         />
         <div className={styles.description}>
           <p className={styles.overview}>{movie.overview}</p>

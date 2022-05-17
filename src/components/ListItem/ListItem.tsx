@@ -45,6 +45,7 @@ const ListItem: FunctionComponent<Props> = ({
             layout="fill"
             objectFit="cover"
             alt="Movie Poster"
+            unoptimized={true}
           />
         </div>
         {isHovered && (

@@ -25,6 +25,7 @@ const Footer: FunctionComponent = () => {
           }
           objectFit="contain"
           alt="Attribution Logo"
+          unoptimized={true}
         />
       </div>
       <p className={styles.attribution}>
