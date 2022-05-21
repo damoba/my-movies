@@ -101,7 +101,7 @@ const SearchPage: NextPage<Props> = ({
           />
           {matchingMovies.length === 0 ? (
             searchedMovie === null ? (
-              genreMovies.length == 0 ? (
+              genreMovies.length === 0 ? (
                 <Message text="No movies match your query." style={null} />
               ) : (
                 <Results

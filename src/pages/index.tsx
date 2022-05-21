@@ -82,7 +82,7 @@ const IndexPage: NextPage<Props> = ({
           />
           <List
             isGradientBackground={false}
-            isLast={false}
+            isLast={true}
             title="Top Rated"
             movieList={topRatedMovies}
             setNextPageIsLoading={setNextPageIsLoading}
