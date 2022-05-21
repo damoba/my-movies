@@ -169,33 +169,39 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const matchingMoviesResponse = await axios.get(
       fetchSearchResults(query.toString())
     );
-    matchingMovies = await filterResults(matchingMoviesResponse.data.results);
+    matchingMovies = filterResults(matchingMoviesResponse.data.results);
   } else if (id) {
-    const searchedMovieResponse = await axios.get(
-      fetchMovieForFeatured(parseInt(id as string))
-    );
-    searchedMovie = filterMovieForFeatured(searchedMovieResponse.data);
+    try {
+      const searchedMovieResponse = await axios.get(
+        fetchMovieForFeatured(parseInt(id as string))
+      );
+      searchedMovie = filterMovieForFeatured(searchedMovieResponse.data);
 
-    const similarMoviesResponse = await axios.get(
-      fetchSimilarMovies(parseInt(id as string))
-    );
-    similarMovies = await filterList(
-      similarMoviesResponse.data.results,
-      searchedMovie.id
-    );
+      const similarMoviesResponse = await axios.get(
+        fetchSimilarMovies(parseInt(id as string))
+      );
+      similarMovies = filterList(
+        similarMoviesResponse.data.results,
+        searchedMovie.id
+      );
 
-    const recommendedMoviesResponse = await axios.get(
-      fetchRecommendedMovies(parseInt(id as string))
-    );
-    recommendedMovies = await filterList(
-      recommendedMoviesResponse.data.results,
-      searchedMovie.id
-    );
+      const recommendedMoviesResponse = await axios.get(
+        fetchRecommendedMovies(parseInt(id as string))
+      );
+      recommendedMovies = filterList(
+        recommendedMoviesResponse.data.results,
+        searchedMovie.id
+      );
+    } catch (error) {
+      searchedMovie = null;
+      similarMovies = [];
+      recommendedMovies = [];
+    }
   } else if (genre) {
     const genreMoviesResponse = await axios.get(
       requests[`${genre.toString()}`]?.url || requests.fetchActionMovies.url
     );
-    genreMovies = await filterResults(genreMoviesResponse.data.results);
+    genreMovies = filterResults(genreMoviesResponse.data.results);
     genreTitle =
       requests[`${genre.toString()}`]?.title ||
       requests.fetchActionMovies.title;

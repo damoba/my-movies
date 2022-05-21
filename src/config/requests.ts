@@ -220,12 +220,12 @@ const filterMovieForThumbnail = (movieFull: MovieFull): MovieFromThumbnail => {
  * then filters them down to the selected attributes needed from them.
  * @param {MovieFull[]} movieList List of full movies
  * @param {number} id ID of movie not to be included
- * @returns {Promise<MovieFromListItem[]>} List of movies with selected attributes
+ * @returns {MovieFromListItem[]} List of movies with selected attributes
  */
-const filterList = async (
+const filterList = (
   movieList: MovieFull[],
   id: number
-): Promise<MovieFromListItem[]> => {
+): MovieFromListItem[] => {
   const movieListFiltered = [];
   var j = 0;
   for (let i = 0; i < movieList.length; i++) {
@@ -245,11 +245,9 @@ const filterList = async (
  * fills them up with all specific movie details, and then filters them
  * down to the selected attributes needed from them.
  * @param {MovieFull[]} movieList List of full movies
- * @returns {Promise<MovieFromThumbnail[]>} List of movies with selected attributes
+ * @returns {MovieFromThumbnail[]} List of movies with selected attributes
  */
-const filterResults = async (
-  movieList: MovieFull[]
-): Promise<MovieFromThumbnail[]> => {
+const filterResults = (movieList: MovieFull[]): MovieFromThumbnail[] => {
   const movieListFiltered = [];
   var j = 0;
   for (let i = 0; i < movieList.length; i++) {
