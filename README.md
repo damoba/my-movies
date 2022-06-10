@@ -2,7 +2,7 @@
 A website for movie information and collection.
 
 # Demo the App
-- Follow the following link to try out the app: https://davmoba4-my-movies.vercel.app/
+- Follow this link to try out the app: https://davmoba4-my-movies.vercel.app/
 
 # How to Run Locally
 - Install Node.js
