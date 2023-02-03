@@ -1,10 +1,22 @@
 # My Movies
 A website for movie information and collection.
 
-# Demo the App
+
+## Demo the App
 - Follow this link to try out the app: https://davmoba4-my-movies.vercel.app/
 
-# How to Run Locally
+
+## Visual Demo
+(no sound)
+
+https://user-images.githubusercontent.com/71296308/216526022-f2f0bc2b-abd8-4bc9-8778-7217254b94c9.mp4
+
+
+## Overview
+Visit: https://davmoba4.com/project/my-movies/
+
+
+## How to Run Locally
 - Install Node.js
 - Install yarn by running this on a terminal:
 ```
@@ -29,3 +41,6 @@ TMDB_API_KEY = < insert yours here >
 ```
 yarn dev
 ```
+
+## Acknowledgments
+- Parts of theme borrowed from [netflix-ish](https://github.com/santdas36/netflix-ish).
