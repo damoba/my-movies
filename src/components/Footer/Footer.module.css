@@ -1,6 +1,6 @@
 .footer {
   position: relative;
-  min-height: 100px;
+  min-height: 150px;
   flex: 1;
   bottom: 0;
   display: flex;
@@ -16,7 +16,7 @@
 
 .logoWrapper {
   position: absolute;
-  bottom: 4rem;
+  bottom: 6rem;
   padding: 5px;
   border: 2px solid #90cea1;
   border-radius: 5px;
@@ -31,20 +31,37 @@
 
 .attribution {
   position: absolute;
-  bottom: 2rem;
+  bottom: 4rem;
   margin: 10px 10px 0;
   text-align: center;
   font-size: 10px;
   color: white;
 }
 
-/* Mobile in landscape orientation styles */
-@media only screen and (min-width: 640px) {
-.preLogo{
-  font-size: 12px;
+.githubLink {
+  position: absolute;
+  bottom: 1rem;
+  transition: transform ease-in-out 250ms;
 }
 
-.attribution{
-  font-size: 14px;
+.githubLink:hover,
+.githubLink:focus {
+  transform: translateY(-0.3rem);
 }
+
+.githubLink:hover .githubLogo,
+.githubLink:focus .githubLogo {
+  filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(271deg)
+    brightness(112%) contrast(101%);
+}
+
+/* Mobile in landscape orientation styles */
+@media only screen and (min-width: 640px) {
+  .preLogo {
+    font-size: 12px;
+  }
+
+  .attribution {
+    font-size: 14px;
+  }
 }

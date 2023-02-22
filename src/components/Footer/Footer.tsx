@@ -31,6 +31,23 @@ const Footer: FunctionComponent = () => {
       <p className={styles.attribution}>
         This product uses the TMDB API but is not endorsed or certified by TMDB.
       </p>
+      <a
+        className={styles.githubLink}
+        target="_blank"
+        href="https://github.com/davmoba4/my-movies"
+        aria-label="GitHub"
+      >
+        <Image
+          className={styles.githubLogo}
+          src="/images/github_icon.svg"
+          width="24px"
+          height="24px"
+          layout="fixed"
+          objectFit="contain"
+          alt="Github Logo"
+          unoptimized={true}
+        />
+      </a>
     </div>
   );
 };
