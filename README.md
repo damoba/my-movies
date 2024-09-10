@@ -2,10 +2,6 @@
 A website for movie information and collection.
 
 
-## Demo the App
-- Follow this link to try out the app: https://davmoba4-my-movies.vercel.app/
-
-
 ## Visual Demo
 (no sound)
 
@@ -13,7 +9,7 @@ https://user-images.githubusercontent.com/71296308/216526022-f2f0bc2b-abd8-4bc9-
 
 
 ## Overview
-Visit: https://davmoba4.com/project/my-movies/
+Visit: [https://davmoba4.com/project/my-movies/](https://davidmorenobautista.netlify.app/project/my-movies/)
 
 
 ## How to Run Locally
